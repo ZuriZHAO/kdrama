@@ -115,6 +115,7 @@ function collect() {
   if (kind === 'update') {
     const changes = {};
     if (value('correction-name')) changes.name = value('correction-name');
+    if (value('correction-group')) changes.group = value('correction-group');
     if (value('correction-lat')) changes.lat = Number(value('correction-lat'));
     if (value('correction-lng')) changes.lng = Number(value('correction-lng'));
     Object.assign(payload, { landmarkId: value('landmark-id'), description: value('description'), changes,

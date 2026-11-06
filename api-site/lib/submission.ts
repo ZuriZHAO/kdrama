@@ -55,7 +55,7 @@ export function normalizeSubmission(input: unknown, _approval = false, hasImage 
   }
   const rawChanges = p.changes && typeof p.changes === "object" && !Array.isArray(p.changes) ? p.changes as Record<string, unknown> : {};
   const changes: Record<string, unknown> = {};
-  for (const key of ["name", "ko", "city", "address", "visit"]) if (key in rawChanges) changes[key] = string(rawChanges[key], 500);
+  for (const key of ["name", "group", "ko", "city", "address", "visit"]) if (key in rawChanges) changes[key] = string(rawChanges[key], key === "group" ? 100 : 500);
   for (const key of ["lat", "lng"]) if (key in rawChanges) {
     const n = Number(rawChanges[key]);
     if (!Number.isFinite(n) || Math.abs(n) > (key === "lat" ? 90 : 180)) throw new Error("更正坐标超出经纬度范围");
