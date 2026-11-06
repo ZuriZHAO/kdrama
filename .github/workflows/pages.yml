@@ -32,6 +32,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Ensure approval label exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create publish-approved --repo "$GITHUB_REPOSITORY" --color 4A7C59 --description "Maintainer-approved map submission" --force
       - name: Import maintainer-approved Issue
         if: github.event_name == 'issues'
         env:
