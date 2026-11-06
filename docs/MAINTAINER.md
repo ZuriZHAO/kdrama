@@ -14,6 +14,8 @@ GitHub Pages 只托管静态文件，当前投稿依赖公开仓库的 Issues。
 
 私有阶段工作流仍运行数据与脚本检查，但跳过 Pages 发布；仓库重新公开后，下一次推送将恢复部署。
 
+公开地图当前由独立 Sites 项目托管，网址为 https://kdrama-map-zuri.insightfullemon.chatgpt.site 。其静态发布副本位于 `D:\code\kdrama-sites`，不随本仓库推送自动更新。修改本项目后重新运行 `node tools/build-site.cjs`，把 `dist/` 同步到 Sites 副本并重新发布。
+
 ## 数据与检查
 
 目录由 `works`、`landmarks`、`scenes`、`sources` 和可选 `revisions` 构成。新增或更正坐标先标为示意点；集数与时间点无法核实时留空。图片需展示许可与署名。演示数据的核验记录见 [核验记录](../data/verification-2026-11-06.md)。
