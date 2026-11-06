@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>审核投稿 · 剧场之外</title>
+  <link rel="stylesheet" href="./submit.css" />
+  <style>
+    .review-actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .review-actions button { width:auto; margin-top:0; }
+    .review-actions button:disabled { opacity:.5; cursor:default; }
+    .review-panel { margin-top:24px; padding:20px; border:1px solid var(--line); border-radius:12px; background:#fff; }
+    .review-panel h2 { margin:0 0 8px; font-size:17px; }
+    textarea { min-height:150px; font-family:Consolas,monospace; font-size:12px; line-height:1.6; }
+    #review-json { min-height:290px; }
+    #review-output { min-height:220px; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="top"><a href="./index.html">← 返回地图</a><span>维护者工具</span></header>
+    <h1>审核投稿</h1>
+    <p class="intro">从 GitHub Issue 的“编辑”界面复制完整正文，粘贴到下方。修订 JSON 后生成新正文，再粘回同一个 Issue 保存；核对无误后添加 <code>publish-approved</code> 标签。本页不连接 GitHub，也不保存投稿内容。</p>
+    <section class="review-panel">
+      <h2>1. 读取 Issue 正文</h2>
+      <label>完整正文<textarea id="review-input" spellcheck="false" placeholder="粘贴 Issue 正文，包括 KDRAMA_SUBMISSION 标记"></textarea></label>
+      <div class="review-actions"><button id="review-load" class="submit-button" type="button">读取投稿</button></div>
+    </section>
+    <section id="review-editor" class="review-panel" hidden>
+      <h2>2. 核对并修订</h2>
+      <p id="review-summary" class="hint"></p>
+      <label>投稿 JSON<textarea id="review-json" spellcheck="false"></textarea></label>
+      <p class="hint">保持字段名和 JSON 格式；图片附件须保留在正文的投稿图片段落。生成后仍须在 GitHub Issue 中保存更改。</p>
+      <div class="review-actions"><button id="review-generate" class="submit-button" type="button">检查并生成正文</button></div>
+    </section>
+    <section id="review-result" class="review-panel" hidden>
+      <h2>3. 粘回 GitHub Issue</h2>
+      <label>修订后的完整正文<textarea id="review-output" readonly spellcheck="false"></textarea></label>
+      <div class="review-actions"><button id="review-copy" class="submit-button" type="button">复制正文</button></div>
+    </section>
+    <p id="review-status" class="status" role="status" aria-live="polite"></p>
+  </main>
+  <script src="./review.js"></script>
+</body>
+</html>
