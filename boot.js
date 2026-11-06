@@ -6,7 +6,10 @@
       const response = await fetch(api + '/api/catalog', { signal: AbortSignal.timeout(4000) });
       if (response.ok) {
         const additions = await response.json();
-        for (const key of ['works', 'landmarks', 'scenes', 'sources']) if (Array.isArray(additions[key])) catalog[key].push(...additions[key]);
+        for (const key of ['works', 'landmarks', 'scenes', 'sources', 'updates']) if (Array.isArray(additions[key])) {
+          if (!Array.isArray(catalog[key])) catalog[key] = [];
+          catalog[key].push(...additions[key]);
+        }
         for (const correction of additions.corrections || []) {
           const place = catalog.landmarks.find(item => item.id === correction.landmarkId);
           if (place && correction.changes && typeof correction.changes === 'object') {
@@ -19,6 +22,6 @@
     } catch (error) { console.warn('投稿目录暂不可用，正在显示已内置的地点。', error); }
   }
   const script = document.createElement('script');
-  script.src = './script.js?v=27';
+  script.src = './script.js?v=28';
   document.body.appendChild(script);
 })();

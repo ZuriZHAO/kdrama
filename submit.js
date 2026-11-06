@@ -109,7 +109,7 @@ function collect() {
   const payload = { kind, sourceUrl: link, sourceTitle: value('source-title') || (link ? new URL(link).hostname : ''), contributor: value('contributor') };
   if (kind === 'place') Object.assign(payload, {
     workId: value('work-id'), newWork: value('work-id') === 'new' ? { title: value('work-title'), original: value('work-original') } : null,
-    name: value('place-name'), lat: Number(value('lat')), lng: Number(value('lng')), description: value('description'),
+    name: value('place-name'), group: value('place-group'), lat: Number(value('lat')), lng: Number(value('lng')), description: value('description'),
     episode: optionalNumber('episode', 1000), timeSeconds: optionalNumber('time-seconds', 100000)
   });
   if (kind === 'update') {
@@ -121,14 +121,17 @@ function collect() {
       episode: optionalNumber('episode', 1000), timeSeconds: optionalNumber('time-seconds', 100000) });
   }
   const file = $('image').files[0];
+  const poster = kind === 'place' && value('work-id') === 'new' ? $('poster').files[0] : null;
   if (kind === 'update' && !payload.description && !Object.keys(payload.changes).length && !file) throw new Error('请至少补充场景、图片或一项更正资料');
-  if (file) {
-    if (file.size > 5000000 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) throw new Error('图片仅支持 JPG、PNG、WebP，最大 5 MB');
-    if (!$('rights-confirmed').checked || !value('image-credit')) throw new Error('请确认图片展示许可并填写署名');
+  for (const upload of [file, poster].filter(Boolean)) {
+    if (upload.size > 5000000 || !['image/jpeg', 'image/png', 'image/webp'].includes(upload.type)) throw new Error('图片仅支持 JPG、PNG、WebP，最大 5 MB');
+    if (!$('rights-confirmed').checked) throw new Error('请确认图片展示许可');
+  }
+  if (file || poster) {
     payload.imageCredit = value('image-credit');
     payload.rightsConfirmed = true;
   }
-  return { payload, file };
+  return { payload, file, poster };
 }
 async function loadApproved() {
   if (!api) return;
@@ -161,8 +164,9 @@ $('image').addEventListener('change', () => {
   previewUrl = file ? URL.createObjectURL(file) : '';
   $('image-preview-img').src = previewUrl;
   $('image-preview').hidden = !file;
-  $('image-rights').hidden = !file;
+  $('image-rights').hidden = !file && !$('poster').files[0];
 });
+$('poster').addEventListener('change', () => { $('image-rights').hidden = !$('poster').files[0] && !$('image').files[0]; });
 window.addEventListener('pagehide', () => { if (previewUrl) URL.revokeObjectURL(previewUrl); });
 $('next-button').addEventListener('click', () => { try { validateCurrentStep(); step++; showStep(); } catch (error) { $('form-status').textContent = error.message; } });
 $('back-button').addEventListener('click', () => { step--; showStep(); });
@@ -170,11 +174,12 @@ $('submission-form').addEventListener('submit', async event => {
   event.preventDefault();
   try {
     if (!api) throw new Error('投稿服务暂不可用，请稍后再试');
-    const { payload, file } = collect();
+    const { payload, file, poster } = collect();
     const form = new FormData();
     form.set('payload', JSON.stringify(payload));
     form.set('website', value('website'));
     if (file) form.set('image', file);
+    if (poster) form.set('poster', poster);
     $('send-button').disabled = true;
     $('form-status').textContent = '正在提交…';
     const response = await fetch(api + '/api/submissions', { method: 'POST', body: form });

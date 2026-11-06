@@ -16,9 +16,9 @@ async function authorized() {
 export async function GET() {
   if (!await authorized()) return Response.json({ error: "无权访问" }, { status: 403 });
   const rows = await getDb().select({ id: submissions.id, kind: submissions.kind, payload: submissions.payload,
-    status: submissions.status, createdAt: submissions.createdAt, imageKey: submissions.imageKey })
+    status: submissions.status, createdAt: submissions.createdAt, imageKey: submissions.imageKey, posterKey: submissions.posterKey })
     .from(submissions).orderBy(desc(submissions.createdAt)).limit(100);
-  return Response.json({ submissions: rows.map(row => ({ ...row, payload: JSON.parse(row.payload), hasImage: !!row.imageKey, imageKey: undefined })) },
+  return Response.json({ submissions: rows.map(row => ({ ...row, payload: JSON.parse(row.payload), hasImage: !!row.imageKey, hasPoster: !!row.posterKey, imageKey: undefined, posterKey: undefined })) },
     { headers: { "Cache-Control": "no-store" } });
 }
 

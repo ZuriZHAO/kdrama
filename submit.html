@@ -26,6 +26,7 @@
             <p class="hint">新作品填写中文名或韩文名即可。</p>
             <label>中文名（可选）<input id="work-title" maxlength="120" /></label>
             <label>韩文名（可选）<input id="work-original" maxlength="120" /></label>
+            <label>作品海报（可选）<input id="poster" type="file" accept="image/jpeg,image/png,image/webp" /></label>
           </div>
         </div>
         <div id="landmark-fields" hidden>
@@ -39,6 +40,7 @@
       <section class="step-panel" data-step="1" hidden>
         <div id="place-fields">
           <label>地点名称<input id="place-name" maxlength="120" placeholder="例如：绿莎坪人行天桥" /></label>
+          <label>地点分组（可选）<input id="place-group" maxlength="100" placeholder="例如：南山塔；留空则归入未分组" /></label>
           <p class="hint">先在<a href="./index.html">地图上点击位置</a>，坐标会自动填入；也可以在下面修改。暂不确定精确机位也可以投稿。</p>
           <div class="two"><label>纬度<input id="lat" type="number" step="any" inputmode="decimal" /></label><label>经度<input id="lng" type="number" step="any" inputmode="decimal" /></label></div>
         </div>
@@ -61,7 +63,7 @@
           <label>场景图片（可选）<input id="image" type="file" accept="image/jpeg,image/png,image/webp" /></label>
           <figure id="image-preview" class="image-preview" hidden><div class="image-preview-frame"><img id="image-preview-img" alt="场景图片地图卡片裁剪预览" /></div><figcaption>地图地点卡片中的裁剪预览</figcaption></figure>
           <div id="image-rights" hidden>
-            <label>图片署名<input id="image-credit" maxlength="160" placeholder="作者或授权方" /></label>
+            <label>图片署名（可选）<input id="image-credit" maxlength="160" placeholder="作者或授权方" /></label>
             <label class="check"><input id="rights-confirmed" type="checkbox" />我有权允许本站展示这张图片</label>
           </div>
         </div>
@@ -75,7 +77,7 @@
     <section id="success-panel" class="success-panel" hidden><h2>已收到投稿</h2><p>资料已进入待审核区。核对通过后会出现在地图上。</p><a href="./index.html">返回地图</a></section>
   </main>
   <script src="./site-config.js?v=2"></script>
-  <script src="./data/catalog.js?v=2"></script>
-  <script src="./submit.js?v=8"></script>
+  <script src="./data/catalog.js?v=3"></script>
+  <script src="./submit.js?v=9"></script>
 </body>
 </html>

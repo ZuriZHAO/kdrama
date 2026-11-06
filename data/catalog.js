@@ -3,7 +3,12 @@ window.KDRAMA_CATALOG = {
   works: [
     { id: 'itaewon', title: '梨泰院Class', original: '이태원 클라쓰', year: '2020', color: '#cc735a' },
     { id: 'hometown', title: '海岸村恰恰恰', original: '갯마을 차차차', year: '2021', color: '#5b8d91' },
-    { id: 'goblin', title: '孤单又灿烂的神－鬼怪', original: '쓸쓸하고 찬란하神－도깨비', year: '2016', color: '#8d8197' }
+    { id: 'goblin', title: '孤单又灿烂的神－鬼怪', original: '쓸쓸하고 찬란하神－도깨비', year: '2016', color: '#8d8197' },
+    { id: 'crash-landing', title: '爱的迫降', original: '사랑의 불시착', year: '2019', color: '#6d8293', poster: null },
+    { id: 'glory', title: '黑暗荣耀', original: '더 글로리', year: '2022', color: '#9a7480', poster: null },
+    { id: 'extraordinary-attorney', title: '非常律师禹英禑', original: '이상한 변호사 우영우', year: '2022', color: '#69a0a0', poster: null },
+    { id: 'queen-of-tears', title: '泪之女王', original: '눈물의 여왕', year: '2024', color: '#a9869a', poster: null },
+    { id: 'lovely-runner', title: '背着善宰跑', original: '선재 업고 튀어', year: '2024', color: '#7796bc', poster: null }
   ],
 
   sources: [
@@ -32,7 +37,7 @@ window.KDRAMA_CATALOG = {
       visit: '公共人行天桥。拍照时请保持通行，不要在桥上架设妨碍行人的设备。'
     },
     {
-      id: 'baekbeom', workId: 'itaewon', name: '南山白凡广场', ko: '남산 백범광장', city: '首尔 · 中区',
+      id: 'baekbeom', workId: 'itaewon', name: '南山白凡广场', group: '南山公园', ko: '남산 백범광장', city: '首尔 · 中区',
       lat: 37.55573, lng: 126.97997, coordinateStatus: 'venue', verifiedAt: '2026-11-06', entrance: null,
       coordinateSourceId: 'osm-baekbeom', coordinateNote: '开放地图同名“白凡广场”节点；观光公社指出吻戏在南山公园入口至广场之间的道路上，当前点位不是该道路的机位。',
       address: '서울특별시 중구 회현동1가 100-115', query: '남산 백범광장', kind: 'seoul', sourceId: 'visitkorea-itaewon',

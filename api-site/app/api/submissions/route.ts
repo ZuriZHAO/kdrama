@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   const headers = cors(origin);
   const fail = (message: string, status: number) => Response.json({ error: message }, { status, headers });
   if (!allowedOrigin(origin)) return fail("请从地图投稿页面提交", 403);
-  if (Number(request.headers.get("content-length") || 0) > 6_000_000) return fail("图片过大，请选择 5 MB 以下的文件", 413);
+  if (Number(request.headers.get("content-length") || 0) > 11_000_000) return fail("图片过大，每张图片不超过 5 MB", 413);
   try {
     const form = await request.formData();
     if (form.get("website")) return fail("投稿未通过检查", 400);
@@ -24,9 +24,12 @@ export async function POST(request: Request) {
     if (raw.length > 10000) return fail("投稿内容过长", 413);
     const image = form.get("image");
     const file = image instanceof File && image.size ? image : null;
+    const posterInput = form.get("poster");
+    const poster = posterInput instanceof File && posterInput.size ? posterInput : null;
     const payload = normalizeSubmission(JSON.parse(raw), false, !!file);
-    if (file && (file.size > 5_000_000 || !["image/jpeg", "image/png", "image/webp"].includes(file.type))) return fail("图片仅支持 JPG、PNG、WebP，最大 5 MB", 400);
-    if (file && (!payload.rightsConfirmed || !payload.imageCredit)) return fail("请确认图片展示许可并填写署名", 400);
+    if (poster && (payload.kind !== "place" || !payload.newWork)) return fail("仅新增作品可以上传海报", 400);
+    for (const upload of [file, poster]) if (upload && (upload.size > 5_000_000 || !["image/jpeg", "image/png", "image/webp"].includes(upload.type))) return fail("图片仅支持 JPG、PNG、WebP，最大 5 MB", 400);
+    if ((file || poster) && !payload.rightsConfirmed) return fail("请确认图片展示许可", 400);
     const ip = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for") || "unknown";
     const salt = env.KDRAMA_RATE_SALT || "kdrama-fallback";
     const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${salt}:${ip}`));
@@ -37,12 +40,17 @@ export async function POST(request: Request) {
     if ((recent?.total || 0) >= 5) return fail("提交太频繁，请稍后再试", 429);
     const id = crypto.randomUUID();
     const imageKey = file ? `pending/${id}` : null;
+    const posterKey = poster ? `pending/posters/${id}` : null;
     if (file) {
       if (!env.BUCKET) throw new Error("Image storage unavailable");
       await env.BUCKET.put(imageKey!, await file.arrayBuffer(), { httpMetadata: { contentType: file.type } });
     }
+    if (poster) {
+      if (!env.BUCKET) throw new Error("Image storage unavailable");
+      await env.BUCKET.put(posterKey!, await poster.arrayBuffer(), { httpMetadata: { contentType: poster.type } });
+    }
     await db.insert(submissions).values({ id, kind: payload.kind, payload: JSON.stringify(payload), status: "pending",
-      createdAt: new Date().toISOString(), ipHash, imageKey, imageType: file?.type || null });
+      createdAt: new Date().toISOString(), ipHash, imageKey, imageType: file?.type || null, posterKey, posterType: poster?.type || null });
     return Response.json({ id, status: "pending" }, { status: 201, headers });
   } catch (error) {
     if (error instanceof SyntaxError) return fail("投稿内容格式不正确", 400);

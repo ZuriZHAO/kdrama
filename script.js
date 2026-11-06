@@ -14,6 +14,9 @@ const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&
 const safeColor = value => /^#[0-9a-f]{6}$/i.test(value || '') ? value : '#617d8d';
 const initialViewport = new URLSearchParams(location.search);
 let selectedSeries = 'all';
+let browseMode = 'popular';
+let selectedRegion = null;
+let workTab = 'group';
 let selectedPlace = null;
 let favoritesOnly = false;
 let thumbnailsOn = false;
@@ -42,6 +45,27 @@ let fullMapBounds = null;
 const markers = new Map();
 const seriesById = Object.fromEntries(series.map(item => [item.id, item]));
 const placesById = Object.fromEntries(places.map(item => [item.id, item]));
+const regionNames = {Seoul:'首尔特别市',Busan:'釜山广域市',Daegu:'大邱广域市',Incheon:'仁川广域市',Gwangju:'光州广域市',Daejeon:'大田广域市',Ulsan:'蔚山广域市',Sejong:'世宗特别自治市',Gyeonggi:'京畿道',Gangwon:'江原特别自治道','North Chungcheong':'忠清北道','South Chungcheong':'忠清南道','North Jeolla':'全北特别自治道','South Jeolla':'全罗南道','North Gyeongsang':'庆尚北道','South Gyeongsang':'庆尚南道',Jeju:'济州特别自治道'};
+const regionFeatures = window.KDRAMA_MAP_DATA?.regions?.features || [];
+function insideRing(lng, lat, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const a = ring[i], b = ring[j];
+    if ((a[1] > lat) !== (b[1] > lat) && lng < (b[0] - a[0]) * (lat - a[1]) / (b[1] - a[1]) + a[0]) inside = !inside;
+  }
+  return inside;
+}
+function inGeometry(lng, lat, geometry) {
+  const polygons = geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.type === 'MultiPolygon' ? geometry.coordinates : [];
+  return polygons.some(rings => rings.length && insideRing(lng, lat, rings[0]) && !rings.slice(1).some(hole => insideRing(lng, lat, hole)));
+}
+const regionByPlace = new Map(places.map(place => [place.id, place.region || regionFeatures.find(feature => inGeometry(place.lng, place.lat, feature.geometry))?.properties?.name || 'overseas']));
+const approvedUpdates = Array.isArray(catalog.updates) ? catalog.updates : [];
+const updatedAtByWork = new Map();
+for (const update of approvedUpdates) {
+  const workId = update.workId || placesById[update.landmarkId]?.workId;
+  if (workId && update.reviewedAt && (!updatedAtByWork.has(workId) || updatedAtByWork.get(workId) < update.reviewedAt)) updatedAtByWork.set(workId, update.reviewedAt);
+}
 for (const id of favoriteIds) if (!placesById[id]) favoriteIds.delete(id);
 
 function textMatches(place, term) {
@@ -52,12 +76,13 @@ function textMatches(place, term) {
 
 function visiblePlaces() {
   const term = $('search').value.trim().toLocaleLowerCase();
-  return places.filter(p => (selectedSeries === 'all' || p.workId === selectedSeries) && (!favoritesOnly || favoriteIds.has(p.id)) && (!term || textMatches(p,term)));
+  return places.filter(p => (selectedSeries === 'all' || p.workId === selectedSeries) && (!selectedRegion || regionByPlace.get(p.id) === selectedRegion) && (!favoritesOnly || favoriteIds.has(p.id)) && (!term || textMatches(p,term)));
 }
 
 function visibleWorks() {
   const term = $('search').value.trim().toLocaleLowerCase();
-  return series.filter(work => (!favoritesOnly || places.some(place => place.workId === work.id && favoriteIds.has(place.id)))
+  return series.filter(work => (!selectedRegion || places.some(place => place.workId === work.id && regionByPlace.get(place.id) === selectedRegion))
+    && (!favoritesOnly || places.some(place => place.workId === work.id && favoriteIds.has(place.id)))
     && (!term || [work.title, work.original, work.year].join(' ').toLocaleLowerCase().includes(term)
     || places.some(place => place.workId === work.id && textMatches(place, term))));
 }
@@ -218,22 +243,49 @@ const coordinateLabel = (place) => coordinateLabels[place.coordinateStatus] || '
 function renderList() {
   const showingWorks = selectedSeries === 'all';
   $('back-to-works').hidden = showingWorks;
-  $('list-title').textContent = showingWorks ? '作品' : seriesById[selectedSeries].title;
+  $('browse-tabs').hidden = !showingWorks;
+  $('work-tabs').hidden = showingWorks;
+  document.querySelectorAll('[data-browse]').forEach(button => button.classList.toggle('active', button.dataset.browse === browseMode));
+  document.querySelectorAll('[data-work-tab]').forEach(button => button.classList.toggle('active', button.dataset.workTab === workTab));
+  $('list-title').textContent = showingWorks ? (selectedRegion ? (regionNames[selectedRegion] || '韩国境外') : '作品') : seriesById[selectedSeries].title;
   if (showingWorks) {
-    const filtered = visibleWorks();
+    if (browseMode === 'regions' && !selectedRegion) {
+      const regions = [...Object.keys(regionNames), 'overseas'];
+      $('result-count').textContent = `${regions.length} 区域`;
+      $('place-list').innerHTML = regions.map(id => {
+        const count = places.filter(place => regionByPlace.get(place.id) === id).length;
+        return `<button type="button" class="region-card" data-region="${escapeHtml(id)}"><span>${escapeHtml(regionNames[id] || '韩国境外')}</span><small>${count}取景地</small></button>`;
+      }).join('');
+      $('place-list').querySelectorAll('[data-region]').forEach(button => button.addEventListener('click', () => { selectedRegion = button.dataset.region; render(); fitVisible(); }));
+      return;
+    }
+    let filtered = visibleWorks();
+    if (browseMode === 'recent' && !selectedRegion) filtered = filtered.filter(work => updatedAtByWork.has(work.id)).sort((a,b) => updatedAtByWork.get(b.id).localeCompare(updatedAtByWork.get(a.id)));
+    else filtered.sort((a,b) => places.filter(place => place.workId === b.id && (!selectedRegion || regionByPlace.get(place.id) === selectedRegion)).length - places.filter(place => place.workId === a.id && (!selectedRegion || regionByPlace.get(place.id) === selectedRegion)).length || a.title.localeCompare(b.title, 'zh'));
     $('result-count').textContent = `${filtered.length} 部`;
     $('place-list').innerHTML = filtered.length ? filtered.map(work => {
-      const count = places.filter(place => place.workId === work.id && (!favoritesOnly || favoriteIds.has(place.id))).length;
-      return `<button type="button" class="work-card" data-work="${escapeHtml(work.id)}" aria-label="查看${escapeHtml(work.title)}的${count}处取景地"><span class="work-color" style="background:${safeColor(work.color)}"></span><span class="work-main"><strong>${escapeHtml(work.title)}</strong><small>${escapeHtml(work.original)} · ${count} 处取景地</small></span><span class="work-arrow" aria-hidden="true">›</span></button>`;
-    }).join('') : '<div class="empty-state">没有找到相关作品。试试剧名、地点或城市名称。</div>';
+      const workPlaces = places.filter(place => place.workId === work.id && (!selectedRegion || regionByPlace.get(place.id) === selectedRegion) && (!favoritesOnly || favoriteIds.has(place.id)));
+      const screenshots = workPlaces.reduce((n, place) => n + (scenesByLandmark.get(place.id) || []).filter(scene => sceneImageUrl(scene)).length, 0);
+      const poster = safePosterUrl(work.poster);
+      return `<button type="button" class="work-card" data-work="${escapeHtml(work.id)}" aria-label="查看${escapeHtml(work.title)}"><span class="work-poster" style="background:${safeColor(work.color)}">${poster ? `<img src="${escapeHtml(poster)}" alt="" loading="lazy">` : `<span>${escapeHtml(work.title.slice(0, 2))}</span>`}</span><span class="work-main"><strong>${escapeHtml(work.title)}</strong><small>${escapeHtml(work.original)}</small><small>${workPlaces.length}取景地 · ${screenshots}截图</small></span><span class="work-arrow" aria-hidden="true">›</span></button>`;
+    }).join('') : `<div class="empty-state">${browseMode === 'recent' && !selectedRegion ? '还没有审核通过的更新投稿。' : '没有找到相关作品。'}</div>`;
     $('place-list').querySelectorAll('[data-work]').forEach(button => button.addEventListener('click', () => selectWork(button.dataset.work)));
     return;
   }
   const filtered = visiblePlaces();
   $('result-count').textContent = `${filtered.length} 处`;
-  $('place-list').innerHTML = filtered.length ? filtered.map(place => `<button type="button" class="place-card ${selectedPlace === place.id ? 'active' : ''}" data-place="${escapeHtml(place.id)}" aria-label="查看${escapeHtml(place.name)}详情，${coordinateLabel(place)}"><span class="card-main">${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}<span class="card-title">${escapeHtml(place.name)}</span><span class="card-sub">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</span></span></button>`).join('') : '<div class="empty-state">这部作品没有匹配的地点。试试其他地名。</div>';
+  const groups = new Map();
+  for (const place of filtered) {
+    const scenes = scenesByLandmark.get(place.id) || [];
+    const keys = workTab === 'group' ? [place.group || '未分组'] : [...new Set(scenes.map(scene => scene.episode == null ? '未分组' : `第 ${scene.episode} 集`))];
+    for (const key of keys.length ? keys : ['未分组']) { if (!groups.has(key)) groups.set(key, []); groups.get(key).push(place); }
+  }
+  const entries = [...groups].sort((a,b) => a[0] === '未分组' ? 1 : b[0] === '未分组' ? -1 : workTab === 'episode' ? Number(a[0].match(/\d+/)?.[0] || 0) - Number(b[0].match(/\d+/)?.[0] || 0) : a[0].localeCompare(b[0], 'zh'));
+  $('place-list').innerHTML = entries.length ? entries.map(([heading, items]) => `<section class="place-group"><h3>${escapeHtml(heading)} <small>${items.length}</small></h3>${items.map(place => `<button type="button" class="place-card ${selectedPlace === place.id ? 'active' : ''}" data-place="${escapeHtml(place.id)}" aria-label="查看${escapeHtml(place.name)}详情，${coordinateLabel(place)}"><span class="card-main">${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}<span class="card-title">${escapeHtml(place.name)}</span><span class="card-sub">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</span></span></button>`).join('')}</section>`).join('') : '<div class="empty-state">这部作品还没有地点，欢迎投稿。</div>';
   $('place-list').querySelectorAll('[data-place]').forEach(button => button.addEventListener('click', () => openPlace(button.dataset.place)));
 }
+
+function safePosterUrl(value) { return typeof value === 'string' && (/^https:\/\//.test(value) || /^\.\/assets\//.test(value)) ? value : ''; }
 
 function selectWork(id) {
   if (!seriesById[id]) return;
@@ -269,7 +321,7 @@ function iconFor(place) {
   if (thumbnailsOn && imageScene && map && map.getZoom() >= 12) {
     return L.divIcon({className:'scene-thumbnail-marker',html:`<span class="thumbnail-frame" style="border-color:${safeColor(color)}"><img src="${escapeHtml(sceneImageUrl(imageScene))}" alt="" loading="lazy" referrerpolicy="no-referrer"></span>`,iconSize:[70,58],iconAnchor:[35,58]});
   }
-  return L.divIcon({className:'place-marker',html:`<span class="pin ${selectedPlace === place.id ? 'selected' : ''}" style="background:${safeColor(color)}"></span>`,iconSize:[30,30],iconAnchor:[15,15]});
+  return L.divIcon({className:'place-marker',html:`<span class="pin ${selectedPlace === place.id ? 'selected' : ''}" style="background:${safeColor(color)}"></span>`,iconSize:[24,24],iconAnchor:[12,12]});
 }
 
 function placePopup(place) {
@@ -296,7 +348,7 @@ function render() { renderList(); renderMarkers(); }
 function fitVisible() {
   if (!map) return;
   const filtered = visiblePlaces();
-  if (selectedSeries === 'all' && !$('search').value.trim() && fullMapBounds) map.fitBounds(fullMapBounds,{padding:[28,28],animate:true});
+  if (selectedSeries === 'all' && !selectedRegion && !$('search').value.trim() && fullMapBounds) map.fitBounds(fullMapBounds,{padding:[28,28],animate:true});
   else if (filtered.length === 1) map.setView([filtered[0].lat,filtered[0].lng],streetMapReady ? 15 : 9,{animate:true});
   else if (filtered.length > 1) map.fitBounds(L.latLngBounds(filtered.map(p => [p.lat,p.lng])).pad(.25),{animate:true,maxZoom:selectedSeries === 'all' ? 9 : 14});
 }
@@ -546,6 +598,8 @@ function initMap() {
 }
 
 $('search').addEventListener('input', () => {renderList();renderMarkers();fitVisible();});
+document.querySelectorAll('[data-browse]').forEach(button => button.addEventListener('click', () => { browseMode = button.dataset.browse; selectedRegion = null; selectedSeries = 'all'; render(); fitVisible(); }));
+document.querySelectorAll('[data-work-tab]').forEach(button => button.addEventListener('click', () => { workTab = button.dataset.workTab; renderList(); }));
 $('favorites-filter').addEventListener('click', () => {
   favoritesOnly = !favoritesOnly;
   $('favorites-filter').setAttribute('aria-pressed', String(favoritesOnly));

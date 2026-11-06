@@ -39,7 +39,7 @@ export function normalizeSubmission(input: unknown, _approval = false, hasImage 
     if (newWork && !newWork.title && !newWork.original) throw new Error("新作品请填写中文名或韩文名");
     if (newWork && !newWork.title) newWork.title = newWork.original;
     const imageCredit = string(p.imageCredit, 160);
-    return { ...base, workId, newWork, name, ko: string(p.ko, 120), city: string(p.city, 100), lat, lng,
+    return { ...base, workId, newWork, name, group: string(p.group, 100), ko: string(p.ko, 120), city: string(p.city, 100), lat, lng,
       address: string(p.address, 240), visit: string(p.visit, 500), description,
       episode: optionalInt(p.episode, 1000), timeSeconds: optionalInt(p.timeSeconds, 100000),
       imageCredit, rightsConfirmed: p.rightsConfirmed === true };
