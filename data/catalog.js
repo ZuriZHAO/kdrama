@@ -1,9 +1,9 @@
 // 作品 → 地标 → 场景。仅收录已找到来源的取景关系；未核实的字段保持 null。
 window.KDRAMA_CATALOG = {
   works: [
-    { id: 'itaewon', title: '梨泰院Class', original: '이태원 클라쓰', year: '2020', color: '#cc735a' },
-    { id: 'hometown', title: '海岸村恰恰恰', original: '갯마을 차차차', year: '2021', color: '#5b8d91' },
-    { id: 'goblin', title: '孤单又灿烂的神－鬼怪', original: '쓸쓸하고 찬란하神－도깨비', year: '2016', color: '#8d8197' },
+    { id: 'itaewon', title: '梨泰院Class', original: '이태원 클라쓰', year: '2020', color: '#cc735a', poster: './assets/posters/itaewon.jpg' },
+    { id: 'hometown', title: '海岸村恰恰恰', original: '갯마을 차차차', year: '2021', color: '#5b8d91', poster: './assets/posters/hometown.jpg' },
+    { id: 'goblin', title: '孤单又灿烂的神－鬼怪', original: '쓸쓸하고 찬란하神－도깨비', year: '2016', color: '#8d8197', poster: './assets/posters/goblin.jpg' },
     { id: 'crash-landing', title: '爱的迫降', original: '사랑의 불시착', year: '2019', color: '#6d8293', poster: null },
     { id: 'glory', title: '黑暗荣耀', original: '더 글로리', year: '2022', color: '#9a7480', poster: null },
     { id: 'extraordinary-attorney', title: '非常律师禹英禑', original: '이상한 변호사 우영우', year: '2022', color: '#69a0a0', poster: null },
