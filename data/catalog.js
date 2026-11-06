@@ -26,7 +26,6 @@ window.KDRAMA_CATALOG = {
     { id: 'osm-sabang', title: 'OpenStreetMap · 沙防纪念公园', url: 'https://www.openstreetmap.org/way/1304567998' },
     { id: 'osm-goblin-breakwater', title: 'OpenStreetMap · 注文津防沙堤（鬼怪取景地）', url: 'https://www.openstreetmap.org/node/6087000044' },
     { id: 'coastguard-goblin', title: '韩国海警 · 迎津海滩鬼怪拍摄地', url: 'https://www.kcg.go.kr/sokchocgs/na/ntt/selectNttInfo.do?nttSn=2054' },
-    { id: 'dispatch-goblin-episode', title: 'Dispatch · 《鬼怪》第 1 集海边相遇', url: 'https://www.dispatch.co.kr/617939' }
   ],
 
   // coordinateStatus: approximate = 附近示意点；venue = 已核实景点点位；camera = 已核实拍摄机位。
@@ -82,7 +81,6 @@ window.KDRAMA_CATALOG = {
     { id: 'baekbeom-01', landmarkId: 'baekbeom', description: '世路与以瑞的吻戏拍摄于南山公园入口通往白凡广场的道路。', episode: null, timeSeconds: null, image: null, sourceId: 'visitkorea-itaewon' },
     { id: 'itaewonpark-01', landmarkId: 'itaewonpark', description: '根秀向世路道歉；另一段跟踪世路的情节也在此拍摄。', episode: null, timeSeconds: null, image: null, sourceId: 'visitkorea-itaewon' },
     { id: 'cheongha-01', landmarkId: 'cheongha', description: '此市场作为剧中“公辰市场”的拍摄地；市场内设有剧集取景位置指示牌。', episode: null, timeSeconds: null, image: null, sourceId: 'visitkorea-cheongha' },
-    { id: 'sabang-01', landmarkId: 'sabang', description: '第 1 集慧珍与洪班长在山顶小船相遇；小船也是剧中的洪班长秘密基地。', episode: 1, timeSeconds: null, image: null, sourceId: 'visitkorea-hometown', episodeSourceId: 'visitkorea-hometown-episode' },
-    { id: 'jumunjin-01', landmarkId: 'jumunjin', description: '第 1 集金侁与恩倬在迎津海滩防沙堤初次相遇。', episode: 1, timeSeconds: null, image: null, sourceId: 'visitkorea-goblin', episodeSourceId: 'dispatch-goblin-episode' }
+    { id: 'sabang-01', landmarkId: 'sabang', description: '第 1 集慧珍与洪班长在山顶小船相遇；小船也是剧中的洪班长秘密基地。', episode: 1, timeSeconds: null, image: null, sourceId: 'visitkorea-hometown', episodeSourceId: 'visitkorea-hometown-episode' }
   ]
 };
