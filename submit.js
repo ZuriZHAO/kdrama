@@ -1,200 +1,156 @@
 const $ = id => document.getElementById(id);
-const catalog = window.KDRAMA_CATALOG;
+const catalog = window.KDRAMA_CATALOG || { works: [], landmarks: [], scenes: [], sources: [] };
+const api = String(window.KDRAMA_SUBMISSION_API || '').replace(/\/$/, '');
 const params = new URLSearchParams(location.search);
-const setStatus = message => { $('form-status').textContent = message; };
+let step = 0;
+let works = catalog.works.slice();
+let landmarks = catalog.landmarks.slice();
 
-function detectRepository() {
-  const configured = String(window.KDRAMA_GITHUB_REPO || '').trim();
-  if (/^[\w.-]+\/[\w.-]+$/.test(configured)) return configured;
-  const saved = localStorage.getItem('kdrama-repository') || '';
-  if (/^[\w.-]+\/[\w.-]+$/.test(saved)) return saved;
-  const match = /^([\w-]+)\.github\.io$/i.exec(location.hostname);
-  if (!match) return '';
-  const segment = location.pathname.split('/').filter(Boolean)[0];
-  return `${match[1]}/${segment && !segment.includes('.') ? segment : `${match[1]}.github.io`}`;
+function value(id) { return $(id).value.trim(); }
+function required(id, message) { const result = value(id); if (!result) throw new Error(message); return result; }
+function optionalNumber(id, max) {
+  const raw = value(id);
+  if (!raw) return null;
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 0 || n > max) throw new Error('集数或时间点格式不正确');
+  return n;
 }
-
-function repository() {
-  const input = $('repo-input').value.trim();
-  if (/^[\w.-]+\/[\w.-]+$/.test(input)) {
-    localStorage.setItem('kdrama-repository', input);
-    return input;
+function sourceUrl() {
+  const raw = value('source-url');
+  if (!raw) return '';
+  try { const url = new URL(raw); if (url.protocol === 'https:') return url.href; } catch {}
+  throw new Error('资料来源请填写 HTTPS 链接');
+}
+function updateOptions() {
+  const term = value('work-search').toLocaleLowerCase();
+  const previous = value('work-id');
+  const filtered = works.filter(work => (work.title + ' ' + work.original).toLocaleLowerCase().includes(term));
+  $('work-id').replaceChildren(new Option('请选择作品', ''), ...filtered.map(work => new Option(work.title, work.id)), new Option('＋ 没有这部剧？添加新作品', 'new'));
+  if ([...$('work-id').options].some(option => option.value === previous)) $('work-id').value = previous;
+  showKind();
+}
+function showKind() {
+  const kind = value('kind');
+  $('work-fields').hidden = kind !== 'place';
+  $('landmark-fields').hidden = kind === 'place';
+  $('place-fields').hidden = kind !== 'place';
+  $('scene-fields').hidden = kind === 'correction';
+  $('scene-details').hidden = kind === 'correction';
+  $('correction-fields').hidden = kind !== 'correction';
+  $('image-fields').hidden = kind === 'correction';
+  $('new-work-fields').hidden = value('work-id') !== 'new' || kind !== 'place';
+}
+function showStep() {
+  document.querySelectorAll('.step-panel').forEach((panel, i) => { panel.hidden = i !== step; });
+  document.querySelectorAll('.steps li').forEach((item, i) => { item.classList.toggle('active', i === step); });
+  $('back-button').hidden = step === 0;
+  $('next-button').hidden = step === 2;
+  $('send-button').hidden = step !== 2;
+  $('form-status').textContent = '';
+  if (step === 2) {
+    const kind = value('kind');
+    const work = works.find(item => item.id === value('work-id'));
+    const place = landmarks.find(item => item.id === value('landmark-id'));
+    $('review-summary').textContent = kind === 'place'
+      ? `请检查：${work?.title || value('work-title')} · ${value('place-name')} · 坐标 ${value('lat')}, ${value('lng')}`
+      : `请检查：${place?.name || ''} · ${kind === 'scene' ? '补充场景' : '纠正资料'}`;
   }
-  return detectRepository();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-function showFields() {
-  const kind = $('kind').value;
-  const groups = {
-    'work-select-fields': kind === 'place',
-    'work-only-fields': kind === 'work',
-    'place-fields': kind === 'place',
-    'existing-place-fields': kind === 'scene' || kind === 'correction',
-    'correction-fields': kind === 'correction',
-    'scene-fields': kind === 'place' || kind === 'scene'
-  };
-  for (const [id, visible] of Object.entries(groups)) { $(id).hidden = !visible; $(id).disabled = !visible; }
-  $('new-work-fields').hidden = kind !== 'place' || $('work-id').value !== 'new';
-  const attaching = $('image-attach').checked;
-  if (attaching) $('image-url').value = '';
-  $('image-url').disabled = attaching || !groups['scene-fields'];
-  $('image-rights').hidden = !($('image-url').value.trim() || attaching);
-  if (kind === 'correction') populateCorrection();
+function validateCurrentStep() {
+  const kind = value('kind');
+  if (step === 0) {
+    if (kind === 'place') {
+      const work = required('work-id', '请选择作品');
+      if (work === 'new') { required('work-title', '请填写作品中文名'); required('work-original', '请填写韩文原名'); }
+    } else required('landmark-id', '请选择已有地点');
+  }
+  if (step === 1) {
+    if (kind === 'place') {
+      required('place-name', '请填写地点名称');
+      const lat = Number(required('lat', '请填写地图纬度'));
+      const lng = Number(required('lng', '请填写地图经度'));
+      if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat < 33 || lat > 39 || lng < 124 || lng > 132) throw new Error('请填写韩国境内的地图坐标');
+    }
+    if (kind === 'correction') {
+      required('reason', '请说明现有资料哪里不对');
+      if (!value('correction-name') && !value('correction-lat') && !value('correction-lng')) throw new Error('请至少填写一项正确资料');
+    } else required('description', '请描述剧中的场景');
+  }
 }
-
-function populateCorrection() {
-  const place = catalog?.landmarks.find(item => item.id === $('landmark-id').value);
-  const fields = { name:'correction-name', ko:'correction-ko', city:'correction-city', lat:'correction-lat', lng:'correction-lng', address:'correction-address', visit:'correction-visit' };
-  for (const [key, id] of Object.entries(fields)) $(id).value = place?.[key] ?? '';
-}
-
-function required(id, label, max = 1000) {
-  const value = $(id).value.trim();
-  if (!value || value.length > max) throw new Error(`请填写${label}`);
-  return value;
-}
-const optional = id => $(id).value.trim() || null;
-function httpsUrl(value, label) {
-  try { if (new URL(value).protocol === 'https:') return value; } catch {}
-  throw new Error(`${label}必须是 HTTPS 链接`);
-}
-function number(id, label, min, max) {
-  const value = Number(required(id, label));
-  if (!Number.isFinite(value) || value < min || value > max) throw new Error(`${label}超出范围`);
-  return value;
-}
-function optionalInteger(id, label, min, max) {
-  const raw = optional(id);
-  if (raw === null) return null;
-  const value = Number(raw);
-  if (!Number.isInteger(value) || value < min || value > max) throw new Error(`${label}无效`);
-  return value;
-}
-
 function collect() {
-  const kind = $('kind').value;
-  const payload = { version: 2, kind, contributor: optional('contributor') };
-  if (kind === 'work') {
-    Object.assign(payload, { title:required('only-title','作品中文名',120), original:required('only-original','韩文原名',120), year:optional('only-year') });
-    return payload;
-  }
-  if (kind === 'correction') {
-    const landmarkId = required('landmark-id', '已有地点');
-    const place = catalog.landmarks.find(item => item.id === landmarkId);
-    if (!place) throw new Error('请选择已有地点');
-    const fields = { name:['correction-name',120], ko:['correction-ko',120], city:['correction-city',100], address:['correction-address',240], visit:['correction-visit',500] };
-    const changes = {};
-    for (const [key, [id, max]] of Object.entries(fields)) {
-      const value = $(id).value.trim();
-      if (value.length > max) throw new Error(`${key}过长`);
-      if (value !== String(place[key] ?? '').trim()) changes[key] = value;
-    }
-    const lat = number('correction-lat','纬度',-90,90);
-    const lng = number('correction-lng','经度',-180,180);
-    if (lat !== place.lat || lng !== place.lng) Object.assign(changes, { lat, lng });
-    if (!Object.keys(changes).length) throw new Error('请至少修改一项地点资料');
-    Object.assign(payload, {
-      landmarkId, changes, reason:required('correction-reason','更正原因',800),
-      sourceTitle:required('correction-source-title','依据名称',160),
-      sourceUrl:httpsUrl(required('correction-source-url','依据链接',1000),'依据链接')
-    });
-    return payload;
-  }
-  Object.assign(payload, {
-    description:required('description','场景描述',800),
-    episode:optionalInteger('episode','集数',1,1000), timeSeconds:optionalInteger('time-seconds','时间点',0,100000),
-    sourceTitle:required('source-title','来源名称',160), sourceUrl:httpsUrl(required('source-url','来源链接',1000),'来源链接')
+  const kind = value('kind');
+  const link = sourceUrl();
+  const payload = { kind, sourceUrl: link, sourceTitle: value('source-title') || (link ? new URL(link).hostname : ''), contributor: value('contributor') };
+  if (kind === 'place') Object.assign(payload, {
+    workId: value('work-id'), newWork: value('work-id') === 'new' ? { title: value('work-title'), original: value('work-original') } : null,
+    name: value('place-name'), lat: Number(value('lat')), lng: Number(value('lng')), description: value('description'),
+    episode: optionalNumber('episode', 1000), timeSeconds: optionalNumber('time-seconds', 100000)
   });
-  const imageUrl = optional('image-url');
-  const imageAttachment = $('image-attach').checked;
-  if (imageUrl || imageAttachment) {
-    if (!$('rights-confirmed').checked) throw new Error('请确认图片使用许可');
-    payload.imageUrl = imageUrl ? httpsUrl(imageUrl,'图片链接') : null;
-    payload.imageAttachment = imageAttachment;
-    payload.imageCredit = required('image-credit','图片署名',160);
-    payload.rightsConfirmed = true;
-  } else { payload.imageUrl = null; payload.imageAttachment = false; payload.imageCredit = null; payload.rightsConfirmed = false; }
-  if (kind === 'place') {
-    payload.workId = required('work-id','所属作品');
-    if (payload.workId === 'new') {
-      payload.newWork = {title:required('work-title','新作品中文名',120), original:required('work-original','新作品韩文原名',120), year:optional('work-year')};
-    }
-    Object.assign(payload, {
-      name:required('place-name','中文地名',120), ko:optional('place-ko'), city:optional('place-city'),
-      lat:number('lat','纬度',-90,90), lng:number('lng','经度',-180,180),
-      address:optional('address'), visit:optional('visit')
-    });
-  } else if (kind === 'scene') payload.landmarkId = required('landmark-id','已有地点');
-  return payload;
-}
-
-function issueText(payload) {
-  const summary = value => String(value || '未填写').replace(/[\r\n]+/g, ' ');
-  const title = payload.kind === 'work' ? `[作品投稿] ${payload.title}`
-    : payload.kind === 'scene' ? `[场景投稿] ${payload.landmarkId}`
-      : payload.kind === 'correction' ? `[地点纠错] ${payload.landmarkId}` : `[地标投稿] ${payload.name}`;
-  const lines = [
-    '## 韩剧圣地巡礼投稿',
-    `- 类型：${payload.kind}`,
-    `- 投稿人：${summary(payload.contributor)}`,
-    `- 作品：${summary(payload.kind === 'work' ? payload.title : payload.newWork?.title || payload.workId || payload.landmarkId)}`,
-    `- 地点：${summary(payload.name)}`,
-    `- 坐标：${payload.lat ?? '未填写'}, ${payload.lng ?? '未填写'}`,
-    `- 场景：${summary(payload.description)}`,
-    `- 来源：${summary(payload.sourceUrl)}`,
-    `- 图片：${payload.imageAttachment ? '将在本 Issue 附图' : summary(payload.imageUrl)}`,
-    ...(payload.kind === 'correction' ? [`- 更正内容：${summary(JSON.stringify(payload.changes))}`, `- 更正原因：${summary(payload.reason)}`] : []),
-    '',
-    '上方摘要便于阅读；下方 JSON 才是发布依据。维护者可在审核时直接编辑 JSON 字段；确认后添加 `publish-approved` 标签。',
-    '',
-    '<!-- KDRAMA_SUBMISSION_V2_START -->',
-    '```json',
-    JSON.stringify(payload, null, 2),
-    '```',
-    '<!-- KDRAMA_SUBMISSION_V2_END -->',
-    ...(payload.imageAttachment ? ['', '## 投稿图片', '请把图片拖入本段下方；提交前确认出现图片预览。第一张图片用于地图展示。'] : [])
-  ];
-  return { title, body: lines.join('\n') };
-}
-
-function initialize() {
-  if (!catalog) { $('repo-status').textContent = '作品目录未加载，请刷新页面。'; return; }
-  $('work-id').replaceChildren(new Option('请选择作品', ''), ...catalog.works.map(work => new Option(work.title, work.id)), new Option('＋ 投稿新作品', 'new'));
-  $('landmark-id').replaceChildren(new Option('请选择地点', ''), ...catalog.landmarks.map(place => new Option(`${place.name} · ${catalog.works.find(work => work.id === place.workId)?.title || ''}`, place.id)));
-  if (params.has('workId') && catalog.works.some(work => work.id === params.get('workId'))) $('work-id').value = params.get('workId');
-  if (['scene','correction'].includes(params.get('kind')) && catalog.landmarks.some(place => place.id === params.get('landmarkId'))) {
-    $('kind').value = params.get('kind');
-    $('landmark-id').value = params.get('landmarkId');
+  if (kind === 'scene') Object.assign(payload, { landmarkId: value('landmark-id'), description: value('description'),
+    episode: optionalNumber('episode', 1000), timeSeconds: optionalNumber('time-seconds', 100000) });
+  if (kind === 'correction') {
+    const changes = {};
+    if (value('correction-name')) changes.name = value('correction-name');
+    if (value('correction-lat')) changes.lat = Number(value('correction-lat'));
+    if (value('correction-lng')) changes.lng = Number(value('correction-lng'));
+    Object.assign(payload, { landmarkId: value('landmark-id'), reason: value('reason'), changes });
   }
+  const file = $('image').files[0];
+  if (file && kind !== 'correction') {
+    if (file.size > 5000000 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) throw new Error('图片仅支持 JPG、PNG、WebP，最大 5 MB');
+    if (!$('rights-confirmed').checked || !value('image-credit')) throw new Error('请确认图片展示许可并填写署名');
+    payload.imageCredit = value('image-credit');
+    payload.rightsConfirmed = true;
+  }
+  return { payload, file };
+}
+async function loadApproved() {
+  if (!api) return;
+  try {
+    const response = await fetch(api + '/api/catalog');
+    if (!response.ok) return;
+    const data = await response.json();
+    works = works.concat(data.works || []);
+    landmarks = landmarks.concat(data.landmarks || []);
+  } catch {}
+}
+async function init() {
+  await loadApproved();
+  $('landmark-id').replaceChildren(new Option('请选择地点', ''), ...landmarks.map(place => new Option(`${place.name} · ${works.find(work => work.id === place.workId)?.title || ''}`, place.id)));
+  updateOptions();
+  if (['scene', 'correction'].includes(params.get('kind'))) $('kind').value = params.get('kind');
+  if (params.has('workId') && works.some(work => work.id === params.get('workId'))) $('work-id').value = params.get('workId');
+  if (params.has('landmarkId') && landmarks.some(place => place.id === params.get('landmarkId'))) $('landmark-id').value = params.get('landmarkId');
   $('lat').value = params.get('lat') || '';
   $('lng').value = params.get('lng') || '';
-  const repo = detectRepository();
-  $('repo-input').value = repo;
-  $('repo-settings').hidden = !!repo;
-  $('repo-status').textContent = repo ? `投稿仓库：${repo}` : '本地预览时请先填写 GitHub 仓库；发布到 GitHub Pages 后可自动识别。';
-  showFields();
+  showKind();
+  showStep();
 }
-
-$('kind').addEventListener('change', showFields);
-$('work-id').addEventListener('change', showFields);
-$('landmark-id').addEventListener('change', () => { if ($('kind').value === 'correction') populateCorrection(); });
-$('image-url').addEventListener('input', showFields);
-$('image-attach').addEventListener('change', showFields);
-$('submission-form').addEventListener('submit', event => {
+$('work-search').addEventListener('input', updateOptions);
+$('work-id').addEventListener('change', showKind);
+$('kind').addEventListener('change', showKind);
+$('image').addEventListener('change', () => { $('image-rights').hidden = !$('image').files.length; });
+$('next-button').addEventListener('click', () => { try { validateCurrentStep(); step++; showStep(); } catch (error) { $('form-status').textContent = error.message; } });
+$('back-button').addEventListener('click', () => { step--; showStep(); });
+$('submission-form').addEventListener('submit', async event => {
   event.preventDefault();
   try {
-    const repo = repository();
-    if (!repo) { $('repo-settings').hidden = false; $('repo-settings').open = true; throw new Error('请先填写 GitHub 仓库 owner/repo'); }
-    const payload = collect();
-    const issue = issueText(payload);
-    const base = `https://github.com/${repo}/issues/new`;
-    const url = `${base}?${new URLSearchParams({title:issue.title,body:issue.body})}`;
-    $('issue-body').value = issue.body;
-    $('manual-link').href = url.length < 7500 ? url : base;
-    $('manual-submission').hidden = false;
-    if (url.length >= 7500) return setStatus('内容较长，请复制下方投稿内容，再到 GitHub Issue 页面粘贴提交。');
-    window.open(url, '_blank', 'noopener');
-    setStatus('请在新打开的 GitHub 页面登录并点击“Submit new issue”；当前网页不会自动发布。');
-  } catch (error) { setStatus(error.message); }
+    if (!api) throw new Error('投稿服务暂不可用，请稍后再试');
+    const { payload, file } = collect();
+    const form = new FormData();
+    form.set('payload', JSON.stringify(payload));
+    form.set('website', value('website'));
+    if (file) form.set('image', file);
+    $('send-button').disabled = true;
+    $('form-status').textContent = '正在提交…';
+    const response = await fetch(api + '/api/submissions', { method: 'POST', body: form });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || '提交失败，请稍后再试');
+    $('submission-form').hidden = true;
+    $('success-panel').hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (error) { $('form-status').textContent = error.message; }
+  finally { $('send-button').disabled = false; }
 });
-initialize();
+void init();

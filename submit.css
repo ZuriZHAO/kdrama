@@ -20,5 +20,16 @@ input:focus,select:focus,textarea:focus { outline:2px solid #315f7826; border-co
 .submit-button { width:100%; margin-top:25px; padding:13px; border:0; border-radius:6px; background:var(--accent); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
 .submit-button:hover { background:#254d63; }
 .status { margin:12px 0 0; color:var(--accent); font-size:13px; line-height:1.6; }
+.steps { display:flex; gap:10px; padding:0; margin:26px 0 0; list-style:none; }
+.steps li { flex:1; padding:10px 6px; text-align:center; border-radius:8px; background:#e9eeeb; color:#72817a; font-size:12px; }
+.steps li.active { background:#315f78; color:white; font-weight:700; }
+.step-panel { min-height:245px; }
+.form-actions { display:flex; gap:12px; margin-top:24px; }
+.form-actions button { min-height:42px; padding:10px 18px; border:1px solid #cfdadd; border-radius:7px; background:white; color:var(--ink); cursor:pointer; }
+.form-actions #next-button,.form-actions .submit-button { flex:1; margin:0; border-color:var(--accent); background:var(--accent); color:#fff; }
+.form-actions button:disabled { opacity:.55; cursor:wait; }
+.review-summary,.success-panel { padding:16px; border-radius:8px; background:#f0f7f3; color:#34594d; line-height:1.6; }
+.success-panel { margin-top:28px; }
+.honeypot { position:absolute; left:-9999px; width:1px; height:1px; opacity:0; }
 [hidden] { display:none !important; }
 @media (max-width:560px) { .page{width:min(100% - 20px,680px)} form{padding:16px} .two{grid-template-columns:1fr;gap:0} }

@@ -29,6 +29,7 @@ jobs:
       - name: Check scripts and catalog
         run: |
           node --check script.js
+          node --check boot.js
           node --check submit.js
           node --check review.js
           node data/check-catalog.cjs
@@ -64,6 +65,7 @@ jobs:
       - name: Validate catalog and scripts
         run: |
           node --check script.js
+          node --check boot.js
           node --check submit.js
           node --check review.js
           node data/check-catalog.cjs

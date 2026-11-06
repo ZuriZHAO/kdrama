@@ -4,74 +4,73 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>投稿取景地 · 剧场之外</title>
-  <link rel="stylesheet" href="./submit.css" />
+  <link rel="stylesheet" href="./submit.css?v=7" />
 </head>
 <body>
   <main class="page">
     <header class="top"><a href="./index.html">← 返回地图</a><span>剧场之外</span></header>
-    <h1>投稿取景资料</h1>
-    <p class="intro">当前投稿仅向私有仓库的受邀成员开放。填写资料后会打开 GitHub Issue 页面；请先登录有仓库访问权限的账号。维护者核对后才会把资料展示在地图上。</p>
-    <p id="repo-status" class="status" role="status"></p>
-    <details id="repo-settings" hidden><summary>设置投稿仓库</summary><label>GitHub 仓库（owner/repo）<input id="repo-input" placeholder="例如：yourname/kdrama" /></label></details>
+    <h1>分享一个韩剧取景地</h1>
+    <p class="intro">跟着地图选点、填写场景、确认后提交。资料会先进入待审核区，核对后才会显示在地图上。</p>
+    <ol class="steps" aria-label="投稿步骤"><li class="active">1 选择</li><li>2 地点与场景</li><li>3 检查提交</li></ol>
     <form id="submission-form" novalidate>
-      <label>投稿内容<select id="kind"><option value="place">新增取景地</option><option value="scene">补充已有地点的场景</option><option value="correction">纠正已有地点</option><option value="work">只新增作品</option></select></label>
-      <label>投稿署名（可选）<input id="contributor" maxlength="80" placeholder="用于记录贡献" /></label>
-
-      <fieldset id="work-select-fields"><legend>所属作品</legend>
-        <label>选择作品<select id="work-id"></select></label>
-        <div id="new-work-fields" hidden>
-          <label>新作品中文名<input id="work-title" maxlength="120" placeholder="例如：某某韩剧" /></label>
-          <label>韩文原名<input id="work-original" maxlength="120" /></label>
-          <label>播出年份（可选）<input id="work-year" maxlength="10" inputmode="numeric" /></label>
+      <section class="step-panel" data-step="0">
+        <label>我想投稿
+          <select id="kind">
+            <option value="place">新增取景地</option>
+            <option value="scene">补充已有地点的场景</option>
+            <option value="correction">纠正已有地点</option>
+          </select>
+        </label>
+        <div id="work-fields">
+          <label>搜索韩剧<input id="work-search" type="search" placeholder="输入作品名称" autocomplete="off" /></label>
+          <label>选择作品<select id="work-id"></select></label>
+          <div id="new-work-fields" hidden>
+            <label>新作品中文名<input id="work-title" maxlength="120" /></label>
+            <label>韩文原名<input id="work-original" maxlength="120" /></label>
+          </div>
         </div>
-      </fieldset>
+        <div id="landmark-fields" hidden><label>选择已有地点<select id="landmark-id"></select></label></div>
+      </section>
 
-      <fieldset id="work-only-fields" hidden><legend>作品资料</legend>
-        <label>中文名<input id="only-title" maxlength="120" /></label>
-        <label>韩文原名<input id="only-original" maxlength="120" /></label>
-        <label>播出年份（可选）<input id="only-year" maxlength="10" inputmode="numeric" /></label>
-      </fieldset>
+      <section class="step-panel" data-step="1" hidden>
+        <div id="place-fields">
+          <label>地点名称<input id="place-name" maxlength="120" placeholder="例如：绿莎坪人行天桥" /></label>
+          <p class="hint">先在<a href="./index.html">地图上点击位置</a>，坐标会自动填入；也可以在下面修改。暂不确定精确机位也可以投稿。</p>
+          <div class="two"><label>纬度<input id="lat" type="number" step="any" inputmode="decimal" /></label><label>经度<input id="lng" type="number" step="any" inputmode="decimal" /></label></div>
+        </div>
+        <div id="scene-fields"><label>剧中的场景<textarea id="description" maxlength="800" rows="3" placeholder="谁在这里发生了什么？"></textarea></label></div>
+        <div id="correction-fields" hidden>
+          <label>哪里需要修改？<textarea id="reason" maxlength="800" rows="3" placeholder="请说明现有资料哪里不对"></textarea></label>
+          <label>正确的地点名称（可选）<input id="correction-name" maxlength="120" /></label>
+          <div class="two"><label>正确纬度（可选）<input id="correction-lat" type="number" step="any" /></label><label>正确经度（可选）<input id="correction-lng" type="number" step="any" /></label></div>
+        </div>
+      </section>
 
-      <fieldset id="place-fields"><legend>地标位置</legend>
-        <label>中文地名<input id="place-name" maxlength="120" placeholder="景点、建筑或街道名" /></label>
-        <div class="two"><label>韩文地名（可选）<input id="place-ko" maxlength="120" /></label><label>城市（可选）<input id="place-city" maxlength="100" /></label></div>
-        <div class="two"><label>纬度<input id="lat" inputmode="decimal" placeholder="37.5361" /></label><label>经度<input id="lng" inputmode="decimal" placeholder="126.9881" /></label></div>
-        <p class="hint">可在<a href="./index.html">地图上单击位置</a>自动填入坐标。投稿点位在审核后仍会标为示意点，机位需另行确认。</p>
-        <label>韩文地址（可选）<input id="address" maxlength="240" /></label>
-        <label>到访提示（可选）<textarea id="visit" maxlength="500" rows="2"></textarea></label>
-      </fieldset>
-
-      <fieldset id="existing-place-fields" hidden><legend>已有地点</legend><label>选择要补充的地点<select id="landmark-id"></select></label></fieldset>
-
-      <fieldset id="correction-fields" hidden><legend>地点更正</legend>
-        <p class="hint">当前资料已预填。只修改需要纠正的内容；坐标更正后会重新标为示意点。</p>
-        <label>中文地名<input id="correction-name" maxlength="120" /></label>
-        <div class="two"><label>韩文地名<input id="correction-ko" maxlength="120" /></label><label>城市<input id="correction-city" maxlength="100" /></label></div>
-        <div class="two"><label>纬度<input id="correction-lat" inputmode="decimal" /></label><label>经度<input id="correction-lng" inputmode="decimal" /></label></div>
-        <label>韩文地址<input id="correction-address" maxlength="240" /></label>
-        <label>到访提示<textarea id="correction-visit" maxlength="500" rows="2"></textarea></label>
-        <label>更正原因<textarea id="correction-reason" maxlength="800" rows="3" placeholder="说明原资料哪里不对，以及依据如何支持更正"></textarea></label>
-        <label>依据名称<input id="correction-source-title" maxlength="160" /></label>
-        <label>依据链接<input id="correction-source-url" type="url" maxlength="1000" placeholder="https://..." /></label>
-      </fieldset>
-
-      <fieldset id="scene-fields"><legend>场景与依据</legend>
-        <label>场景描述<textarea id="description" maxlength="800" rows="3" placeholder="谁在这里发生了什么？"></textarea></label>
-        <div class="two"><label>集数（可选）<input id="episode" inputmode="numeric" type="number" min="0" max="1000" /></label><label>播放时间：秒（可选）<input id="time-seconds" inputmode="numeric" type="number" min="0" max="100000" placeholder="例如 12:30 填 750" /></label></div>
-        <label>来源名称<input id="source-title" maxlength="160" placeholder="例如：韩国观光公社" /></label>
-        <label>来源链接<input id="source-url" type="url" maxlength="1000" placeholder="https://..." /></label>
-        <label>场景图片公开链接（可选）<input id="image-url" type="url" maxlength="1000" placeholder="https://..." /></label>
-        <label class="check"><input id="image-attach" type="checkbox" />我将在 GitHub Issue 页面直接上传图片</label>
-        <div id="image-rights" hidden><label>图片署名<input id="image-credit" maxlength="160" placeholder="作者或授权方" /></label><label class="check"><input id="rights-confirmed" type="checkbox" />我确认有权许可此图在网站展示，并同意公开署名</label></div>
-        <p class="hint">选择直接上传后，请在 GitHub Issue 正文末尾拖入图片，再点击提交。维护者核实许可和署名后才会展示。</p>
-      </fieldset>
-      <button class="submit-button" type="submit">前往 GitHub 提交</button>
+      <section class="step-panel" data-step="2" hidden>
+        <div id="scene-details">
+          <div class="two"><label>集数（可选）<input id="episode" type="number" min="0" max="1000" /></label><label>播放时间，秒（可选）<input id="time-seconds" type="number" min="0" max="100000" /></label></div>
+        </div>
+        <label>资料来源链接（推荐）<input id="source-url" type="url" maxlength="1000" placeholder="https://..." /></label>
+        <label>来源名称（可选）<input id="source-title" maxlength="160" placeholder="例如：韩国观光公社" /></label>
+        <p class="hint">没有来源也可以先提交；维护者会在发布前核对或补充依据。</p>
+        <div id="image-fields">
+          <label>场景图片（可选）<input id="image" type="file" accept="image/jpeg,image/png,image/webp" /></label>
+          <div id="image-rights" hidden>
+            <label>图片署名<input id="image-credit" maxlength="160" placeholder="作者或授权方" /></label>
+            <label class="check"><input id="rights-confirmed" type="checkbox" />我有权允许本站展示这张图片</label>
+          </div>
+        </div>
+        <label>投稿署名（可选）<input id="contributor" maxlength="80" /></label>
+        <div id="review-summary" class="review-summary" aria-live="polite"></div>
+      </section>
+      <input id="website" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <div class="form-actions"><button id="back-button" type="button" hidden>上一步</button><button id="next-button" type="button">下一步</button><button id="send-button" class="submit-button" type="submit" hidden>提交待审核</button></div>
       <p id="form-status" class="status" role="status" aria-live="polite"></p>
-      <div id="manual-submission" hidden><label>如果新页面未打开，复制下列内容后粘贴到 GitHub Issue：<textarea id="issue-body" rows="10" readonly></textarea></label><a id="manual-link" target="_blank" rel="noopener noreferrer">打开 GitHub 投稿页 ↗</a></div>
     </form>
+    <section id="success-panel" class="success-panel" hidden><h2>已收到投稿</h2><p>资料已进入待审核区。核对通过后会出现在地图上。</p><a href="./index.html">返回地图</a></section>
   </main>
-  <script src="./site-config.js"></script>
+  <script src="./site-config.js?v=2"></script>
   <script src="./data/catalog.js?v=2"></script>
-  <script src="./submit.js?v=6"></script>
+  <script src="./submit.js?v=7"></script>
 </body>
 </html>

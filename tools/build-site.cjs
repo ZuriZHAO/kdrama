@@ -6,7 +6,7 @@ const dist = path.resolve(root, 'dist');
 if (!dist.startsWith(root + path.sep)) throw new Error('构建目录超出项目范围');
 fs.rmSync(dist, { recursive: true, force: true });
 fs.mkdirSync(dist, { recursive: true });
-for (const name of ['index.html', 'styles.css', 'script.js', 'submit.html', 'submit.css', 'submit.js', 'review.html', 'review.js', 'site-config.js']) {
+for (const name of ['index.html', 'styles.css', 'script.js', 'boot.js', 'submit.html', 'submit.css', 'submit.js', 'review.html', 'review.js', 'site-config.js']) {
   fs.copyFileSync(path.join(root, name), path.join(dist, name));
 }
 fs.mkdirSync(path.join(dist, 'data'));

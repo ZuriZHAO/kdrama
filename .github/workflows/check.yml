@@ -18,6 +18,7 @@ jobs:
       - name: Check scripts and catalog
         run: |
           node --check script.js
+          node --check boot.js
           node --check submit.js
           node --check review.js
           node --check tools/import-issue.cjs
