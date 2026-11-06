@@ -1,6 +1,6 @@
 # 剧场之外 · 韩剧取景地地图
 
-> 地图与投稿入口公开开放；源码仓库保持私有。当前仍为试运行版本。
+> 当前为试运行版本。源码仓库已公开；地图正在增加 GitHub Pages 访问入口。
 
 [打开地图](https://kdrama-map-zuri.insightfullemon.chatgpt.site)
 
