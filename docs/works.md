@@ -10,6 +10,8 @@
 
 本机放海报的具体位置是 `D:\code\kdrama\assets\posters\`。例如存入 `queen-of-tears.webp` 后，把作品的 `poster` 改成 `./assets/posters/queen-of-tears.webp`；提交并推送仓库后，GitHub Pages 才会显示图片。文件名建议只用英文字母、数字和连字符。已预置作品的海报目前通过此方式加入；投稿表单的海报上传只用于投稿新增作品。
 
+现有三张海报已对应：`itaewon.jpg` →《梨泰院Class》，`hometown.jpg` →《海岸村恰恰恰》，`goblin.jpg` →《鬼怪》。它们随仓库的静态网站发布。访客投稿的图片走另一套存储：文件保存在投稿服务绑定的 R2 中，投稿记录及图片键保存在 D1 的 `submissions` 表中；待审核图片可在审核后台预览，审核通过的图片通过 `/api/images/{投稿ID}` 读取。访客投稿图片不会出现在本地 `assets/posters/` 文件夹。
+
 《我的有罪之人》《请回答1988》《未知的首尔》《眼泪女王》的韩文名已按 [tvN 官方作品页](https://tvn.cjenm.com/ko/Love-in-Disguise/)、[请回答1988](https://tvn.cjenm.com/ko/reply1988/about/)、[未知的首尔](https://tvn.cjenm.com/ko/Our-Unwritten-Seoul/) 与[眼泪女王](https://tvn.cjenm.com/ko/queenoftears/) 核对。
 
 地标的 `group` 字段可选。同一作品的多个机位填相同的分组名，例如 `南山塔`；不填则归入“未分组”。场景的 `episode` 字段用于“集数”页；不填则归入“未分组”。
