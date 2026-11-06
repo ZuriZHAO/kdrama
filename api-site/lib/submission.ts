@@ -69,6 +69,7 @@ export function normalizeSubmission(input: unknown, approval = false): Submissio
 
 export const allowedOrigin = (origin: string | null) =>
   origin === "https://kdrama-map-zuri.insightfullemon.chatgpt.site" ||
+  origin === "https://zurizhao.github.io" ||
   origin === "http://localhost:8000" || origin === "http://127.0.0.1:8000";
 
 export function cors(origin: string | null) {
