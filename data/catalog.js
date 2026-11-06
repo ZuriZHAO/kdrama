@@ -76,6 +76,7 @@ window.KDRAMA_CATALOG = {
   ],
 
   // 一处地标可以有多条场景记录；episode、timeSeconds、image 都需要独立核实。
+  // 注文津场景的描述与集数待核实，暂不添加场景记录。
   scenes: [
     { id: 'noksapyeong-01', landmarkId: 'noksapyeong', description: '世路与以瑞相遇、眺望南山塔的天桥。', episode: null, timeSeconds: null, image: null, sourceId: 'visitkorea-itaewon' },
     { id: 'baekbeom-01', landmarkId: 'baekbeom', description: '世路与以瑞的吻戏拍摄于南山公园入口通往白凡广场的道路。', episode: null, timeSeconds: null, image: null, sourceId: 'visitkorea-itaewon' },
