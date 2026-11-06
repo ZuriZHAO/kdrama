@@ -77,8 +77,21 @@ p, h1, h2 { margin-top: 0; }
 .nearby-popup strong { font-size: 12px; }
 .nearby-popup button { padding: 4px 0; border: 0; background: none; color: var(--accent); font-size: 11px; text-align: left; }
 .place-marker, .leaflet-div-icon { border: 0; background: transparent; }
-.pin { display: grid; place-items: center; width: 38px; height: 38px; border: 3px solid #fff; border-radius: 50%; color: #fff; box-shadow: 0 2px 10px #20323b55; font-size: 15px; }
-.pin.selected, .pin:hover { transform: scale(1.2); }
+.pin { display: block; width: 18px; height: 18px; margin: 6px; border: 2px solid #fff; border-radius: 50%; box-shadow: 0 2px 7px #20323b66; transition: transform .15s ease; }
+.pin.selected, .place-marker:hover .pin { transform: scale(1.2); }
+.place-popup-shell .leaflet-popup-content-wrapper { padding: 0; overflow: hidden; border-radius: 9px; }
+.place-popup-shell .leaflet-popup-content { width: 250px !important; margin: 0; }
+.place-popup { width: 100%; }
+.place-popup-image, .place-popup-placeholder { display: block; width: 100%; height: 128px; }
+.place-popup-image { object-fit: cover; }
+.place-popup-placeholder { display: grid; place-items: center; background: #eef2f0; color: #869399; font-size: 11px; }
+.place-popup-body { padding: 12px 14px 13px; }
+.place-popup-body small { display: block; color: #7d8b91; font-size: 10px; }
+.place-popup-body strong { display: block; margin-top: 4px; color: var(--ink); font-size: 15px; }
+.place-popup-body p { display: -webkit-box; overflow: hidden; margin: 7px 0 11px; color: #596970; font-size: 11px; line-height: 1.5; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.place-popup-actions { display: flex; gap: 8px; }
+.place-popup-actions button, .place-popup-actions a { flex: 1; padding: 7px 6px; border: 1px solid #dce5e7; border-radius: 5px; background: #fff; color: var(--accent); font-size: 11px; text-align: center; }
+.place-popup-actions button:hover, .place-popup-actions a:hover { background: #eef5f6; }
 .scene-thumbnail-marker { border: 0; background: transparent; }
 .thumbnail-frame { display: block; width: 70px; height: 54px; overflow: hidden; border: 3px solid; border-radius: 7px; background: #fff; box-shadow: 0 3px 11px #20323b55; }
 .thumbnail-frame img { display: block; width: 100%; height: 100%; object-fit: cover; }

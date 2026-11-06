@@ -269,7 +269,26 @@ function iconFor(place) {
   if (thumbnailsOn && imageScene && map && map.getZoom() >= 12) {
     return L.divIcon({className:'scene-thumbnail-marker',html:`<span class="thumbnail-frame" style="border-color:${safeColor(color)}"><img src="${escapeHtml(sceneImageUrl(imageScene))}" alt="" loading="lazy" referrerpolicy="no-referrer"></span>`,iconSize:[70,58],iconAnchor:[35,58]});
   }
-  return L.divIcon({className:'place-marker',html:`<span class="pin ${selectedPlace === place.id ? 'selected' : ''}" style="background:${safeColor(color)}">✳</span>`,iconSize:[38,38],iconAnchor:[19,19]});
+  return L.divIcon({className:'place-marker',html:`<span class="pin ${selectedPlace === place.id ? 'selected' : ''}" style="background:${safeColor(color)}"></span>`,iconSize:[30,30],iconAnchor:[15,15]});
+}
+
+function placePopup(place) {
+  const work = seriesById[place.workId];
+  const scenes = scenesByLandmark.get(place.id) || [];
+  const scene = scenes[0];
+  const image = scenes.find(item => sceneImageUrl(item));
+  const imageUrl = image && sceneImageUrl(image);
+  const card = document.createElement('div');
+  card.className = 'place-popup';
+  card.innerHTML = `${imageUrl
+    ? `<img class="place-popup-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(image.description)}" loading="lazy" referrerpolicy="no-referrer">`
+    : '<div class="place-popup-placeholder">暂无获许可的场景截图</div>'}
+    <div class="place-popup-body"><small>${escapeHtml(work?.title || '')} · ${escapeHtml(place.city || '')}</small>
+    <strong>${escapeHtml(place.name)}</strong>
+    <p>${escapeHtml(scene?.description || place.coordinateNote || '查看地点资料与导航信息')}</p>
+    <div class="place-popup-actions"><button type="button">查看详情</button><a href="https://map.naver.com/p/search/${encodeURIComponent(place.query || place.ko || place.name)}" target="_blank" rel="noopener noreferrer">NAVER 地图 ↗</a></div></div>`;
+  card.querySelector('button').addEventListener('click', () => { map.closePopup(); openPlace(place.id); });
+  return card;
 }
 
 function render() { renderList(); renderMarkers(); }
@@ -505,7 +524,8 @@ function initMap() {
   ];
   const cityMarkers = cityLabels.map(([name,lat,lng]) => L.marker([lat,lng],{interactive:false,icon:L.divIcon({className:'city-label',html:name,iconSize:[46,20],iconAnchor:[0,10]})}).addTo(map));
   places.forEach(place => {
-    const marker = L.marker([place.lat,place.lng],{icon:iconFor(place),title:place.name}).on('click',()=>openPlace(place.id));
+    const marker = L.marker([place.lat,place.lng],{icon:iconFor(place),title:place.name});
+    marker.bindPopup(() => placePopup(place), {maxWidth:280, minWidth:240, className:'place-popup-shell', offset:[0,-8]});
     markers.set(place.id,marker);
   });
   map.on('click', event => {
