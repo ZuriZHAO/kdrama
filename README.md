@@ -14,7 +14,7 @@ python -m http.server 8000
 
 ## 发布到 GitHub Pages
 
-1. 创建一个 GitHub 仓库，把本目录的内容放在仓库根目录；默认分支使用 `main`。开启仓库的 **Issues** 和 **Actions**。
+1. 源码仓库：[ZuriZHAO/kdrama](https://github.com/ZuriZHAO/kdrama)，默认分支为 `main`。站点地址：[剧场之外](https://zurizhao.github.io/kdrama/)。仓库需开启 **Issues** 和 **Actions**。
 2. 在 **Settings → Pages** 把 **Build and deployment → Source** 设为 **GitHub Actions**。仓库的 Actions 设置须允许工作流用 `GITHUB_TOKEN` 写入仓库内容和 Issue。
 3. 推送后 `.github/workflows/pages.yml` 会检查目录、构建并部署网站；拉取请求由 `.github/workflows/check.yml` 先做检查。项目 Pages 域名（`owner.github.io/repo`）会自动识别投稿仓库。若使用自定义域名，在 `site-config.js` 填写 `owner/repo`。
 4. 为 Issue 创建标签 `publish-approved`。维护者先核对来源、点位和图片许可；需要修订时，可在 `review.html` 粘贴 Issue 正文、修改 JSON 并生成完整正文，再保存回原 Issue。也可直接编辑 Issue 中 `KDRAMA_SUBMISSION_V2` 标记之间的 JSON。确认后添加标签；工作流读取**加标签当时的 Issue 正文**、导入目录并重新部署。部署成功后会给 Issue 留言并关闭。若导入因 JSON 或字段错误失败，修好正文后移除并重新添加标签。
