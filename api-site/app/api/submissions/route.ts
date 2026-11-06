@@ -22,9 +22,9 @@ export async function POST(request: Request) {
     if (form.get("website")) return fail("投稿未通过检查", 400);
     const raw = String(form.get("payload") || "");
     if (raw.length > 10000) return fail("投稿内容过长", 413);
-    const payload = normalizeSubmission(JSON.parse(raw));
     const image = form.get("image");
     const file = image instanceof File && image.size ? image : null;
+    const payload = normalizeSubmission(JSON.parse(raw), false, !!file);
     if (file && (file.size > 5_000_000 || !["image/jpeg", "image/png", "image/webp"].includes(file.type))) return fail("图片仅支持 JPG、PNG、WebP，最大 5 MB", 400);
     if (file && (!payload.rightsConfirmed || !payload.imageCredit)) return fail("请确认图片展示许可并填写署名", 400);
     const ip = request.headers.get("cf-connecting-ip") || request.headers.get("x-forwarded-for") || "unknown";

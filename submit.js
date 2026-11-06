@@ -5,6 +5,8 @@ const params = new URLSearchParams(location.search);
 let step = 0;
 let works = catalog.works.slice();
 let landmarks = catalog.landmarks.slice();
+let previewUrl = '';
+const landmarkLabels = new Map();
 
 function value(id) { return $(id).value.trim(); }
 function required(id, message) { const result = value(id); if (!result) throw new Error(message); return result; }
@@ -22,22 +24,45 @@ function sourceUrl() {
   throw new Error('资料来源请填写 HTTPS 链接');
 }
 function updateOptions() {
-  const term = value('work-search').toLocaleLowerCase();
   const previous = value('work-id');
-  const filtered = works.filter(work => (work.title + ' ' + work.original).toLocaleLowerCase().includes(term));
-  $('work-id').replaceChildren(new Option('请选择作品', ''), ...filtered.map(work => new Option(work.title, work.id)), new Option('＋ 没有这部剧？添加新作品', 'new'));
+  $('work-id').replaceChildren(new Option('请选择作品', ''), ...works.map(work =>
+    new Option([work.title, work.original].filter(Boolean).join(' · '), work.id)), new Option('＋ 添加新作品', 'new'));
   if ([...$('work-id').options].some(option => option.value === previous)) $('work-id').value = previous;
-  showKind();
+}
+function updateLandmarkOptions() {
+  landmarkLabels.clear();
+  const options = landmarks.map(place => {
+    const work = works.find(item => item.id === place.workId);
+    const label = [place.name, place.ko, work?.title, work?.original, place.city].filter(Boolean).join(' · ');
+    const unique = landmarkLabels.has(label) ? `${label} · ${place.id}` : label;
+    landmarkLabels.set(unique, place.id);
+    return new Option(unique, unique);
+  });
+  $('landmark-options').replaceChildren(...options);
+}
+function selectLandmark(id) {
+  const label = [...landmarkLabels].find(([, value]) => value === id)?.[0] || '';
+  $('landmark-id').value = label ? id : '';
+  $('landmark-search').value = label;
+  $('landmark-selection').textContent = label ? `已选择：${label}` : '输入后从建议中选择地点。';
+}
+function resolveLandmark() {
+  const text = value('landmark-search');
+  const exact = landmarkLabels.get(text);
+  const matches = landmarks.filter(place => place.name === text || place.ko === text || place.id === text);
+  const id = exact || (matches.length === 1 ? matches[0].id : '');
+  $('landmark-id').value = id;
+  $('landmark-selection').textContent = id
+    ? `已选择：${landmarks.find(place => place.id === id)?.name || text}`
+    : '请从建议中选择一个已有地点。';
 }
 function showKind() {
   const kind = value('kind');
   $('work-fields').hidden = kind !== 'place';
   $('landmark-fields').hidden = kind === 'place';
   $('place-fields').hidden = kind !== 'place';
-  $('scene-fields').hidden = kind === 'correction';
-  $('scene-details').hidden = kind === 'correction';
-  $('correction-fields').hidden = kind !== 'correction';
-  $('image-fields').hidden = kind === 'correction';
+  $('update-fields').hidden = kind !== 'update';
+  $('scene-label').textContent = kind === 'place' ? '剧中的场景' : '补充场景描述（可选）';
   $('new-work-fields').hidden = value('work-id') !== 'new' || kind !== 'place';
 }
 function showStep() {
@@ -53,7 +78,7 @@ function showStep() {
     const place = landmarks.find(item => item.id === value('landmark-id'));
     $('review-summary').textContent = kind === 'place'
       ? `请检查：${work?.title || value('work-title')} · ${value('place-name')} · 坐标 ${value('lat')}, ${value('lng')}`
-      : `请检查：${place?.name || ''} · ${kind === 'scene' ? '补充场景' : '纠正资料'}`;
+      : `请检查：${place?.name || ''} · 补充／更正资料`;
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -62,7 +87,7 @@ function validateCurrentStep() {
   if (step === 0) {
     if (kind === 'place') {
       const work = required('work-id', '请选择作品');
-      if (work === 'new') { required('work-title', '请填写作品中文名'); required('work-original', '请填写韩文原名'); }
+      if (work === 'new' && !value('work-title') && !value('work-original')) throw new Error('新作品请填写中文名或韩文名');
     } else required('landmark-id', '请选择已有地点');
   }
   if (step === 1) {
@@ -70,12 +95,12 @@ function validateCurrentStep() {
       required('place-name', '请填写地点名称');
       const lat = Number(required('lat', '请填写地图纬度'));
       const lng = Number(required('lng', '请填写地图经度'));
-      if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat < 33 || lat > 39 || lng < 124 || lng > 132) throw new Error('请填写韩国境内的地图坐标');
+      if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) throw new Error('纬度需在 -90～90、经度需在 -180～180 之间');
+      required('description', '请描述剧中的场景');
     }
-    if (kind === 'correction') {
-      required('reason', '请说明现有资料哪里不对');
-      if (!value('correction-name') && !value('correction-lat') && !value('correction-lng')) throw new Error('请至少填写一项正确资料');
-    } else required('description', '请描述剧中的场景');
+    for (const [id, limit] of [['correction-lat', 90], ['correction-lng', 180]]) {
+      if (value(id) && (!Number.isFinite(Number(value(id))) || Math.abs(Number(value(id))) > limit)) throw new Error('更正坐标超出经纬度范围');
+    }
   }
 }
 function collect() {
@@ -87,17 +112,17 @@ function collect() {
     name: value('place-name'), lat: Number(value('lat')), lng: Number(value('lng')), description: value('description'),
     episode: optionalNumber('episode', 1000), timeSeconds: optionalNumber('time-seconds', 100000)
   });
-  if (kind === 'scene') Object.assign(payload, { landmarkId: value('landmark-id'), description: value('description'),
-    episode: optionalNumber('episode', 1000), timeSeconds: optionalNumber('time-seconds', 100000) });
-  if (kind === 'correction') {
+  if (kind === 'update') {
     const changes = {};
     if (value('correction-name')) changes.name = value('correction-name');
     if (value('correction-lat')) changes.lat = Number(value('correction-lat'));
     if (value('correction-lng')) changes.lng = Number(value('correction-lng'));
-    Object.assign(payload, { landmarkId: value('landmark-id'), reason: value('reason'), changes });
+    Object.assign(payload, { landmarkId: value('landmark-id'), description: value('description'), changes,
+      episode: optionalNumber('episode', 1000), timeSeconds: optionalNumber('time-seconds', 100000) });
   }
   const file = $('image').files[0];
-  if (file && kind !== 'correction') {
+  if (kind === 'update' && !payload.description && !Object.keys(payload.changes).length && !file) throw new Error('请至少补充场景、图片或一项更正资料');
+  if (file) {
     if (file.size > 5000000 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) throw new Error('图片仅支持 JPG、PNG、WebP，最大 5 MB');
     if (!$('rights-confirmed').checked || !value('image-credit')) throw new Error('请确认图片展示许可并填写署名');
     payload.imageCredit = value('image-credit');
@@ -108,7 +133,7 @@ function collect() {
 async function loadApproved() {
   if (!api) return;
   try {
-    const response = await fetch(api + '/api/catalog');
+    const response = await fetch(api + '/api/catalog', { signal: AbortSignal.timeout(4000) });
     if (!response.ok) return;
     const data = await response.json();
     works = works.concat(data.works || []);
@@ -117,20 +142,28 @@ async function loadApproved() {
 }
 async function init() {
   await loadApproved();
-  $('landmark-id').replaceChildren(new Option('请选择地点', ''), ...landmarks.map(place => new Option(`${place.name} · ${works.find(work => work.id === place.workId)?.title || ''}`, place.id)));
   updateOptions();
-  if (['scene', 'correction'].includes(params.get('kind'))) $('kind').value = params.get('kind');
+  updateLandmarkOptions();
+  if (['update', 'scene', 'correction'].includes(params.get('kind'))) $('kind').value = 'update';
   if (params.has('workId') && works.some(work => work.id === params.get('workId'))) $('work-id').value = params.get('workId');
-  if (params.has('landmarkId') && landmarks.some(place => place.id === params.get('landmarkId'))) $('landmark-id').value = params.get('landmarkId');
+  if (params.has('landmarkId')) selectLandmark(params.get('landmarkId'));
   $('lat').value = params.get('lat') || '';
   $('lng').value = params.get('lng') || '';
   showKind();
   showStep();
 }
-$('work-search').addEventListener('input', updateOptions);
 $('work-id').addEventListener('change', showKind);
 $('kind').addEventListener('change', showKind);
-$('image').addEventListener('change', () => { $('image-rights').hidden = !$('image').files.length; });
+$('landmark-search').addEventListener('input', resolveLandmark);
+$('image').addEventListener('change', () => {
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  const file = $('image').files[0];
+  previewUrl = file ? URL.createObjectURL(file) : '';
+  $('image-preview-img').src = previewUrl;
+  $('image-preview').hidden = !file;
+  $('image-rights').hidden = !file;
+});
+window.addEventListener('pagehide', () => { if (previewUrl) URL.revokeObjectURL(previewUrl); });
 $('next-button').addEventListener('click', () => { try { validateCurrentStep(); step++; showStep(); } catch (error) { $('form-status').textContent = error.message; } });
 $('back-button').addEventListener('click', () => { step--; showStep(); });
 $('submission-form').addEventListener('submit', async event => {

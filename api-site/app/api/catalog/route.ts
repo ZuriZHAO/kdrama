@@ -15,8 +15,8 @@ export async function GET(request: Request) {
     const origin = new URL(request.url).origin;
     for (const row of rows) {
       const p = JSON.parse(row.payload) as Record<string, any>;
-      const sourceId = `submission-source-${row.id}`;
-      if (p.sourceUrl) result.sources.push({ id: sourceId, title: p.sourceTitle || "投稿来源", url: p.sourceUrl });
+      const sourceId = p.sourceUrl ? `submission-source-${row.id}` : null;
+      if (sourceId) result.sources.push({ id: sourceId, title: p.sourceTitle || "投稿来源", url: p.sourceUrl });
       const image = row.imageKey ? `${origin}/api/images/${row.id}` : null;
       if (row.kind === "place") {
         let workId = p.workId;
@@ -31,6 +31,11 @@ export async function GET(request: Request) {
           address: p.address || "", query: p.ko || p.name, kind: "other", sourceId, visit: p.visit || "" });
         result.scenes.push({ id: `submission-scene-${row.id}`, landmarkId, description: p.description,
           episode: p.episode, timeSeconds: p.timeSeconds, image, imageCredit: p.imageCredit || "", sourceId });
+      } else if (row.kind === "update") {
+        if (p.description || image) result.scenes.push({ id: `submission-scene-${row.id}`, landmarkId: p.landmarkId,
+          description: p.description || "", episode: p.episode, timeSeconds: p.timeSeconds,
+          image, imageCredit: p.imageCredit || "", sourceId });
+        if (p.changes && Object.keys(p.changes).length) result.corrections.push({ landmarkId: p.landmarkId, changes: p.changes, sourceId });
       } else if (row.kind === "scene") {
         result.scenes.push({ id: `submission-scene-${row.id}`, landmarkId: p.landmarkId, description: p.description,
           episode: p.episode, timeSeconds: p.timeSeconds, image, imageCredit: p.imageCredit || "", sourceId });

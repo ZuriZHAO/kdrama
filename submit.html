@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>投稿取景地 · 剧场之外</title>
-  <link rel="stylesheet" href="./submit.css?v=7" />
+  <link rel="stylesheet" href="./submit.css?v=8" />
 </head>
 <body>
   <main class="page">
@@ -17,19 +17,23 @@
         <label>我想投稿
           <select id="kind">
             <option value="place">新增取景地</option>
-            <option value="scene">补充已有地点的场景</option>
-            <option value="correction">纠正已有地点</option>
+            <option value="update">补充／更正已有地点</option>
           </select>
         </label>
         <div id="work-fields">
-          <label>搜索韩剧<input id="work-search" type="search" placeholder="输入作品名称" autocomplete="off" /></label>
           <label>选择作品<select id="work-id"></select></label>
           <div id="new-work-fields" hidden>
-            <label>新作品中文名<input id="work-title" maxlength="120" /></label>
-            <label>韩文原名<input id="work-original" maxlength="120" /></label>
+            <p class="hint">新作品填写中文名或韩文名即可。</p>
+            <label>中文名（可选）<input id="work-title" maxlength="120" /></label>
+            <label>韩文名（可选）<input id="work-original" maxlength="120" /></label>
           </div>
         </div>
-        <div id="landmark-fields" hidden><label>选择已有地点<select id="landmark-id"></select></label></div>
+        <div id="landmark-fields" hidden>
+          <label>搜索已有地点<input id="landmark-search" type="search" list="landmark-options" placeholder="输入地点、韩文名或作品名" autocomplete="off" /></label>
+          <datalist id="landmark-options"></datalist>
+          <input id="landmark-id" type="hidden" />
+          <p id="landmark-selection" class="hint" aria-live="polite">输入后从建议中选择地点。</p>
+        </div>
       </section>
 
       <section class="step-panel" data-step="1" hidden>
@@ -38,11 +42,11 @@
           <p class="hint">先在<a href="./index.html">地图上点击位置</a>，坐标会自动填入；也可以在下面修改。暂不确定精确机位也可以投稿。</p>
           <div class="two"><label>纬度<input id="lat" type="number" step="any" inputmode="decimal" /></label><label>经度<input id="lng" type="number" step="any" inputmode="decimal" /></label></div>
         </div>
-        <div id="scene-fields"><label>剧中的场景<textarea id="description" maxlength="800" rows="3" placeholder="谁在这里发生了什么？"></textarea></label></div>
-        <div id="correction-fields" hidden>
-          <label>哪里需要修改？<textarea id="reason" maxlength="800" rows="3" placeholder="请说明现有资料哪里不对"></textarea></label>
-          <label>正确的地点名称（可选）<input id="correction-name" maxlength="120" /></label>
-          <div class="two"><label>正确纬度（可选）<input id="correction-lat" type="number" step="any" /></label><label>正确经度（可选）<input id="correction-lng" type="number" step="any" /></label></div>
+        <div id="scene-fields"><label><span id="scene-label">剧中的场景</span><textarea id="description" maxlength="800" rows="3" placeholder="谁在这里发生了什么？"></textarea></label></div>
+        <div id="update-fields" hidden>
+          <p class="hint">场景、图片或更正资料，填写其中一项即可。图片可在下一步添加。</p>
+          <label>地点名称更正（可选）<input id="correction-name" maxlength="120" /></label>
+          <div class="two"><label>纬度更正（可选）<input id="correction-lat" type="number" step="any" /></label><label>经度更正（可选）<input id="correction-lng" type="number" step="any" /></label></div>
         </div>
       </section>
 
@@ -50,11 +54,12 @@
         <div id="scene-details">
           <div class="two"><label>集数（可选）<input id="episode" type="number" min="0" max="1000" /></label><label>播放时间，秒（可选）<input id="time-seconds" type="number" min="0" max="100000" /></label></div>
         </div>
-        <label>资料来源链接（推荐）<input id="source-url" type="url" maxlength="1000" placeholder="https://..." /></label>
+        <label>资料来源链接（可选）<input id="source-url" type="url" maxlength="1000" placeholder="https://..." /></label>
         <label>来源名称（可选）<input id="source-title" maxlength="160" placeholder="例如：韩国观光公社" /></label>
-        <p class="hint">没有来源也可以先提交；维护者会在发布前核对或补充依据。</p>
+        <p class="hint">不确定来源可以留空；审核时会按资料情况标注。</p>
         <div id="image-fields">
           <label>场景图片（可选）<input id="image" type="file" accept="image/jpeg,image/png,image/webp" /></label>
+          <figure id="image-preview" class="image-preview" hidden><div class="image-preview-frame"><img id="image-preview-img" alt="场景图片地图卡片裁剪预览" /></div><figcaption>地图地点卡片中的裁剪预览</figcaption></figure>
           <div id="image-rights" hidden>
             <label>图片署名<input id="image-credit" maxlength="160" placeholder="作者或授权方" /></label>
             <label class="check"><input id="rights-confirmed" type="checkbox" />我有权允许本站展示这张图片</label>
@@ -71,6 +76,6 @@
   </main>
   <script src="./site-config.js?v=2"></script>
   <script src="./data/catalog.js?v=2"></script>
-  <script src="./submit.js?v=7"></script>
+  <script src="./submit.js?v=8"></script>
 </body>
 </html>

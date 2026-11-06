@@ -19,6 +19,6 @@
     } catch (error) { console.warn('投稿目录暂不可用，正在显示已内置的地点。', error); }
   }
   const script = document.createElement('script');
-  script.src = './script.js?v=26';
+  script.src = './script.js?v=27';
   document.body.appendChild(script);
 })();

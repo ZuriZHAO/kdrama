@@ -281,7 +281,7 @@ function placePopup(place) {
   const card = document.createElement('div');
   card.className = 'place-popup';
   card.innerHTML = `${imageUrl
-    ? `<img class="place-popup-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(image.description)}" loading="lazy" referrerpolicy="no-referrer">`
+    ? `<img class="place-popup-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(image.description || `${place.name} 场景图片`)}" loading="lazy" referrerpolicy="no-referrer">`
     : '<div class="place-popup-placeholder">暂无获许可的场景截图</div>'}
     <div class="place-popup-body"><small>${escapeHtml(work?.title || '')} · ${escapeHtml(place.city || '')}</small>
     <strong>${escapeHtml(place.name)}</strong>
@@ -317,7 +317,7 @@ function restoreMapView() {
   const lng = Number(initialViewport.get('mLng'));
   const zoom = Number(initialViewport.get('mZoom'));
   if (!initialViewport.has('mLat') || !initialViewport.has('mLng') || !initialViewport.has('mZoom')) return;
-  if (!Number.isFinite(lat) || !Number.isFinite(lng) || !Number.isInteger(zoom) || Math.abs(lat) > 90 || Math.abs(lng) > 180 || zoom < 5 || zoom > 18) return;
+  if (!Number.isFinite(lat) || !Number.isFinite(lng) || !Number.isInteger(zoom) || Math.abs(lat) > 90 || Math.abs(lng) > 180 || zoom < 2 || zoom > 18) return;
   map.setView([lat,lng], zoom, {animate:false});
 }
 
@@ -347,7 +347,7 @@ function showGalleryImage() {
   if (!scene) return;
   $('large-scene-image').src = sceneImageUrl(scene);
   $('large-scene-image').alt = scene.description;
-  $('image-caption').textContent = `${scene.description} · ${scene.imageCredit || ''}`;
+  $('image-caption').textContent = [scene.description || '场景图片', scene.imageCredit].filter(Boolean).join(' · ');
   $('image-position').textContent = `${galleryIndex + 1} / ${galleryImages.length}`;
   $('previous-image').disabled = galleryIndex === 0;
   $('next-image').disabled = galleryIndex === galleryImages.length - 1;
@@ -373,7 +373,8 @@ function renderScenes(place) {
     const imageUrl = sceneImageUrl(scene);
     const image = imageUrl
       ? `<figure class="scene-image"><button class="scene-image-open" type="button" data-scene-image="${escapeHtml(scene.id)}" aria-label="放大查看场景图片"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(scene.description)}" loading="lazy" referrerpolicy="no-referrer"></button><figcaption>${escapeHtml(scene.imageCredit || '')}</figcaption></figure>` : '';
-    return `<section class="scene-record"><p class="scene-meta">场景 ${String(index+1).padStart(2,'0')} · ${escapeHtml(sceneMeta(scene))}</p>${image}<p class="detail-description">${escapeHtml(scene.description)}</p>${separateSource}${separateEpisodeSource}</section>`;
+    const description = scene.description ? `<p class="detail-description">${escapeHtml(scene.description)}</p>` : '';
+    return `<section class="scene-record"><p class="scene-meta">场景 ${String(index+1).padStart(2,'0')} · ${escapeHtml(sceneMeta(scene))}</p>${image}${description}${separateSource}${separateEpisodeSource}</section>`;
   }).join('');
 }
 
@@ -394,13 +395,15 @@ function openPlace(id) {
     ? `<div class="detail-row"><b>最近更正</b><span>${escapeHtml(latestRevision.date)} · ${escapeHtml(latestRevision.reason)}<br><a class="source-link" href="${escapeHtml(revisionSource.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(revisionSource.title)} ↗</a></span></div>` : '';
   const coordinateEvidence = coordinateSource
     ? `<a class="source-link" href="${escapeHtml(coordinateSource.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(coordinateSource.title)} ↗</a>`
-    : '桥身坐标待核实';
+    : '坐标依据待核实';
   const coordinateNote = place.coordinateStatus === 'approximate'
     ? '地图点位仅用于探索地点附近，不代表精确拍摄机位。出发前请在导航地图中核对位置与开放情况。'
     : '请按资料来源与现场情况核对入口、拍摄位置和开放状态。';
-  const contributeLink = `./submit.html?${new URLSearchParams({kind:'scene',landmarkId:place.id})}`;
-  const correctionLink = `./submit.html?${new URLSearchParams({kind:'correction',landmarkId:place.id})}`;
-  $('detail-content').innerHTML = `<p class="detail-overline">${escapeHtml(work.year)} · ${escapeHtml(work.title)}</p><h2 id="detail-title">${escapeHtml(place.name)}</h2><p class="detail-hangul">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</p><div class="detail-actions"><button id="favorite-place" type="button" aria-pressed="${favoriteIds.has(place.id)}">${favoriteIds.has(place.id) ? '★ 已收藏' : '☆ 收藏地点'}</button><button id="visit-place" type="button" aria-pressed="${!!visitDates[place.id]}">${visitDates[place.id] ? `✓ 已到访 ${escapeHtml(visitDates[place.id])}` : '记录到访'}</button><button id="share-place" type="button">复制地点链接</button><a href="${escapeHtml(contributeLink)}">补充场景</a><a href="${escapeHtml(correctionLink)}">纠错</a></div>${renderScenes(place)}<div class="detail-grid"><div class="detail-row"><b>韩文地址</b><span>${escapeHtml(place.address)}</span></div><div class="detail-row"><b>到访提示</b><span>${escapeHtml(place.visit)}</span></div></div>${navLinks(place)}<details class="detail-evidence"><summary>资料来源与点位核验</summary><div class="detail-grid"><div class="detail-row"><b>点位状态</b><span>${coordinateLabel(place)}</span></div><div class="detail-row"><b>取景来源</b><span><a class="source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.title)} ↗</a></span></div><div class="detail-row"><b>坐标依据</b><span>${coordinateEvidence}</span></div><div class="detail-row"><b>核验日期</b><span>${escapeHtml(place.verifiedAt || '待核实')}</span></div>${revisionEvidence}</div><p class="detail-note">${escapeHtml(place.coordinateNote || coordinateNote)}</p></details>`;
+  const updateLink = `./submit.html?${new URLSearchParams({kind:'update',landmarkId:place.id})}`;
+  const sourceEvidence = source
+    ? `<a class="source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.title)} ↗</a>`
+    : '暂无来源，待核实';
+  $('detail-content').innerHTML = `<p class="detail-overline">${escapeHtml(work.year)} · ${escapeHtml(work.title)}</p><h2 id="detail-title">${escapeHtml(place.name)}</h2><p class="detail-hangul">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</p><div class="detail-actions"><button id="favorite-place" type="button" aria-pressed="${favoriteIds.has(place.id)}">${favoriteIds.has(place.id) ? '★ 已收藏' : '☆ 收藏地点'}</button><button id="visit-place" type="button" aria-pressed="${!!visitDates[place.id]}">${visitDates[place.id] ? `✓ 已到访 ${escapeHtml(visitDates[place.id])}` : '记录到访'}</button><button id="share-place" type="button">复制地点链接</button><a href="${escapeHtml(updateLink)}">补充／更正</a></div>${renderScenes(place)}<div class="detail-grid"><div class="detail-row"><b>韩文地址</b><span>${escapeHtml(place.address)}</span></div><div class="detail-row"><b>到访提示</b><span>${escapeHtml(place.visit)}</span></div></div>${navLinks(place)}<details class="detail-evidence"><summary>资料来源与点位核验</summary><div class="detail-grid"><div class="detail-row"><b>点位状态</b><span>${coordinateLabel(place)}</span></div><div class="detail-row"><b>取景来源</b><span>${sourceEvidence}</span></div><div class="detail-row"><b>坐标依据</b><span>${coordinateEvidence}</span></div><div class="detail-row"><b>核验日期</b><span>${escapeHtml(place.verifiedAt || '待核实')}</span></div>${revisionEvidence}</div><p class="detail-note">${escapeHtml(place.coordinateNote || coordinateNote)}</p></details>`;
   $('favorite-place').addEventListener('click', () => toggleFavorite(place.id));
   $('visit-place').addEventListener('click', () => toggleVisit(place.id));
   $('visit-place').disabled = !!checkinDates[place.id];
@@ -512,11 +515,12 @@ async function initStreetMap(cityMarkers, attribution) {
 function initMap() {
   if (!window.L || !window.KDRAMA_MAP_DATA) { $('map-fallback').hidden = false; return; }
   const geography = window.KDRAMA_MAP_DATA;
-  map = L.map('map',{zoomControl:true,scrollWheelZoom:false,minZoom:5,maxZoom:18,attributionControl:false});
+  map = L.map('map',{zoomControl:true,scrollWheelZoom:false,minZoom:2,maxZoom:18,attributionControl:false});
   map.createPane('fallbackPane').style.zIndex = 180;
   L.geoJSON(geography.neighbors,{pane:'fallbackPane',interactive:false,style:{color:'#bbc8c1',weight:1,fillColor:'#d9e0d9',fillOpacity:1}}).addTo(map);
   const regions = L.geoJSON(geography.regions,{pane:'fallbackPane',interactive:false,style:{color:'#aebfb3',weight:1.15,fillColor:'#f4f0e7',fillOpacity:1}}).addTo(map);
   fullMapBounds = regions.getBounds().pad(.12);
+  for (const place of places) fullMapBounds.extend([place.lat, place.lng]);
   const cityLabels = [
     ['首尔',37.5665,126.9780],['仁川',37.4563,126.7052],['江陵',37.7519,128.8761],
     ['大田',36.3504,127.3845],['大邱',35.8714,128.6014],['浦项',36.0190,129.3435],

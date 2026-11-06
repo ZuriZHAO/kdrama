@@ -8,7 +8,7 @@
 
 仓库默认分支为 `main`，现已公开。地图主入口为 https://zurizhao.github.io/kdrama/ ，由 GitHub Pages 工作流发布。旧 Sites 地图项目为 `kdrama-map-zuri`；投稿 API 仍由 Sites 项目 `kdrama-submissions-zuri` 托管。
 
-访客在地图内选点后通过三步表单直接提交。投稿存入投稿服务的 D1 数据库，图片存入 R2；只有审核通过的记录会由公开目录 API 返回。维护者登录 [审核页](https://kdrama-submissions-zuri.insightfullemon.chatgpt.site/admin) 后核对取景来源、坐标、图片展示许可与署名；可以在 JSON 中修订，再批准或驳回。不要仅因链接可打开就认为拍摄关系成立。批准前必须补充来源名称与 HTTPS 链接。
+访客在地图内选点后通过三步表单直接提交。投稿存入投稿服务的 D1 数据库，图片存入 R2；只有审核通过的记录会由公开目录 API 返回。维护者登录 [审核页](https://kdrama-submissions-zuri.insightfullemon.chatgpt.site/admin) 后核对取景来源、坐标、图片展示许可与署名；可以在 JSON 中修订，再批准或驳回。来源链接可以留空，但缺少依据的点位不得标为已核实拍摄机位。不要仅因链接可打开就认为拍摄关系成立。
 
 旧的 GitHub Issue 投稿代码和工作流仍在仓库中，供历史数据导入参考；公开网页已不使用它。投稿服务源码在 `api-site/`，与地图前端分别发布。
 

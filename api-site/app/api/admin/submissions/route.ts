@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     if (!body.id || !["approved", "rejected"].includes(body.status || "")) return Response.json({ error: "审核操作不正确" }, { status: 400 });
     const [row] = await getDb().select().from(submissions).where(eq(submissions.id, body.id)).limit(1);
     if (!row || row.status !== "pending") return Response.json({ error: "投稿不存在或已审核" }, { status: 409 });
-    const payload = normalizeSubmission(body.payload ?? JSON.parse(row.payload), body.status === "approved");
+    const payload = normalizeSubmission(body.payload ?? JSON.parse(row.payload), body.status === "approved", !!row.imageKey);
     await getDb().update(submissions).set({ status: body.status, payload: JSON.stringify(payload), reviewedAt: new Date().toISOString() })
       .where(eq(submissions.id, row.id));
     return Response.json({ ok: true });
