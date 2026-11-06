@@ -19,8 +19,24 @@ permissions:
   id-token: write
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check scripts and catalog
+        run: |
+          node --check script.js
+          node --check submit.js
+          node --check review.js
+          node data/check-catalog.cjs
+          node tools/test-flow.cjs
+
   publish:
-    if: github.event_name != 'issues' || github.event.label.name == 'publish-approved'
+    needs: validate
+    if: ${{ !github.event.repository.private && (github.event_name != 'issues' || github.event.label.name == 'publish-approved') }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
