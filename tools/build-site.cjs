@@ -12,5 +12,6 @@ for (const name of ['index.html', 'styles.css', 'script.js', 'boot.js', 'submit.
 fs.mkdirSync(path.join(dist, 'data'));
 for (const name of ['catalog.js', 'korea-map.js']) fs.copyFileSync(path.join(root, 'data', name), path.join(dist, 'data', name));
 fs.cpSync(path.join(root, 'vendor'), path.join(dist, 'vendor'), { recursive: true });
+if (fs.existsSync(path.join(root, 'assets'))) fs.cpSync(path.join(root, 'assets'), path.join(dist, 'assets'), { recursive: true });
 fs.writeFileSync(path.join(dist, '.nojekyll'), '');
 console.log(`已生成 GitHub Pages 静态站点：${dist}`);
