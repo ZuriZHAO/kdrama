@@ -247,7 +247,9 @@ function renderList() {
   $('work-tabs').hidden = showingWorks;
   document.querySelectorAll('[data-browse]').forEach(button => button.classList.toggle('active', button.dataset.browse === browseMode));
   document.querySelectorAll('[data-work-tab]').forEach(button => button.classList.toggle('active', button.dataset.workTab === workTab));
-  $('list-title').textContent = showingWorks ? (selectedRegion ? (regionNames[selectedRegion] || '韩国境外') : '作品') : seriesById[selectedSeries].title;
+  $('list-title').innerHTML = showingWorks
+    ? escapeHtml(selectedRegion ? (regionNames[selectedRegion] || '韩国境外') : '作品')
+    : `<span class="work-title-dot" style="background:${safeColor(seriesById[selectedSeries].color)}"></span><span class="work-title-name">${escapeHtml(seriesById[selectedSeries].title)}</span>`;
   if (showingWorks) {
     if (browseMode === 'regions' && !selectedRegion) {
       const regions = [...Object.keys(regionNames), 'overseas'];
@@ -267,7 +269,7 @@ function renderList() {
       const workPlaces = places.filter(place => place.workId === work.id && (!selectedRegion || regionByPlace.get(place.id) === selectedRegion) && (!favoritesOnly || favoriteIds.has(place.id)));
       const screenshots = workPlaces.reduce((n, place) => n + (scenesByLandmark.get(place.id) || []).filter(scene => sceneImageUrl(scene)).length, 0);
       const poster = safePosterUrl(work.poster);
-      return `<button type="button" class="work-card" data-work="${escapeHtml(work.id)}" aria-label="查看${escapeHtml(work.title)}"><span class="work-poster" style="background:${safeColor(work.color)}">${poster ? `<img src="${escapeHtml(poster)}" alt="" loading="lazy">` : `<span>${escapeHtml(work.title.slice(0, 2))}</span>`}</span><span class="work-main"><strong>${escapeHtml(work.title)}</strong><small>${escapeHtml(work.original)}</small><small>${workPlaces.length}取景地 · ${screenshots}截图</small></span><span class="work-arrow" aria-hidden="true">›</span></button>`;
+      return `<button type="button" class="work-card" data-work="${escapeHtml(work.id)}" aria-label="查看${escapeHtml(work.title)}"><span class="work-accent" style="background:${safeColor(work.color)}"></span><span class="work-poster" style="background:${safeColor(work.color)}">${poster ? `<img src="${escapeHtml(poster)}" alt="" loading="lazy">` : `<span>${escapeHtml(work.title.slice(0, 2))}</span>`}</span><span class="work-main"><strong>${escapeHtml(work.title)}</strong><small>${escapeHtml(work.original)}</small><small>${workPlaces.length}取景地 · ${screenshots}截图</small></span><span class="work-arrow" aria-hidden="true">›</span></button>`;
     }).join('') : `<div class="empty-state">${browseMode === 'recent' && !selectedRegion ? '还没有审核通过的更新投稿。' : '没有找到相关作品。'}</div>`;
     $('place-list').querySelectorAll('[data-work]').forEach(button => button.addEventListener('click', () => selectWork(button.dataset.work)));
     return;
@@ -277,11 +279,15 @@ function renderList() {
   const groups = new Map();
   for (const place of filtered) {
     const scenes = scenesByLandmark.get(place.id) || [];
-    const keys = workTab === 'group' ? [place.group || '未分组'] : [...new Set(scenes.map(scene => scene.episode == null ? '未分组' : `第 ${scene.episode} 集`))];
+    const episodeKeys = [...new Set(scenes.filter(scene => scene.episode != null).map(scene => `第 ${scene.episode} 集`))];
+    const keys = workTab === 'group' ? [place.group || '未分组'] : episodeKeys.length ? episodeKeys : ['未分组'];
     for (const key of keys.length ? keys : ['未分组']) { if (!groups.has(key)) groups.set(key, []); groups.get(key).push(place); }
   }
   const entries = [...groups].sort((a,b) => a[0] === '未分组' ? 1 : b[0] === '未分组' ? -1 : workTab === 'episode' ? Number(a[0].match(/\d+/)?.[0] || 0) - Number(b[0].match(/\d+/)?.[0] || 0) : a[0].localeCompare(b[0], 'zh'));
-  $('place-list').innerHTML = entries.length ? entries.map(([heading, items]) => `<section class="place-group"><h3>${escapeHtml(heading)} <small>${items.length}</small></h3>${items.map(place => `<button type="button" class="place-card ${selectedPlace === place.id ? 'active' : ''}" data-place="${escapeHtml(place.id)}" aria-label="查看${escapeHtml(place.name)}详情，${coordinateLabel(place)}"><span class="card-main">${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}<span class="card-title">${escapeHtml(place.name)}</span><span class="card-sub">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</span></span></button>`).join('')}</section>`).join('') : '<div class="empty-state">这部作品还没有地点，欢迎投稿。</div>';
+  $('place-list').innerHTML = entries.length ? entries.map(([heading, items]) => `<section class="place-group"><h3>${escapeHtml(heading)} <small>${items.length}</small></h3>${items.map(place => {
+    const firstImage = (scenesByLandmark.get(place.id) || []).map(scene => sceneImageUrl(scene)).find(Boolean);
+    return `<button type="button" class="place-card ${selectedPlace === place.id ? 'active' : ''}" data-place="${escapeHtml(place.id)}" aria-label="查看${escapeHtml(place.name)}详情，${coordinateLabel(place)}">${firstImage ? `<img class="place-card-image" src="${escapeHtml(firstImage)}" alt="${escapeHtml(place.name)}场景截图" loading="lazy" referrerpolicy="no-referrer">` : ''}<span class="card-main">${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}<span class="card-title">${escapeHtml(place.name)}</span><span class="card-sub">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</span></span></button>`;
+  }).join('')}</section>`).join('') : '<div class="empty-state">这部作品还没有地点，欢迎投稿。</div>';
   $('place-list').querySelectorAll('[data-place]').forEach(button => button.addEventListener('click', () => openPlace(button.dataset.place)));
 }
 
@@ -334,7 +340,7 @@ function placePopup(place) {
   card.className = 'place-popup';
   card.innerHTML = `${imageUrl
     ? `<img class="place-popup-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(image.description || `${place.name} 场景图片`)}" loading="lazy" referrerpolicy="no-referrer">`
-    : '<div class="place-popup-placeholder">暂无获许可的场景截图</div>'}
+    : '<div class="place-popup-placeholder">暂无截图</div>'}
     <div class="place-popup-body"><small>${escapeHtml(work?.title || '')} · ${escapeHtml(place.city || '')}</small>
     <strong>${escapeHtml(place.name)}</strong>
     <p>${escapeHtml(scene?.description || place.coordinateNote || '查看地点资料与导航信息')}</p>
@@ -567,7 +573,7 @@ async function initStreetMap(cityMarkers, attribution) {
 function initMap() {
   if (!window.L || !window.KDRAMA_MAP_DATA) { $('map-fallback').hidden = false; return; }
   const geography = window.KDRAMA_MAP_DATA;
-  map = L.map('map',{zoomControl:true,scrollWheelZoom:false,minZoom:2,maxZoom:18,attributionControl:false});
+  map = L.map('map',{zoomControl:true,scrollWheelZoom:true,touchZoom:true,minZoom:2,maxZoom:18,attributionControl:false});
   map.createPane('fallbackPane').style.zIndex = 180;
   L.geoJSON(geography.neighbors,{pane:'fallbackPane',interactive:false,style:{color:'#bbc8c1',weight:1,fillColor:'#d9e0d9',fillOpacity:1}}).addTo(map);
   const regions = L.geoJSON(geography.regions,{pane:'fallbackPane',interactive:false,style:{color:'#aebfb3',weight:1.15,fillColor:'#f4f0e7',fillOpacity:1}}).addTo(map);

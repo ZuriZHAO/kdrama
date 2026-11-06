@@ -28,3 +28,7 @@
 目前是试运行版本，已有地点中包含**示意点**，不能据此认定精确拍摄机位。现场可能因营业、施工或私人区域限制而无法进入；请遵守当地规定。
 
 街道底图由 [OpenFreeMap](https://openfreemap.org/) 提供，使用 OpenStreetMap 数据；地图服务不可用时会显示韩国轮廓图。本站参考 [Anitabi](https://navi.anitabi.cn/docs/) 的作品、地标与场景组织方式，不使用其地点数据或截图。
+
+## 站点维护
+
+[投稿审核后台](https://kdrama-submissions-zuri.insightfullemon.chatgpt.site/admin) 仅向配置的管理员账号开放。普通访客投稿无需 ChatGPT 账号；管理员可以在审核页核对并批准或驳回投稿。手工添加作品、放置海报和修改预置作品设置，请看[预置作品与海报说明](docs/works.md)。

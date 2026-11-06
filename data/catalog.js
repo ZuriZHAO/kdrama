@@ -7,8 +7,11 @@ window.KDRAMA_CATALOG = {
     { id: 'crash-landing', title: '爱的迫降', original: '사랑의 불시착', year: '2019', color: '#6d8293', poster: null },
     { id: 'glory', title: '黑暗荣耀', original: '더 글로리', year: '2022', color: '#9a7480', poster: null },
     { id: 'extraordinary-attorney', title: '非常律师禹英禑', original: '이상한 변호사 우영우', year: '2022', color: '#69a0a0', poster: null },
-    { id: 'queen-of-tears', title: '泪之女王', original: '눈물의 여왕', year: '2024', color: '#a9869a', poster: null },
-    { id: 'lovely-runner', title: '背着善宰跑', original: '선재 업고 튀어', year: '2024', color: '#7796bc', poster: null }
+    { id: 'queen-of-tears', title: '眼泪女王', original: '눈물의 여왕', year: '2024', color: '#a9869a', poster: null },
+    { id: 'lovely-runner', title: '背着善宰跑', original: '선재 업고 튀어', year: '2024', color: '#7796bc', poster: null },
+    { id: 'love-in-disguise', title: '我的有罪之人', original: '나의 유죄인간', year: '2026', color: '#a97079', poster: null },
+    { id: 'reply-1988', title: '请回答1988', original: '응답하라 1988', year: '2015', color: '#bf8966', poster: null },
+    { id: 'our-unwritten-seoul', title: '未知的首尔', original: '미지의 서울', year: '2025', color: '#708ca1', poster: null }
   ],
 
   sources: [

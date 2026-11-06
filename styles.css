@@ -44,7 +44,9 @@ p, h1, h2 { margin-top: 0; }
 .searchbox input { min-width: 0; width: 100%; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 13px; }
 .searchbox input::placeholder { color: #9aa5aa; }
 .list-heading { display: flex; align-items: center; gap: 9px; padding: 13px 18px 11px; border-top: 1px solid var(--line); font-size: 12px; font-weight: 700; }
-.list-heading #list-title { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.list-heading #list-title { display:flex; align-items:center; min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.work-title-dot { width:9px; height:9px; flex:none; margin-right:7px; border-radius:50%; }
+.work-title-name { min-width:0; overflow:hidden; text-overflow:ellipsis; }
 .list-heading #result-count { flex: none; color: #9ba6aa; font-weight: 400; }
 .favorites-filter { flex: none; padding: 4px 6px; border: 1px solid #dbe5e6; border-radius: 5px; background: #fff; color: var(--accent); font-size: 11px; }
 .favorites-filter[aria-pressed="true"] { background: #eaf3f5; }
@@ -63,6 +65,7 @@ p, h1, h2 { margin-top: 0; }
 .work-card, .place-card { display: flex; align-items: center; width: 100%; padding: 14px 18px; border: 0; border-top: 1px solid #edf0ef; background: white; text-align: left; }
 .work-card:hover, .place-card:hover, .place-card.active { background: #f1f6f7; }
 .work-card { gap: 13px; }
+.work-accent { width:4px; height:54px; flex:none; border-radius:3px; }
 .work-poster { display:flex; align-items:center; justify-content:center; width:43px; height:60px; flex:none; overflow:hidden; border-radius:5px; color:white; font-size:13px; font-weight:700; text-align:center; box-shadow:0 1px 5px #26343c26; }
 .work-poster img { width:100%; height:100%; object-fit:cover; }
 .work-poster span { padding:3px; }
@@ -72,6 +75,8 @@ p, h1, h2 { margin-top: 0; }
 .work-main small { margin-top: 5px; color: #88969b; font-size: 11px; font-weight: 400; }
 .work-arrow { color: #96a8ad; font-size: 22px; line-height: 1; }
 .card-main { min-width: 0; flex: 1; }
+.place-card { gap:11px; }
+.place-card-image { width:72px; height:48px; flex:none; object-fit:cover; border-radius:4px; background:#eef2f0; }
 .card-status { padding: 2px 5px; border: 1px solid #dbe6e6; border-radius: 4px; color: #698087; font-size: 10px; white-space: nowrap; }
 .card-title { display: block; margin: 4px 0 3px; font-size: 14px; font-weight: 700; line-height: 1.4; }
 .card-sub { display: block; overflow: hidden; color: #88969b; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
