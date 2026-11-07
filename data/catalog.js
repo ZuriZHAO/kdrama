@@ -131,6 +131,9 @@ window.KDRAMA_CATALOG = {
     { id: 'daegu-tang', title: '大邱文化艺术振兴院 · 桂山圣堂取景地', url: 'https://www.dgfca.or.kr/article/REPORT_NEWS/detail/13643' },
     { id: 'xhs-gp', title: '小红书 · 打卡《21世纪大君夫人》取景地', url: 'https://www.xiaohongshu.com/explore/6a0adacb0000000006023608' },
     { id: 'xhs-qbc', title: '小红书 · 魁北克｜鬼怪之城（附打卡路线）', url: 'https://www.xiaohongshu.com/explore/6ac99985000000001303d322' },
+    { id: 'quebec-goblin', title: '魁北克市旅游局 · 《鬼怪》取景地', url: 'https://www.quebec-cite.com/en/quebec-city/movies-shot-in-quebec-city?list=suggested' },
+    { id: 'chungnam-gp', title: '忠清南道旅游局 · 百济文化园区取景作品', url: 'https://tour.chungnam.go.kr/prog/course/kor/sub01_03_02/view.do?courseNo=594' },
+    { id: 'kversal-gp', title: 'Kversal · 《21世纪大君夫人》取景地列表', url: 'https://kversal.com/ko/dramas/12233' },
   ],
 
   // coordinateStatus: approximate = 附近示意点；venue = 已核实景点点位；camera = 已核实拍摄机位。
@@ -490,14 +493,14 @@ window.KDRAMA_CATALOG = {
       id: 'gp-baekje', workId: 'perfect-crown', name: '百济文化园区', ko: '백제문화단지', city: '扶余 · 窥岩面', group: '忠清南道',
       lat: 36.307382, lng: 126.907241, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
       coordinateSourceId: null, coordinateNote: 'Photon“백제문화단지”节点；园区开放时间请以现场为准。',
-      address: '충남 부여군 규암면 백제문로 455', query: '백제문화단지', kind: 'other', sourceId: 'xhs-gp',
+      address: '충남 부여군 규암면 백제문로 455', query: '백제문화단지', kind: 'other', sourceId: 'chungnam-gp',
       visit: '大型文化园区，建议预留半天。'
     },
     {
       id: 'gp-mujinjeong', workId: 'perfect-crown', name: '无尽亭', ko: '무진정', city: '咸安 · 咸安面', group: '庆尚南道',
       lat: 35.2351, lng: 128.4253, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
       coordinateSourceId: null, coordinateNote: '按笔记“괴산4길 25”定位到함안면一带；坐标取면中心，机位待核实。',
-      address: '경남 함안군 함안면 괴산4길 25', query: '함안 무진정', kind: 'other', sourceId: 'xhs-gp',
+      address: '경남 함안군 함안면 괴산4길 25', query: '함안 무진정', kind: 'other', sourceId: 'kversal-gp',
       visit: '亭子为开放景点，注意水边安全。'
     },
     {
@@ -518,14 +521,14 @@ window.KDRAMA_CATALOG = {
       id: 'gp-oreung', workId: 'perfect-crown', name: '庆州五陵', ko: '경주 오릉', city: '庆州 · 塔洞', group: '庆尚北道',
       lat: 35.823024, lng: 129.208371, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
       coordinateSourceId: null, coordinateNote: 'Photon“경주 오릉”节点；为皇家陵墓（世遗），机位待核实。',
-      address: '경북 경주시 탑동 67-1', query: '경주 오릉', kind: 'other', sourceId: 'xhs-gp',
+      address: '경북 경주시 탑동 67-1', query: '경주 오릉', kind: 'other', sourceId: 'kversal-gp',
       visit: '皇家陵墓，请勿踩踏草坪、保持肃静。'
     },
     {
       id: 'gp-gwanghallu', workId: 'perfect-crown', name: '广寒楼苑', ko: '광한루원', city: '南原 · 完山区', group: '全罗北道',
       lat: 35.402798, lng: 127.379539, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
       coordinateSourceId: null, coordinateNote: 'Photon“광한루원”节点；为开放景区，机位待核实。',
-      address: '전북 남원시 요천로 1447', query: '광한루원', kind: 'other', sourceId: 'xhs-gp',
+      address: '전북 남원시 요천로 1447', query: '광한루원', kind: 'other', sourceId: 'kversal-gp',
       visit: '景区开放时间请以现场为准。'
     },
     {
@@ -546,7 +549,7 @@ window.KDRAMA_CATALOG = {
       id: 'gp-awon', workId: 'perfect-crown', name: '我园古宅', ko: '아원고택', city: '完州 · 所阳面', group: '全罗北道',
       lat: 35.903255, lng: 127.244283, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
       coordinateSourceId: null, coordinateNote: 'Photon“아원고택”节点（오성한옥마을）；机位待核实。',
-      address: '전북 완주군 소양면 송광수만로 516-7', query: '아원고택', kind: 'other', sourceId: 'xhs-gp',
+      address: '전북 완주군 소양면 송광수만로 516-7', query: '아원고택', kind: 'other', sourceId: 'kversal-gp',
       visit: '古宅为住宿/文化空间，进入前请确认。'
     },
     {
@@ -567,20 +570,20 @@ window.KDRAMA_CATALOG = {
       id: 'qbc-chateau', workId: 'goblin', name: '芳堤娜城堡酒店', ko: 'Fairmont Le Château Frontenac', city: '魁北克城 · 老城', group: '加拿大',
       lat: 46.811817, lng: -71.205144, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
       coordinateSourceId: null, coordinateNote: 'Photon“Fairmont Le Château Frontenac”节点；大堂可免费进入，机位待核实。',
-      address: '1 Rue des Carrières, Québec, QC, Canada', query: 'Château Frontenac', kind: 'other', sourceId: 'xhs-qbc',
+      address: '1 Rue des Carrières, Québec, QC, Canada', query: 'Château Frontenac', kind: 'other', sourceId: 'quebec-goblin',
       visit: '剧中“鬼怪大叔的家”；大堂有同款复古信箱，不住店也可进入大堂拍照。'
     },
     {
       id: 'qbc-noel', workId: 'goblin', name: '魁北克圣诞商店', ko: 'La Boutique de Noël de Québec', city: '魁北克城 · 老城', group: '加拿大',
       lat: 46.813556, lng: -71.206785, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
-      coordinateSourceId: null, coordinateNote: 'Photon“La Boutique de Noël de Québec”节点；店内可拍照，机位待核实。',
-      address: '47 Rue De Buade, Québec, QC, Canada', query: 'La Boutique de Noël de Québec', kind: 'other', sourceId: 'xhs-qbc',
+      coordinateSourceId: null, coordinateNote: '魁北克市旅游局确认圣诞商店是《鬼怪》取景地；坐标取店铺位置，店内拍摄规则与具体机位待核实。',
+      address: '47 Rue De Buade, Québec, QC, Canada', query: 'La Boutique de Noël de Québec', kind: 'other', sourceId: 'quebec-goblin',
       visit: '全年圣诞氛围，二楼可俯瞰老城。'
     },
     {
       id: 'qbc-bastion', workId: 'goblin', name: '鬼怪大草坪 · 王后堡垒公园', ko: 'Parc du Bastion-de-la-Reine', city: '魁北克城 · 老城', group: '加拿大',
       lat: 46.808594, lng: -71.209264, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
-      coordinateSourceId: null, coordinateNote: 'Photon“Parc du Bastion-de-la-Reine”节点；大草坪可拍城堡远景，机位待核实。',
+      coordinateSourceId: null, coordinateNote: 'Photon“Parc du Bastion-de-la-Reine”节点；魁北克市旅游局取景清单未列出此公园，剧中机位待核实。',
       address: 'Parc du Bastion-de-la-Reine, Québec, QC, Canada', query: 'Parc du Bastion-de-la-Reine', kind: 'other', sourceId: 'xhs-qbc',
       visit: '鬼怪与恩倬散步、墓地名场面取景地；秋叶铺满山坡，是最出圈机位。'
     },
@@ -588,20 +591,20 @@ window.KDRAMA_CATALOG = {
       id: 'qbc-cassecou', workId: 'goblin', name: '断头台阶（告白楼梯）', ko: 'Escalier Casse-Cou', city: '魁北克城 · 老城', group: '加拿大',
       lat: 46.812767, lng: -71.203565, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
       coordinateSourceId: null, coordinateNote: 'Photon“Escalier Casse-cou”节点；台阶陡峭，注意安全。',
-      address: 'Escalier Casse-Cou, Québec, QC, Canada', query: 'Escalier Casse-Cou', kind: 'other', sourceId: 'xhs-qbc',
+      address: 'Escalier Casse-Cou, Québec, QC, Canada', query: 'Escalier Casse-Cou', kind: 'other', sourceId: 'quebec-goblin',
       visit: '鬼怪新娘告白“撒浪嘿”的台阶，从上往下直通小香普兰街。'
     },
     {
       id: 'qbc-petit', workId: 'goblin', name: '小香普兰街 + 鬼怪红门', ko: 'Rue du Petit Champlain', city: '魁北克城 · 老城', group: '加拿大',
       lat: 46.811551, lng: -71.203632, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
       coordinateSourceId: null, coordinateNote: 'Photon“Rue du Petit-Champlain”节点；68号红门为剧场后门，门打不开，只适合拍照。',
-      address: '68 Rue du Petit Champlain, Québec, QC, Canada', query: 'Rue du Petit Champlain', kind: 'other', sourceId: 'xhs-qbc',
+      address: '68 Rue du Petit Champlain, Québec, QC, Canada', query: 'Rue du Petit Champlain', kind: 'other', sourceId: 'quebec-goblin',
       visit: '68号小红门是剧中金信带恩倬穿越到魁北克的那扇门；彩色法式小楼、雨伞小巷都很好拍。'
     },
     {
       id: 'qbc-royale', workId: 'goblin', name: '皇家广场', ko: 'Place Royale', city: '魁北克城 · 老城', group: '加拿大',
       lat: 46.813173, lng: -71.202808, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
-      coordinateSourceId: null, coordinateNote: 'Photon“Place Royale”节点（魁北克城）；北美最古老广场。',
+      coordinateSourceId: null, coordinateNote: 'Photon“Place Royale”节点；目前没有找到支持《鬼怪》在此广场取景的独立来源，保留为投稿线索。',
       address: 'Place Royale, Québec, QC, Canada', query: 'Place Royale', kind: 'other', sourceId: 'xhs-qbc',
       visit: '巨大老城壁画，剧里街头镜头取景地。'
     },
@@ -609,7 +612,7 @@ window.KDRAMA_CATALOG = {
       id: 'qbc-tourny', workId: 'goblin', name: '图尔尼喷泉', ko: 'Fontaine de Tourny', city: '魁北克城 · 议会大厦', group: '加拿大',
       lat: 46.809604, lng: -71.212672, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
       coordinateSourceId: null, coordinateNote: 'Photon“Fontaine de Tourny”节点；开篇喷泉镜头。',
-      address: 'Fontaine de Tourny, Québec, QC, Canada', query: 'Fontaine de Tourny', kind: 'other', sourceId: 'xhs-qbc',
+      address: 'Fontaine de Tourny, Québec, QC, Canada', query: 'Fontaine de Tourny', kind: 'other', sourceId: 'quebec-goblin',
       visit: '省议会大厦前，开篇喷泉镜头取景地。'
     },
   ],
@@ -666,28 +669,28 @@ window.KDRAMA_CATALOG = {
     { id: 'lr-hwahongmun-01', landmarkId: 'lr-hwahongmun', description: '华虹门前桥上的告白场景；投稿线索称第 6 集，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/lovely-runner/lr-hwahongmun.jpg', imageCredit: '', sourceId: 'visitkorea-lr', episodeSourceId: null },
     { id: 'lr-bus-stop-01', landmarkId: 'lr-bus-stop', description: '善宰追上公交替小率停车的场景，实际在公营停车场拍摄；投稿线索称第 2 集，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/lovely-runner/lr-bus-stop.jpg', imageCredit: '', sourceId: 'gq-lr-bus', episodeSourceId: null },
     { id: 'gp-janggeum-01', landmarkId: 'gp-janggeum', description: '皇宫内苑（剧中大部分皇室戏份）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-janggeum.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
-    { id: 'gp-baekje-01', landmarkId: 'gp-baekje', description: '大君和府院君相遇。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-baekje.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
-    { id: 'gp-mujinjeong-a-01', landmarkId: 'gp-mujinjeong', description: '观看落火（夜景）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-mujinjeong-a.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
-    { id: 'gp-mujinjeong-b-01', landmarkId: 'gp-mujinjeong', description: '无尽亭周边。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-mujinjeong-b.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-baekje-01', landmarkId: 'gp-baekje', description: '大君和府院君相遇。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-baekje.jpg', imageCredit: '', sourceId: 'chungnam-gp', episodeSourceId: null },
+    { id: 'gp-mujinjeong-a-01', landmarkId: 'gp-mujinjeong', description: '观看落火（夜景）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-mujinjeong-a.jpg', imageCredit: '', sourceId: 'kversal-gp', episodeSourceId: null },
+    { id: 'gp-mujinjeong-b-01', landmarkId: 'gp-mujinjeong', description: '无尽亭周边。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-mujinjeong-b.jpg', imageCredit: '', sourceId: 'kversal-gp', episodeSourceId: null },
     { id: 'gp-hwaseomun-01', landmarkId: 'gp-hwaseomun', description: '主诞日灯光秀。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-hwaseomun.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
     { id: 'gp-jongmyo-01', landmarkId: 'gp-jongmyo', description: '宗庙祭祀。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-jongmyo.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
-    { id: 'gp-oreung-01', landmarkId: 'gp-oreung', description: '翻墙浪漫 kiss。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-oreung.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
-    { id: 'gp-gwanghallu-a-01', landmarkId: 'gp-gwanghallu', description: '内进宴求婚（白天）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-gwanghallu-a.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
-    { id: 'gp-gwanghallu-b-01', landmarkId: 'gp-gwanghallu', description: '广寒楼苑夜景。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-gwanghallu-b.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-oreung-01', landmarkId: 'gp-oreung', description: '翻墙浪漫 kiss。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-oreung.jpg', imageCredit: '', sourceId: 'kversal-gp', episodeSourceId: null },
+    { id: 'gp-gwanghallu-a-01', landmarkId: 'gp-gwanghallu', description: '内进宴求婚（白天）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-gwanghallu-a.jpg', imageCredit: '', sourceId: 'kversal-gp', episodeSourceId: null },
+    { id: 'gp-gwanghallu-b-01', landmarkId: 'gp-gwanghallu', description: '广寒楼苑夜景。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-gwanghallu-b.jpg', imageCredit: '', sourceId: 'kversal-gp', episodeSourceId: null },
     { id: 'gp-ordaon-01', landmarkId: 'gp-ordaon', description: '熙周与大君成亲。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-ordaon.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
     { id: 'gp-gwanghwamun-01', landmarkId: 'gp-gwanghwamun', description: '婚礼游行。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-gwanghwamun.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
-    { id: 'gp-awon-a-01', landmarkId: 'gp-awon', description: '大君私宅（外景）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-awon-a.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
-    { id: 'gp-awon-b-01', landmarkId: 'gp-awon', description: '大君私宅（室内）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-awon-b.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-awon-a-01', landmarkId: 'gp-awon', description: '大君私宅（外景）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-awon-a.jpg', imageCredit: '', sourceId: 'kversal-gp', episodeSourceId: null },
+    { id: 'gp-awon-b-01', landmarkId: 'gp-awon', description: '大君私宅（室内）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-awon-b.jpg', imageCredit: '', sourceId: 'kversal-gp', episodeSourceId: null },
     { id: 'gp-soyang-01', landmarkId: 'gp-soyang', description: '大君私宅庭院。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-soyang.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
     { id: 'gp-provincial-01', landmarkId: 'gp-provincial', description: '国家政府机构。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-provincial.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
-    { id: 'qbc-chateau-01', landmarkId: 'qbc-chateau', description: '芳堤娜城堡外景（鬼怪大叔的家）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-chateau.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
-    { id: 'qbc-chateau-mailbox-01', landmarkId: 'qbc-chateau', description: '大堂内同款复古信箱（女主收信处）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-chateau-mailbox.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
-    { id: 'qbc-lobby-01', landmarkId: 'qbc-chateau', description: '酒店大堂。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-lobby.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
-    { id: 'qbc-noel-a-01', landmarkId: 'qbc-noel', description: '剧中出现的圣诞小店。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-noel-a.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
-    { id: 'qbc-noel-b-01', landmarkId: 'qbc-noel', description: '圣诞商店夜景。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-noel-b.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
-    { id: 'qbc-petit-01', landmarkId: 'qbc-petit', description: '小香普兰街。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-petit.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
-    { id: 'qbc-red-door-01', landmarkId: 'qbc-petit', description: '鬼怪穿越红门（68号）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-red-door.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
-    { id: 'qbc-tourny-01', landmarkId: 'qbc-tourny', description: '开篇喷泉镜头。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-tourny.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
+    { id: 'qbc-chateau-01', landmarkId: 'qbc-chateau', description: '芳堤娜城堡外景（鬼怪大叔的家）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-chateau.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
+    { id: 'qbc-chateau-mailbox-01', landmarkId: 'qbc-chateau', description: '大堂内同款复古信箱（女主收信处）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-chateau-mailbox.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
+    { id: 'qbc-lobby-01', landmarkId: 'qbc-chateau', description: '酒店大堂。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-lobby.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
+    { id: 'qbc-noel-a-01', landmarkId: 'qbc-noel', description: '剧中出现的圣诞小店。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-noel-a.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
+    { id: 'qbc-noel-b-01', landmarkId: 'qbc-noel', description: '圣诞商店夜景。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-noel-b.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
+    { id: 'qbc-petit-01', landmarkId: 'qbc-petit', description: '小香普兰街。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-petit.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
+    { id: 'qbc-red-door-01', landmarkId: 'qbc-petit', description: '鬼怪穿越红门（68号）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-red-door.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
+    { id: 'qbc-tourny-01', landmarkId: 'qbc-tourny', description: '开篇喷泉镜头。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-tourny.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
   ],
   updates: [
     { landmarkId: 'jumunjin', reviewedAt: '2026-11-06T14:24:29.372Z' }

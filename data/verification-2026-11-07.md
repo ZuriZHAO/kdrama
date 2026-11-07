@@ -1,8 +1,8 @@
 # 2026-11-07 新增取景地核验记录
 
-本次核对新增的 36 个地标与 35 张场景图。先检查了作品、坐标范围、引用关系和本地图片路径，再阅读可访问的来源。下表的“取景关系已确认”只表示所列资料支持该地点出现在作品中；除明确标为“景点位置”的两项外，坐标仍为示意点，不能当作入口或拍摄机位。
+本次核对新增的 55 个地标与 58 张场景图。先检查了作品、坐标范围、引用关系和本地图片路径，再阅读可访问的来源。下表的“取景关系已确认”只表示所列资料支持该地点出现在作品中；除明确标为“景点位置”的两项外，坐标仍为示意点，不能当作入口或拍摄机位。
 
-原投稿使用的四篇小红书笔记虽可返回网页，但未能读取笔记正文或逐条地址，因此**不能以链接能打开为由认定其内容已核实**。CartoonTour 原文可以读取，支持《那年我们》行宫派对、池洞壁画村和青麦田一带的地点信息。下表对仅有小红书线索的 26 项保留为待核验。
+原投稿使用的六篇小红书笔记虽可返回网页，但未能读取笔记正文或逐条地址，因此**不能以链接能打开为由认定其内容已核实**。CartoonTour 原文可以读取，支持《那年我们》行宫派对、池洞壁画村和青麦田一带的地点信息。下表对仅有小红书线索的 35 项保留为待核验；另外 4 项有独立取景清单支持，但缺少官方逐点确认。
 
 原有 28 条带集数的新场景没有可核查的逐集依据，正式 `episode` 字段已留空；投稿者提供的集数保存在场景描述中并标明“待核实”。全部新增场景的时间点继续留空。
 
@@ -45,6 +45,26 @@
 | 背着善宰跑 | `lr-hwahongmun` | 告白名场面 · 华虹门 | 已确认地点，机位待核 | 示意点 | [韩国观光公社 · 《背着善宰跑》水原路线](https://english.visitkorea.or.kr/svc/whereToGo/hdrdslt/hdrdsltView.do?crsSn=564819) |
 | 背着善宰跑 | `lr-bus-stop` | 善宰追公交 · 延武洞公营停车场 | 已确认地点，机位待核 | 示意点 | [GQ Korea · 延武洞停车场公交追车场景](https://www.gqkorea.co.kr/2024/06/10/%EC%84%A0%EC%97%85%ED%8A%80-%EC%88%9C%EB%A1%80%EA%B8%B8%EC%9D%B4%EB%9D%BC%EB%8A%94-%EA%B2%8C-%EC%8B%A4%EC%A1%B4/) |
 
+| 21世纪大君夫人 | `gp-janggeum` | 大长今主题公园 | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 打卡《21世纪大君夫人》取景地](https://www.xiaohongshu.com/explore/6a0adacb0000000006023608) |
+| 21世纪大君夫人 | `gp-baekje` | 百济文化园区 | 已确认地点，机位待核 | 示意点 | [忠清南道旅游局 · 百济文化园区取景作品](https://tour.chungnam.go.kr/prog/course/kor/sub01_03_02/view.do?courseNo=594) |
+| 21世纪大君夫人 | `gp-mujinjeong` | 无尽亭 | 独立清单支持，机位待核 | 示意点 | [Kversal · 《21世纪大君夫人》取景地列表](https://kversal.com/ko/dramas/12233) |
+| 21世纪大君夫人 | `gp-hwaseomun` | 水原华西门 | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 打卡《21世纪大君夫人》取景地](https://www.xiaohongshu.com/explore/6a0adacb0000000006023608) |
+| 21世纪大君夫人 | `gp-jongmyo` | 宗庙 | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 打卡《21世纪大君夫人》取景地](https://www.xiaohongshu.com/explore/6a0adacb0000000006023608) |
+| 21世纪大君夫人 | `gp-oreung` | 庆州五陵 | 独立清单支持，机位待核 | 示意点 | [Kversal · 《21世纪大君夫人》取景地列表](https://kversal.com/ko/dramas/12233) |
+| 21世纪大君夫人 | `gp-gwanghallu` | 广寒楼苑 | 独立清单支持，机位待核 | 示意点 | [Kversal · 《21世纪大君夫人》取景地列表](https://kversal.com/ko/dramas/12233) |
+| 21世纪大君夫人 | `gp-ordaon` | 杨平 Ordaon | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 打卡《21世纪大君夫人》取景地](https://www.xiaohongshu.com/explore/6a0adacb0000000006023608) |
+| 21世纪大君夫人 | `gp-gwanghwamun` | 光化门广场 | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 打卡《21世纪大君夫人》取景地](https://www.xiaohongshu.com/explore/6a0adacb0000000006023608) |
+| 21世纪大君夫人 | `gp-awon` | 我园古宅 | 独立清单支持，机位待核 | 示意点 | [Kversal · 《21世纪大君夫人》取景地列表](https://kversal.com/ko/dramas/12233) |
+| 21世纪大君夫人 | `gp-soyang` | 所阳古宅 | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 打卡《21世纪大君夫人》取景地](https://www.xiaohongshu.com/explore/6a0adacb0000000006023608) |
+| 21世纪大君夫人 | `gp-provincial` | 道厅大楼（庆尚北道厅） | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 打卡《21世纪大君夫人》取景地](https://www.xiaohongshu.com/explore/6a0adacb0000000006023608) |
+| 孤单又灿烂的神－鬼怪 | `qbc-chateau` | 芳堤娜城堡酒店 | 已确认地点，机位待核 | 示意点 | [魁北克市旅游局 · 《鬼怪》取景地](https://www.quebec-cite.com/en/quebec-city/movies-shot-in-quebec-city?list=suggested) |
+| 孤单又灿烂的神－鬼怪 | `qbc-noel` | 魁北克圣诞商店 | 已确认地点，机位待核 | 示意点 | [魁北克市旅游局 · 《鬼怪》取景地](https://www.quebec-cite.com/en/quebec-city/movies-shot-in-quebec-city?list=suggested) |
+| 孤单又灿烂的神－鬼怪 | `qbc-bastion` | 鬼怪大草坪 · 王后堡垒公园 | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 魁北克｜鬼怪之城（附打卡路线）](https://www.xiaohongshu.com/explore/6ac99985000000001303d322) |
+| 孤单又灿烂的神－鬼怪 | `qbc-cassecou` | 断头台阶（告白楼梯） | 已确认地点，机位待核 | 示意点 | [魁北克市旅游局 · 《鬼怪》取景地](https://www.quebec-cite.com/en/quebec-city/movies-shot-in-quebec-city?list=suggested) |
+| 孤单又灿烂的神－鬼怪 | `qbc-petit` | 小香普兰街 + 鬼怪红门 | 已确认地点，机位待核 | 示意点 | [魁北克市旅游局 · 《鬼怪》取景地](https://www.quebec-cite.com/en/quebec-city/movies-shot-in-quebec-city?list=suggested) |
+| 孤单又灿烂的神－鬼怪 | `qbc-royale` | 皇家广场 | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 魁北克｜鬼怪之城（附打卡路线）](https://www.xiaohongshu.com/explore/6ac99985000000001303d322) |
+| 孤单又灿烂的神－鬼怪 | `qbc-tourny` | 图尔尼喷泉 | 已确认地点，机位待核 | 示意点 | [魁北克市旅游局 · 《鬼怪》取景地](https://www.quebec-cite.com/en/quebec-city/movies-shot-in-quebec-city?list=suggested) |
+
 ## 已发现并修正的问题
 
 - `obs-studio` 与 `obs-haenggung-party` 指向同一处旧行宫派对（长安洞 109-1／华西门路 31 街 22），合并为一个地标。水原市确认其为崔雄家取景地；CartoonTour 提供建筑坐标。另一个“崔雄家外墙”条目的具体机位仍未证实。
@@ -55,4 +75,4 @@
 
 ## 后续核验重点
 
-优先补充可读取正文的独立取景来源、精确门牌或现场照片，并核对两处八达路地标目前共用的示意坐标。对第 1—12 集的投稿线索，找到剧集画面或可靠逐集资料后再恢复正式集数。
+优先补充可读取正文的独立取景来源，尤其是《21世纪大君夫人》仅由小红书提供的其余地点，以及魁北克王后堡垒公园和皇家广场，尤其是《21世纪大君夫人》仅由小红书提供的其余地点，以及魁北克王后堡垒公园和皇家广场、精确门牌或现场照片，并核对两处八达路地标目前共用的示意坐标。对第 1—12 集的投稿线索，找到剧集画面或可靠逐集资料后再恢复正式集数。
