@@ -26,6 +26,13 @@ const sourceIds = idsOf(catalog.sources, 'sources');
 const landmarkIds = idsOf(catalog.landmarks, 'landmarks');
 idsOf(catalog.scenes, 'scenes');
 
+catalog.works.forEach(work => {
+  if (work.aliases && (!Array.isArray(work.aliases) || work.aliases.some(alias => typeof alias !== 'string' || !alias.trim()))) errors.push(`作品 ${work.id} 的搜索别名无效`);
+  if (!work.poster) return;
+  if (/^https:\/\//.test(work.poster)) return;
+  if (!/^\.\/assets\/[A-Za-z0-9/_-]+\.(?:jpg|jpeg|png|webp)$/i.test(work.poster) || !fs.existsSync(path.join(__dirname, '..', work.poster))) errors.push(`作品 ${work.id} 的海报文件不存在或路径无效`);
+});
+
 catalog.sources.forEach(source => {
   if (!source.title || !/^https:\/\//.test(source.url || '')) errors.push(`来源 ${source.id} 缺少名称或 HTTPS 链接`);
 });

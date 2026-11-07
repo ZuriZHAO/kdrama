@@ -71,7 +71,7 @@ for (const id of favoriteIds) if (!placesById[id]) favoriteIds.delete(id);
 function textMatches(place, term) {
   const work = seriesById[place.workId];
   const scenes = scenesByLandmark.get(place.id) || [];
-  return [place.name,place.ko,place.city,place.address,work.title,work.original,work.year,...scenes.map(scene => scene.description)].join(' ').toLocaleLowerCase().includes(term);
+  return [place.name,place.ko,place.city,place.address,work.title,work.original,work.year,...(work.aliases || []),...scenes.map(scene => scene.description)].join(' ').toLocaleLowerCase().includes(term);
 }
 
 function visiblePlaces() {
@@ -83,7 +83,7 @@ function visibleWorks() {
   const term = $('search').value.trim().toLocaleLowerCase();
   return series.filter(work => (!selectedRegion || places.some(place => place.workId === work.id && regionByPlace.get(place.id) === selectedRegion))
     && (!favoritesOnly || places.some(place => place.workId === work.id && favoriteIds.has(place.id)))
-    && (!term || [work.title, work.original, work.year].join(' ').toLocaleLowerCase().includes(term)
+    && (!term || [work.title, work.original, work.year, ...(work.aliases || [])].join(' ').toLocaleLowerCase().includes(term)
     || places.some(place => place.workId === work.id && textMatches(place, term))));
 }
 
