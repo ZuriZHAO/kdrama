@@ -44,7 +44,6 @@
 | 背着善宰跑 | `lr-flying-kick` | 大舅哥飞踢 · 正祖路 886 巷 21 | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 水原《背着善宰跑》同款打卡](https://www.xiaohongshu.com/explore/69d4cd350000000023010be0) |
 | 背着善宰跑 | `lr-hwahongmun` | 告白名场面 · 华虹门 | 已确认地点，机位待核 | 示意点 | [韩国观光公社 · 《背着善宰跑》水原路线](https://english.visitkorea.or.kr/svc/whereToGo/hdrdslt/hdrdsltView.do?crsSn=564819) |
 | 背着善宰跑 | `lr-bus-stop` | 善宰追公交 · 延武洞公营停车场 | 已确认地点，机位待核 | 示意点 | [GQ Korea · 延武洞停车场公交追车场景](https://www.gqkorea.co.kr/2024/06/10/%EC%84%A0%EC%97%85%ED%8A%80-%EC%88%9C%EB%A1%80%EA%B8%B8%EC%9D%B4%EB%9D%BC%EB%8A%94-%EA%B2%8C-%EC%8B%A4%EC%A1%B4/) |
-
 | 21世纪大君夫人 | `gp-janggeum` | 大长今主题公园 | 仅投稿线索，待独立核验 | 示意点 | [小红书 · 打卡《21世纪大君夫人》取景地](https://www.xiaohongshu.com/explore/6a0adacb0000000006023608) |
 | 21世纪大君夫人 | `gp-baekje` | 百济文化园区 | 已确认地点，机位待核 | 示意点 | [忠清南道旅游局 · 百济文化园区取景作品](https://tour.chungnam.go.kr/prog/course/kor/sub01_03_02/view.do?courseNo=594) |
 | 21世纪大君夫人 | `gp-mujinjeong` | 无尽亭 | 独立清单支持，机位待核 | 示意点 | [Kversal · 《21世纪大君夫人》取景地列表](https://kversal.com/ko/dramas/12233) |
