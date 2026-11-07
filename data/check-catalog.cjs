@@ -32,7 +32,7 @@ catalog.works.forEach(work => {
   if (work.aliases && (!Array.isArray(work.aliases) || work.aliases.some(alias => typeof alias !== 'string' || !alias.trim()))) errors.push(`作品 ${work.id} 的搜索别名无效`);
   if (!work.poster) return;
   if (/^https:\/\//.test(work.poster)) return;
-  if (!/^\.\/assets\/[A-Za-z0-9/_-]+\.(?:jpg|jpeg|png|webp)$/i.test(work.poster) || !fs.existsSync(path.join(__dirname, '..', work.poster))) errors.push(`作品 ${work.id} 的海报文件不存在或路径无效`);
+  if (!/^\.\/assets\/[A-Za-z0-9/_-]+\.(?:jpg|jpeg|png|webp|avif)$/i.test(work.poster) || !fs.existsSync(path.join(__dirname, '..', work.poster))) errors.push(`作品 ${work.id} 的海报文件不存在或路径无效`);
 });
 
 catalog.sources.forEach(source => {
