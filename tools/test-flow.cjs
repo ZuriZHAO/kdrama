@@ -75,7 +75,22 @@ try {
   assert.equal(run(attachment, 9007, `\n## 投稿图片\n![Image](${imageUrl})\n`).status, 0, 'GitHub Issue 图片附件应导入');
   assert.equal(read().scenes.at(-1).image, imageUrl);
 
+  const imageOnly = { ...attachment, kind: 'update', description: '', changes: {}, episode: null, sourceUrl: '' };
+  assert.equal(run(imageOnly, 9009, `\n<!-- KDRAMA_IMAGE_START -->\n![Image](${imageUrl})\n<!-- KDRAMA_IMAGE_END -->\n`).status, 0, '仅补充图片应成功导入');
+  catalog = read();
+  assert.equal(catalog.scenes.at(-1).description, '');
+  assert.equal(catalog.scenes.at(-1).image, imageUrl);
+  assert.equal(catalog.updates.at(-1).workId, catalog.landmarks.find(place => place.id === correction.landmarkId).workId, '近期更新应关联作品');
+  assert.ok(catalog.updates.at(-1).reviewedAt, '近期更新应记录审核时间');
+
+  const poster = { ...payload, version: 2, workId: 'new', newWork: { title: '海报测试剧', original: '포스터 테스트' }, imageUrl: null, imageAttachment: false, posterAttachment: true };
+  assert.equal(run(poster, 9010, `\n<!-- KDRAMA_POSTER_START -->\n![Poster](${imageUrl})\n<!-- KDRAMA_POSTER_END -->\n`).status, 0, '新作品海报附件应导入');
+  assert.equal(read().works.at(-1).poster, imageUrl);
+
   const before = fs.readFileSync(catalogFile, 'utf8');
+  assert.notEqual(run({ ...poster, rightsConfirmed: false }, 9011, `\n<!-- KDRAMA_POSTER_START -->\n![Poster](${imageUrl})\n<!-- KDRAMA_POSTER_END -->\n`).status, 0, '未确认海报许可应拒绝');
+  assert.notEqual(run({ ...poster, imageAttachment: true }, 9012, `\n<!-- KDRAMA_POSTER_START -->\n![Poster](${imageUrl})\n<!-- KDRAMA_POSTER_END -->\n`).status, 0, '海报不能代替场景图片');
+  assert.equal(fs.readFileSync(catalogFile, 'utf8'), before, '无效附件不能修改目录');
   assert.notEqual(run({ ...payload, imageUrl: 'javascript:alert(1)' }, 9002).status, 0);
   assert.equal(fs.readFileSync(catalogFile, 'utf8'), before, '无效链接不能修改目录');
   assert.notEqual(run({ ...correction, changes: { lat: 36 } }, 9004).status, 0);
@@ -86,7 +101,7 @@ try {
   const malformed = spawnSync(process.execPath, [path.join(root, 'tools', 'import-issue.cjs'), issueFile, '9006', catalogFile], { encoding: 'utf8' });
   assert.notEqual(malformed.status, 0, '无效 JSON 投稿应拒绝');
   assert.equal(fs.readFileSync(catalogFile, 'utf8'), before, '无效投稿不能修改目录');
-  console.log('旧版投稿、可编辑投稿、GitHub 图片附件、更正及非法内容检查通过');
+  console.log('旧版投稿、可编辑投稿、GitHub 图片与海报、仅补图片、近期更新、更正及非法内容检查通过');
 } finally {
   fs.rmSync(temp, { recursive: true, force: true });
 }

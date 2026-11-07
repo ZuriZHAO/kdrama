@@ -1,6 +1,6 @@
 const $ = id => document.getElementById(id);
 const catalog = window.KDRAMA_CATALOG || { works: [], landmarks: [], scenes: [], sources: [] };
-const api = String(window.KDRAMA_SUBMISSION_API || '').replace(/\/$/, '');
+const repo = String(window.KDRAMA_REPO || 'zurizhao/kdrama');
 const params = new URLSearchParams(location.search);
 let step = 0;
 let works = catalog.works.slice();
@@ -14,7 +14,7 @@ function optionalNumber(id, max) {
   const raw = value(id);
   if (!raw) return null;
   const n = Number(raw);
-  if (!Number.isInteger(n) || n < 0 || n > max) throw new Error('集数或时间点格式不正确');
+  if (!Number.isInteger(n) || n < (id === 'episode' ? 1 : 0) || n > max) throw new Error('集数或时间点格式不正确');
   return n;
 }
 function sourceUrl() {
@@ -101,12 +101,13 @@ function validateCurrentStep() {
     for (const [id, limit] of [['correction-lat', 90], ['correction-lng', 180]]) {
       if (value(id) && (!Number.isFinite(Number(value(id))) || Math.abs(Number(value(id))) > limit)) throw new Error('更正坐标超出经纬度范围');
     }
+    if (kind === 'update' && Boolean(value('correction-lat')) !== Boolean(value('correction-lng'))) throw new Error('更正坐标请同时填写经纬度');
   }
 }
 function collect() {
   const kind = value('kind');
   const link = sourceUrl();
-  const payload = { kind, sourceUrl: link, sourceTitle: value('source-title') || (link ? new URL(link).hostname : ''), contributor: value('contributor') };
+  const payload = { kind, version: 2, sourceUrl: link, sourceTitle: value('source-title') || (link ? new URL(link).hostname : ''), contributor: value('contributor') };
   if (kind === 'place') Object.assign(payload, {
     workId: value('work-id'), newWork: value('work-id') === 'new' ? { title: value('work-title'), original: value('work-original') } : null,
     name: value('place-name'), group: value('place-group'), lat: Number(value('lat')), lng: Number(value('lng')), description: value('description'),
@@ -132,20 +133,26 @@ function collect() {
     payload.imageCredit = value('image-credit');
     payload.rightsConfirmed = true;
   }
+  payload.imageAttachment = !!file;
+  payload.posterAttachment = !!poster;
   return { payload, file, poster };
 }
-async function loadApproved() {
-  if (!api) return;
-  try {
-    const response = await fetch(api + '/api/catalog', { signal: AbortSignal.timeout(4000) });
-    if (!response.ok) return;
-    const data = await response.json();
-    works = works.concat(data.works || []);
-    landmarks = landmarks.concat(data.landmarks || []);
-  } catch {}
+function issueTitle(payload) {
+  if (payload.kind === 'place') {
+    const work = works.find(item => item.id === payload.workId);
+    const title = work ? work.title : (payload.newWork && (payload.newWork.title || payload.newWork.original)) || '';
+    return `[投稿·地点] ${title ? title + ' · ' : ''}${payload.name}`;
+  }
+  const place = landmarks.find(item => item.id === payload.landmarkId);
+  return `[投稿·补充/更正] ${place ? place.name : payload.landmarkId}`;
+}
+function issueBody(payload) {
+  let body = `<!-- KDRAMA_SUBMISSION_V2_START -->\n\`\`\`json\n${JSON.stringify(payload, null, 2)}\n\`\`\`\n<!-- KDRAMA_SUBMISSION_V2_END -->`;
+  if (payload.imageAttachment) body += `\n\n## 场景图片\n<!-- KDRAMA_IMAGE_START -->\n（把场景图片拖到这里，替换这行文字。）\n<!-- KDRAMA_IMAGE_END -->`;
+  if (payload.posterAttachment) body += `\n\n## 作品海报\n<!-- KDRAMA_POSTER_START -->\n（把海报拖到这里，替换这行文字。）\n<!-- KDRAMA_POSTER_END -->`;
+  return body;
 }
 async function init() {
-  await loadApproved();
   updateOptions();
   updateLandmarkOptions();
   if (['update', 'scene', 'correction'].includes(params.get('kind'))) $('kind').value = 'update';
@@ -171,25 +178,16 @@ $('poster').addEventListener('change', () => { $('image-rights').hidden = !$('po
 window.addEventListener('pagehide', () => { if (previewUrl) URL.revokeObjectURL(previewUrl); });
 $('next-button').addEventListener('click', () => { try { validateCurrentStep(); step++; showStep(); } catch (error) { $('form-status').textContent = error.message; } });
 $('back-button').addEventListener('click', () => { step--; showStep(); });
-$('submission-form').addEventListener('submit', async event => {
+$('submission-form').addEventListener('submit', event => {
   event.preventDefault();
   try {
-    if (!api) throw new Error('投稿服务暂不可用，请稍后再试');
-    const { payload, file, poster } = collect();
-    const form = new FormData();
-    form.set('payload', JSON.stringify(payload));
-    form.set('website', value('website'));
-    if (file) form.set('image', file);
-    if (poster) form.set('poster', poster);
-    $('send-button').disabled = true;
-    $('form-status').textContent = '正在提交…';
-    const response = await fetch(api + '/api/submissions', { method: 'POST', body: form });
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || '提交失败，请稍后再试');
+    const { payload } = collect();
+    const url = `https://github.com/${repo}/issues/new?${new URLSearchParams({ title: issueTitle(payload), body: issueBody(payload) })}`;
+    $('github-issue-link').href = url;
+    window.open(url, '_blank', 'noopener');
     $('submission-form').hidden = true;
     $('success-panel').hidden = false;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   } catch (error) { $('form-status').textContent = error.message; }
-  finally { $('send-button').disabled = false; }
 });
 void init();

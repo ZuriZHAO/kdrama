@@ -82,6 +82,10 @@ window.KDRAMA_CATALOG = {
     { id: 'baekbeom-01', landmarkId: 'baekbeom', description: '世路与以瑞的吻戏拍摄于南山公园入口通往白凡广场的道路。', episode: null, timeSeconds: null, image: null, sourceId: 'visitkorea-itaewon' },
     { id: 'itaewonpark-01', landmarkId: 'itaewonpark', description: '根秀向世路道歉；另一段跟踪世路的情节也在此拍摄。', episode: null, timeSeconds: null, image: null, sourceId: 'visitkorea-itaewon' },
     { id: 'cheongha-01', landmarkId: 'cheongha', description: '此市场作为剧中“公辰市场”的拍摄地；市场内设有剧集取景位置指示牌。', episode: null, timeSeconds: null, image: null, sourceId: 'visitkorea-cheongha' },
-    { id: 'sabang-01', landmarkId: 'sabang', description: '第 1 集慧珍与洪班长在山顶小船相遇；小船也是剧中的洪班长秘密基地。', episode: 1, timeSeconds: null, image: null, sourceId: 'visitkorea-hometown', episodeSourceId: 'visitkorea-hometown-episode' }
+    { id: 'sabang-01', landmarkId: 'sabang', description: '第 1 集慧珍与洪班长在山顶小船相遇；小船也是剧中的洪班长秘密基地。', episode: 1, timeSeconds: null, image: null, sourceId: 'visitkorea-hometown', episodeSourceId: 'visitkorea-hometown-episode' },
+    { id: 'submission-scene-6c44f329-6172-4bc7-a6d5-8903ff6c1274', landmarkId: 'jumunjin', description: '', episode: null, timeSeconds: null, image: './assets/scenes/jumunjin-approved-6c44f329.jpg', imageCredit: '', sourceId: null }
+  ],
+  updates: [
+    { landmarkId: 'jumunjin', reviewedAt: '2026-11-06T14:24:29.372Z' }
   ]
 };

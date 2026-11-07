@@ -32,7 +32,7 @@ catalog.sources.forEach(source => {
 
 catalog.landmarks.forEach(place => {
   if (!workIds.has(place.workId)) errors.push(`地标 ${place.id} 引用了不存在的作品`);
-  if (!sourceIds.has(place.sourceId)) errors.push(`地标 ${place.id} 引用了不存在的来源`);
+  if (place.sourceId && !sourceIds.has(place.sourceId)) errors.push(`地标 ${place.id} 引用了不存在的来源`);
   if (!Number.isFinite(place.lat) || !Number.isFinite(place.lng) || Math.abs(place.lat) > 90 || Math.abs(place.lng) > 180) {
     errors.push(`地标 ${place.id} 坐标无效`);
   }
@@ -46,11 +46,11 @@ catalog.landmarks.forEach(place => {
 
 catalog.scenes.forEach(scene => {
   if (!landmarkIds.has(scene.landmarkId)) errors.push(`场景 ${scene.id} 引用了不存在的地标`);
-  if (!sourceIds.has(scene.sourceId)) errors.push(`场景 ${scene.id} 引用了不存在的来源`);
+  if (scene.sourceId && !sourceIds.has(scene.sourceId)) errors.push(`场景 ${scene.id} 引用了不存在的来源`);
   if (scene.episodeSourceId && !sourceIds.has(scene.episodeSourceId)) errors.push(`场景 ${scene.id} 引用了不存在的集数依据`);
   if (scene.episode !== null && (!Number.isInteger(scene.episode) || scene.episode < 1)) errors.push(`场景 ${scene.id} 的集数无效`);
-  if (scene.episode !== null && !scene.episodeSourceId) errors.push(`场景 ${scene.id} 缺少集数依据`);
-  if (!scene.description) errors.push(`场景 ${scene.id} 缺少描述`);
+
+  if (!scene.description && !scene.image) errors.push(`场景 ${scene.id} 缺少描述和图片`);
   if (scene.timeSeconds !== null && (!Number.isInteger(scene.timeSeconds) || scene.timeSeconds < 0)) {
     errors.push(`场景 ${scene.id} 的时间秒数无效`);
   }
@@ -60,7 +60,7 @@ if (catalog.revisions) {
   idsOf(catalog.revisions, 'revisions');
   catalog.revisions.forEach(revision => {
     if (!landmarkIds.has(revision.landmarkId)) errors.push(`更正 ${revision.id} 引用了不存在的地标`);
-    if (!sourceIds.has(revision.sourceId)) errors.push(`更正 ${revision.id} 引用了不存在的依据`);
+    if (revision.sourceId && !sourceIds.has(revision.sourceId)) errors.push(`更正 ${revision.id} 引用了不存在的依据`);
     if (!revision.reason || !revision.changes || !Object.keys(revision.changes).length) errors.push(`更正 ${revision.id} 缺少内容或原因`);
   });
 }

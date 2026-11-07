@@ -2,7 +2,7 @@
 
 主站 `https://zurizhao.github.io/kdrama/` 由本仓库的 GitHub Pages 工作流发布。源文件在 `D:\code\kdrama`；`dist/` 是可重新生成的静态构建产物。
 
-投稿服务 Sites 项目 ID：`appgprj_6aedb4f5a0648191b584a706ba0bca8b`。源码在 `api-site/`，由 Sites 提供 D1 数据库与 R2 图片存储。
+投稿服务 Sites 项目 ID：`appgprj_6aedb4f5a0648191b584a706ba0bca8b`（地图和新投稿已停止使用，项目仍在线）。源码在 `api-site/`，由 Sites 提供 D1 数据库与 R2 图片存储。投稿现已改走 GitHub Issue，维护者加 `publish-approved` 标签后自动发布。旧服务的一张已审核注文津场景图已迁入仓库，另一条仅含标点的记录待人工确认。
 
 备用静态地图 Sites 项目 ID：`appgprj_6aedb14894908191bb144a278bd28004`，网址 `https://kdrama-map-zuri.insightfullemon.chatgpt.site`。其本地发布工作目录可以在发布成功后删除；Sites 仍保留已推送的源码和线上版本。后续维护时可以用 Sites 源码助手重新检出，也可以由本仓库构建 `dist/` 后再同步。
 

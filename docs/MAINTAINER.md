@@ -6,15 +6,15 @@
 
 ## 公开站点与投稿审核
 
-仓库默认分支为 `main`，现已公开。地图主入口为 https://zurizhao.github.io/kdrama/ ，由 GitHub Pages 工作流发布。旧 Sites 地图项目为 `kdrama-map-zuri`；投稿 API 仍由 Sites 项目 `kdrama-submissions-zuri` 托管。
+仓库默认分支为 `main`，现已公开。地图主入口为 https://zurizhao.github.io/kdrama/ ，由 GitHub Pages 工作流发布。旧 Sites 地图项目为 `kdrama-map-zuri`；投稿已改走 GitHub Issue，不再使用 Sites 投稿服务。
 
-访客在地图内选点后通过三步表单直接提交。投稿存入投稿服务的 D1 数据库，图片存入 R2；只有审核通过的记录会由公开目录 API 返回。维护者登录 [审核页](https://kdrama-submissions-zuri.insightfullemon.chatgpt.site/admin) 后核对取景来源、坐标、图片展示许可与署名；可以在 JSON 中修订，再批准或驳回。来源链接可以留空，但缺少依据的点位不得标为已核实拍摄机位。不要仅因链接可打开就认为拍摄关系成立。
+访客在地图内选点后通过三步表单填写，表单会生成预填的投稿 Issue，访客登录 GitHub 提交。投稿集中在仓库的 Issues；维护者核对取景来源、坐标、图片展示许可与署名，必要时用 `review.html` 修订 Issue 正文里的 JSON，确认后给 Issue 加上 `publish-approved` 标签，工作流会自动导入目录并发布地图。场景图片与作品海报以 GitHub 附件形式保存在 Issue 正文对应区块。来源链接可以留空，但缺少依据的点位不得标为已核实拍摄机位。不要仅因链接可打开就认为拍摄关系成立。
 
-旧的 GitHub Issue 投稿代码和工作流仍在仓库中，供历史数据导入参考；公开网页已不使用它。投稿服务源码在 `api-site/`，与地图前端分别发布。
+旧 ChatGPT Sites 投稿服务源码在 `api-site/`；公开地图已不再读取该服务，新投稿也不再写入该服务。旧服务项目本身仍在线，保留供历史数据核对。
 
-仓库公开后，推送到 `main` 会运行检查并尝试发布 GitHub Pages。页面发布与投稿 API 是两项独立服务；迁出地图不会自动迁出投稿 API。
+仓库公开后，推送到 `main` 会运行检查并尝试发布 GitHub Pages。地图发布与投稿审核是同一套 GitHub 流程。
 
-旧地图 Sites 副本位于 `D:\code\kdrama-sites`，不随本仓库推送自动更新。GitHub Pages 则在 `main` 推送后运行 `node tools/build-site.cjs` 自动发布。修改投稿 API 后，在 `api-site/` 生成数据库迁移并发布对应 Sites 项目；迁移 API 前须处理现有 D1/R2 数据与审核身份。
+旧地图 Sites 副本不随本仓库推送自动更新，其本地检出目录已清理，需要时可重新检出。GitHub Pages 在 `main` 推送后运行 `node tools/build-site.cjs` 自动发布。旧服务中已通过审核的注文津图片已迁入 `assets/scenes/` 和 `data/catalog.js`；另有一条内容仅为“。”的记录，待人工确认后再决定是否发布。
 
 ## 数据与检查
 

@@ -10,7 +10,7 @@
   <main class="page">
     <header class="top"><a href="./index.html">← 返回地图</a><span>剧场之外</span></header>
     <h1>分享一个韩剧取景地</h1>
-    <p class="intro">跟着地图选点、填写场景、确认后提交。资料会先进入待审核区，核对后才会显示在地图上。</p>
+    <p class="intro">跟着地图选点、填写场景、确认后提交。提交会打开一个 GitHub 投稿页面，登录 GitHub 提交 Issue；核对通过后才会显示在地图上。</p>
     <ol class="steps" aria-label="投稿步骤"><li class="active">1 选择</li><li>2 地点与场景</li><li>3 检查提交</li></ol>
     <form id="submission-form" novalidate>
       <section class="step-panel" data-step="0">
@@ -55,7 +55,7 @@
 
       <section class="step-panel" data-step="2" hidden>
         <div id="scene-details">
-          <div class="two"><label>集数（可选）<input id="episode" type="number" min="0" max="1000" /></label><label>播放时间，秒（可选）<input id="time-seconds" type="number" min="0" max="100000" /></label></div>
+          <div class="two"><label>集数（可选）<input id="episode" type="number" min="1" max="1000" /></label><label>播放时间，秒（可选）<input id="time-seconds" type="number" min="0" max="100000" /></label></div>
         </div>
         <label>资料来源链接（可选）<input id="source-url" type="url" maxlength="1000" placeholder="https://..." /></label>
         <label>来源名称（可选）<input id="source-title" maxlength="160" placeholder="例如：韩国观光公社" /></label>
@@ -75,10 +75,10 @@
       <div class="form-actions"><button id="back-button" type="button" hidden>上一步</button><button id="next-button" type="button">下一步</button><button id="send-button" class="submit-button" type="submit" hidden>提交待审核</button></div>
       <p id="form-status" class="status" role="status" aria-live="polite"></p>
     </form>
-    <section id="success-panel" class="success-panel" hidden><h2>已收到投稿</h2><p>资料已进入待审核区。核对通过后会出现在地图上。</p><a href="./index.html">返回地图</a></section>
+    <section id="success-panel" class="success-panel" hidden><h2>请在 GitHub 完成投稿</h2><p>请登录 GitHub，把场景图片／作品海报（如有）拖进对应区块，然后点击 Submit new issue 提交。若新标签页没有打开，请点击下面的链接。</p><p><a id="github-issue-link" href="https://github.com/zurizhao/kdrama/issues/new" target="_blank" rel="noopener noreferrer">打开 GitHub 投稿页 ↗</a></p><a href="./index.html">返回地图</a></section>
   </main>
-  <script src="./site-config.js?v=2"></script>
+  <script src="./site-config.js?v=3"></script>
   <script src="./data/catalog.js?v=5"></script>
-  <script src="./submit.js?v=9"></script>
+  <script src="./submit.js?v=10"></script>
 </body>
 </html>
