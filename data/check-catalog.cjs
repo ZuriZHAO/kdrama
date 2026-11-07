@@ -55,6 +55,11 @@ catalog.scenes.forEach(scene => {
   if (!landmarkIds.has(scene.landmarkId)) errors.push(`场景 ${scene.id} 引用了不存在的地标`);
   if (scene.sourceId && !sourceIds.has(scene.sourceId)) errors.push(`场景 ${scene.id} 引用了不存在的来源`);
   if (scene.episodeSourceId && !sourceIds.has(scene.episodeSourceId)) errors.push(`场景 ${scene.id} 引用了不存在的集数依据`);
+  if (scene.image && !/^https:\/\//.test(scene.image) &&
+      (!/^\.\/assets\/[A-Za-z0-9/_-]+\.(?:jpg|jpeg|png|webp)$/i.test(scene.image) ||
+       !fs.existsSync(path.join(__dirname, '..', scene.image)))) {
+    errors.push(`场景 ${scene.id} 的图片文件不存在或路径无效`);
+  }
   if (scene.episode !== null && (!Number.isInteger(scene.episode) || scene.episode < 1)) errors.push(`场景 ${scene.id} 的集数无效`);
 
   if (!scene.description && !scene.image) errors.push(`场景 ${scene.id} 缺少描述和图片`);

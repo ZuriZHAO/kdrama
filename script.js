@@ -396,6 +396,8 @@ function sceneMeta(scene) {
 }
 
 function sceneImageUrl(scene) {
+  if (typeof scene.image !== 'string') return '';
+  if (/^\.\/assets\//.test(scene.image)) return scene.image;
   try { const url = new URL(scene.image); return url.protocol === 'https:' ? url.href : ''; }
   catch { return ''; }
 }
