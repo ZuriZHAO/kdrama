@@ -115,6 +115,22 @@ window.KDRAMA_CATALOG = {
     { id: 'osm-sabang', title: 'OpenStreetMap · 沙防纪念公园', url: 'https://www.openstreetmap.org/way/1304567998' },
     { id: 'osm-goblin-breakwater', title: 'OpenStreetMap · 注文津防沙堤（鬼怪取景地）', url: 'https://www.openstreetmap.org/node/6087000044' },
     { id: 'coastguard-goblin', title: '韩国海警 · 迎津海滩鬼怪拍摄地', url: 'https://www.kcg.go.kr/sokchocgs/na/ntt/selectNttInfo.do?nttSn=2054' },
+    { id: 'xhs-obs-note', title: '小红书 · 韩剧《那年我们》同款取景地打卡', url: 'https://www.xiaohongshu.com/explore/69cf3099000000001b02229e' },
+    { id: 'cartoontour-obs', title: 'CartoonTour · 《那年我们》取景地（含坐标）', url: 'https://cartoontour.com/film/view.php?media_no=947' },
+    { id: 'xhs-tang-a', title: '小红书 · 《苦尽柑来遇见你》1-7回取景地', url: 'https://www.xiaohongshu.com/explore/68501c22000000001101fb65' },
+    { id: 'xhs-tang-b', title: '小红书 · 《苦尽柑来遇见你》8-12回取景地', url: 'https://www.xiaohongshu.com/explore/6852852400000000150237db' },
+    { id: 'xhs-lr', title: '小红书 · 水原《背着善宰跑》同款打卡', url: 'https://www.xiaohongshu.com/explore/69d4cd350000000023010be0' },
+    { id: 'visitkorea-obs', title: '韩国观光公社 · 《那年我们》取景地', url: 'https://english.visitkorea.or.kr/svc/contents/infoBscView.do?menuSn=508&vcontsId=177328' },
+    { id: 'suwon-obs', title: '水原市 · 《那年我们》取景地路线', url: 'https://www.suwon.go.kr/sw-www/sw-visitsuwon/sw-visitsuwon-02/sw-visitsuwon-02-05/sw-visitsuwon-02-05-04.jsp' },
+    { id: 'filmkorea-obs-cafe', title: '韩国影视委员会 · 青麦田旧牧场取景地', url: 'https://ifc.filmkorea.or.kr/location/location_view.jsp?id=11031&page=344' },
+    { id: 'visitkorea-lr', title: '韩国观光公社 · 《背着善宰跑》水原路线', url: 'https://english.visitkorea.or.kr/svc/whereToGo/hdrdslt/hdrdsltView.do?crsSn=564819' },
+    { id: 'joongang-lr-house', title: 'Korea JoongAng Daily · 善宰家蓝色大门', url: 'https://www.koreajoongangdaily.com/korea/weekend-getaway-cupids-trails-explore-these-four-filming-spots-from-hit-romantic-drama-lovely-runner/10434259' },
+    { id: 'visitkorea-tang-farm', title: '韩国观光公社 · 高敞学院农场取景地', url: 'https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=b7baa61d-9207-4c1a-9aac-0981f5f85553' },
+    { id: 'gangnam-tang', title: '江南区政府 · 必敬齋相见礼场景', url: 'https://www.gangnam.go.kr/gangnamlife/2026/html/vol368/sub01_05.html' },
+    { id: 'gq-lr-bus', title: 'GQ Korea · 延武洞停车场公交追车场景', url: 'https://www.gqkorea.co.kr/2024/06/10/%EC%84%A0%EC%97%85%ED%8A%80-%EC%88%9C%EB%A1%80%EA%B8%B8%EC%9D%B4%EB%9D%BC%EB%8A%94-%EA%B2%8C-%EC%8B%A4%EC%A1%B4/' },
+    { id: 'daegu-tang', title: '大邱文化艺术振兴院 · 桂山圣堂取景地', url: 'https://www.dgfca.or.kr/article/REPORT_NEWS/detail/13643' },
+    { id: 'xhs-gp', title: '小红书 · 打卡《21世纪大君夫人》取景地', url: 'https://www.xiaohongshu.com/explore/6a0adacb0000000006023608' },
+    { id: 'xhs-qbc', title: '小红书 · 魁北克｜鬼怪之城（附打卡路线）', url: 'https://www.xiaohongshu.com/explore/6ac99985000000001303d322' },
   ],
 
   // coordinateStatus: approximate = 附近示意点；venue = 已核实景点点位；camera = 已核实拍摄机位。
@@ -210,7 +226,392 @@ window.KDRAMA_CATALOG = {
       coordinateSourceId: null, coordinateNote: '按仁川市官网“한미서점：인천 동구 금곡동 14-4”与图注“금골로 9”定位；机位待核实。',
       address: '인천광역시 동구 금곡동 14-4 (금곡로 9)', query: '한미서점 인천', kind: 'inchon', sourceId: null,
       visit: '仍在营业的老书店；进店请先询问店主再拍摄。'
-    }
+    },
+    {
+      id: 'obs-poster', workId: 'our-beloved-summer', name: '海报拍摄地', ko: '포스터 촬영지', city: '水原 · 八达区', group: '水原',
+      lat: 37.2856, lng: 127.0120, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按笔记“91-9 Jangan-dong（位于小熊家后面）”定位；坐标取小熊家一带，机位待核实。',
+      address: '경기도 수원시 팔달구 장안동 91-9', query: '수원 장안동 91-9', kind: 'suwon', sourceId: 'xhs-obs-note',
+      visit: '位于居民区，请勿打扰住户。'
+    },
+    {
+      id: 'obs-choi-house', workId: 'our-beloved-summer', name: '崔雄家', ko: '최웅네 집', city: '水原 · 八达区', group: '水原',
+      lat: 37.2858, lng: 127.0123, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按笔记“108-1 Jangan-dong”定位；现场为“카페 피터”外墙，机位待核实。',
+      address: '경기도 수원시 팔달구 장안동 108-1', query: '수원 장안동 108-1', kind: 'suwon', sourceId: 'xhs-obs-note',
+      visit: '居民区/咖啡馆外墙，拍摄前请确认是否允许。'
+    },
+    {
+      id: 'obs-yeonsu-house', workId: 'our-beloved-summer', name: '延秀家 · 池洞壁画村', ko: '지동벽화마을', city: '水原 · 八达区', group: '水原',
+      lat: 37.283931, lng: 127.02399, coordinateStatus: 'venue', verifiedAt: '2026-11-07', entrance: null,
+      coordinateSourceId: 'cartoontour-obs', coordinateNote: '韩国观光公社确认延秀家位于池洞壁画村，CartoonTour 标出 창룡문로 75-5；坐标指向景点地址，具体拍摄机位待现场核实。',
+      address: '경기도 수원시 팔달구 창룡문로 75-5', query: '지동벽화마을', kind: 'suwon', sourceId: 'visitkorea-obs',
+      visit: '居民区壁画村，请保持安静、勿打扰住户。'
+    },
+    {
+      id: 'obs-haenggung-party', workId: 'our-beloved-summer', name: '崔雄家／工作室 · 旧行宫派对', ko: '행궁파티', city: '水原 · 八达区', group: '水原',
+      lat: 37.285957, lng: 127.01088, coordinateStatus: 'venue', verifiedAt: '2026-11-07', entrance: null,
+      coordinateSourceId: 'cartoontour-obs', coordinateNote: '水原市确认此处是崔雄家的取景地；长安洞 109-1 与 화서문로31번길 22 为同一地址，原“工作室”记录已并入。CartoonTour 坐标指向建筑，具体机位待现场核实。',
+      address: '경기도 수원시 팔달구 화서문로31번길 22', query: '행궁파티', kind: 'suwon', sourceId: 'suwon-obs',
+      visit: '旧咖啡馆，现状可能变化；从公共道路外观拍摄并保持安静。'
+    },
+    {
+      id: 'obs-cafe', workId: 'our-beloved-summer', name: '川北废牧场新品咖啡馆 · 青麦仓库', ko: '청보리 창고', city: '保宁 · 川北面', group: '保宁',
+      lat: 36.4797, lng: 126.5314, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: 'cartoontour-obs', coordinateNote: '韩国影视委员会确认 천광로 73-1 是《那年我们》取景的青麦田旧牧场；现有坐标取 CartoonTour“천북 보리밭”田地节点，非咖啡馆入口，机位待核实。',
+      address: '충청남도 보령시 천북면 천광로 73-1', query: '청보리 창고 보령', kind: 'boryeong', sourceId: 'filmkorea-obs-cafe',
+      visit: '青麦田为私有地，请勿踩踏；可携带宠物，停车在咖啡厅前路边。'
+    },
+    {
+      id: 'tang-cheongsim', workId: 'when-life-gives-you-tangerines', name: '清心国际海洋修炼院', ko: '청심국제수련원', city: '丽水 · 华阳面', group: '全罗南道',
+      lat: 34.644, lng: 127.6163, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按笔记“전남 여수시 화양면 장수로 183-5”定位到화양면 장수로一带；具体院址与机位待核实。',
+      address: '전라남도 여수시 화양면 장수로 183-5', query: '청심국제수련원', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '海边坡地，注意风大与湿滑。'
+    },
+    {
+      id: 'tang-gogchang-farm', workId: 'when-life-gives-you-tangerines', name: '高敞学院农场', ko: '학원농장', city: '高敞 · 公音面', group: '全罗北道',
+      lat: 35.3738, lng: 126.5422, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '韩国观光公社确认此农场是剧中油菜花田；Photon“학원농장”节点位于高敞公音面，农场范围大，具体机位待核实。',
+      address: '전라북도 고창군 공음면 학원농장길 158-6', query: '고창 학원농장', kind: 'other', sourceId: 'visitkorea-tang-farm',
+      visit: '农田为私有地，请勿踩踏；注意季节与开放时间。'
+    },
+    {
+      id: 'tang-maechukji', workId: 'when-life-gives-you-tangerines', name: '梅楚池村', ko: '매축지마을', city: '釜山 · 东区', group: '釜山',
+      lat: 35.1336, lng: 129.0518, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“좌천동 매축지마을”定位到좌천동一带；村落巷道狭窄，机位待核实。',
+      address: '부산광역시 동구 좌천동 매축지마을', query: '매축지마을', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '居民区，请保持安静、勿扰住户。'
+    },
+    {
+      id: 'tang-seongnam', workId: 'when-life-gives-you-tangerines', name: '城南二路 46 号 10-2', ko: '성남이로46번길 10-2', city: '釜山 · 东区', group: '釜山',
+      lat: 35.134, lng: 129.0579, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“성남이로 46번길 10-2”定位到성남이로一带；具体门牌与机位待核实。',
+      address: '부산광역시 동구 성남이로 46번길 10-2', query: '부산 동구 성남이로46번길', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '居民区，请勿打扰住户。'
+    },
+    {
+      id: 'tang-jangheung', workId: 'when-life-gives-you-tangerines', name: '张奂村海岸', ko: '고마장환길', city: '长兴 · 冠山邑', group: '全罗南道',
+      lat: 34.5578, lng: 126.9415, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“장흥군 관산읍 고마장환길 542”定位到관산읍一带；海岸线较长，机位待核实。',
+      address: '전라남도 장흥군 관산읍 고마장환길 542', query: '장흥 고마장환길', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '海岸道路，注意车辆与潮汐。'
+    },
+    {
+      id: 'tang-unmunsa', workId: 'when-life-gives-you-tangerines', name: '云门寺', ko: '운문사', city: '清道 · 云门面', group: '庆尚北道',
+      lat: 35.6611, lng: 128.9603, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '笔记误写“전북 청도군”，实际在경북 청도군；坐标取운문사寺址，机位待核实。',
+      address: '경상북도 청도군 운문면 운문사길 264', query: '운문사', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '寺庙为宗教场所，请遵守礼仪、保持安静。'
+    },
+    {
+      id: 'tang-andong-homin', workId: 'when-life-gives-you-tangerines', name: '胡民里', ko: '호민리', city: '安东 · 丰川面', group: '庆尚北道',
+      lat: 36.5558, lng: 128.5066, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“안동시 풍천면 호민리”定位到풍천면一带；村落机位待核实。',
+      address: '경상북도 안동시 풍천면 호민리', query: '안동 풍천면 호민리', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '乡村居民区，请勿打扰。'
+    },
+    {
+      id: 'tang-jejumok', workId: 'when-life-gives-you-tangerines', name: '济州牧官衙遗址', ko: '제주목관아', city: '济州 · 济州市', group: '济州',
+      lat: 33.5139, lng: 126.5223, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“제주목관아”节点；为开放景区，机位待核实。',
+      address: '제주특별자치도 제주시 관덕로 25', query: '제주목관아', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '景区开放时间请以现场为准。'
+    },
+    {
+      id: 'tang-jeonbuk-univ', workId: 'when-life-gives-you-tangerines', name: '全北大学医院', ko: '전북대학교병원', city: '全州 · 德津区', group: '全罗北道',
+      lat: 35.847, lng: 127.1394, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“전북대학교 건지로 20”定位到全北大学医院一带；医院内部不开放拍摄。',
+      address: '전라북도 전주시 덕진구 건지로 20', query: '전북대학교병원', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '医院为营业场所，请勿影响就医秩序。'
+    },
+    {
+      id: 'tang-incheon-uhyeon', workId: 'when-life-gives-you-tangerines', name: '雨岘路 67 号 19', ko: '우현로67번길 19', city: '仁川 · 中区', group: '仁川',
+      lat: 37.4716, lng: 126.6301, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“우현로 67번길 19”定位到우현로一带；具体门牌与机位待核实。',
+      address: '인천광역시 중구 우현로 67번길 19', query: '인천 중구 우현로67번길', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '居民/商业混合区，拍摄前请确认是否允许。'
+    },
+    {
+      id: 'tang-jeonnam-univ', workId: 'when-life-gives-you-tangerines', name: '全南大学（光州校区）', ko: '전남대학교', city: '光州 · 北区', group: '光州',
+      lat: 35.1769, lng: 126.9069, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“전남대학교”节点；剧中作为“首尔大”出现，机位待核实。',
+      address: '광주광역시 북구 용봉로 77', query: '전남대학교', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '校园，请遵守学校规定。'
+    },
+    {
+      id: 'tang-jeonju-paldal', workId: 'when-life-gives-you-tangerines', name: '八达路 140', ko: '팔달로 140', city: '全州 · 完山区', group: '全罗北道',
+      lat: 35.819, lng: 127.147, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“전주 완산구 팔달로 140”定位到팔달로一带；具体门牌与机位待核实。',
+      address: '전라북도 전주시 완산구 팔달로 140', query: '전주 완산구 팔달로', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '商业街，注意车辆与行人。'
+    },
+    {
+      id: 'tang-deokwon', workId: 'when-life-gives-you-tangerines', name: '德院', ko: '덕원', city: '首尔 · 永登浦区', group: '首尔',
+      lat: 37.5223, lng: 126.912, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“덕원”节点，位于영등포동；机位待核实。',
+      address: '서울특별시 영등포구 버드나무로6길 6', query: '서울 영등포 덕원', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '餐馆/店铺，营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'tang-jungang-high', workId: 'when-life-gives-you-tangerines', name: '首尔中央高等学校', ko: '중앙고등학교', city: '首尔 · 钟路区', group: '首尔',
+      lat: 37.5842, lng: 126.9868, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“중앙고등학교”节点；学校仍在办学，机位待核实。',
+      address: '서울특별시 종로구 창덕궁길 164', query: '중앙고등학교', kind: 'other', sourceId: 'xhs-tang-a',
+      visit: '学校，请勿进入校园；在公共道路拍摄。'
+    },
+    {
+      id: 'tang-sinseongru', workId: 'when-life-gives-you-tangerines', name: '仁川新盛楼', ko: '신성루', city: '仁川 · 中区', group: '仁川',
+      lat: 37.4715, lng: 126.6305, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“우현로 19-14 신성루”定位到우현로一带；具体店址与机位待核实。',
+      address: '인천광역시 중구 우현로 19-14', query: '인천 신성루', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '餐馆仍在营业，进店拍摄请先征得同意。'
+    },
+    {
+      id: 'tang-bugyo-bus', workId: 'when-life-gives-you-tangerines', name: '浮桥公交站', ko: '조정래길', city: '宝城 · 筏桥邑', group: '全罗南道',
+      lat: 34.848, lng: 127.3472, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“조정래길”节点，位于벌교읍；公交站机位待核实。',
+      address: '전라남도 보성군 벌교읍 조정래길 2-8', query: '벌교 조정래길', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '乡间公交站，注意来往车辆。'
+    },
+    {
+      id: 'tang-daegu-cathedral', workId: 'when-life-gives-you-tangerines', name: '大邱桂山圣堂', ko: '계산성당', city: '大邱 · 中区', group: '大邱',
+      lat: 35.8679, lng: 128.5878, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '大邱文化艺术振兴院确认桂山圣堂是本剧取景地；坐标取教堂位置，婚礼内景的具体机位待核实。',
+      address: '대구광역시 중구 서성로 10', query: '대구 계산성당', kind: 'other', sourceId: 'daegu-tang',
+      visit: '宗教场所，请遵守礼仪、保持安静。'
+    },
+    {
+      id: 'tang-yongsan-jangmun', workId: 'when-life-gives-you-tangerines', name: '长文路 49 街', ko: '장문로49길', city: '首尔 · 龙山区', group: '首尔',
+      lat: 37.5262, lng: 126.9984, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“장문로 49길”定位到장문로一带；具体机位待核实。',
+      address: '서울특별시 용산구 장문로 49길', query: '서울 용산구 장문로49길', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '居民区，请保持安静。'
+    },
+    {
+      id: 'tang-junggu-45', workId: 'when-life-gives-you-tangerines', name: '45 大楼', ko: '사오빌딩', city: '首尔 · 中区', group: '首尔',
+      lat: 37.5636, lng: 126.9954, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“퇴계로41길 29”定位；具体店址与机位待核实。',
+      address: '서울특별시 중구 퇴계로41길 29', query: '서울 중구 퇴계로41길29', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '商业楼，拍摄前请确认是否允许。'
+    },
+    {
+      id: 'tang-incheon-songhyeon', workId: 'when-life-gives-you-tangerines', name: '松岘公园路（背景+CG）', ko: '송현동', city: '仁川 · 东区', group: '仁川',
+      lat: 37.4823, lng: 126.6427, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“송현동 22-127”定位到송현동一带；剧中背景含 CG 效果，机位待核实。',
+      address: '인천광역시 동구 송현동 22-127', query: '인천 동구 송현동', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '居民区，请勿打扰住户。'
+    },
+    {
+      id: 'tang-gangnam-pilgyeongjae', workId: 'when-life-gives-you-tangerines', name: '必敬齋', ko: '필경재', city: '首尔 · 江南区', group: '首尔',
+      lat: 37.4849, lng: 127.0952, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '江南区政府确认此处拍摄金明与英凡两家相见礼；坐标取餐厅位置，具体室内机位待核实。',
+      address: '서울특별시 강남구 광평로 205', query: '필경재', kind: 'other', sourceId: 'gangnam-tang',
+      visit: '餐厅营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'tang-changseong', workId: 'when-life-gives-you-tangerines', name: '昌盛洞 6', ko: '창성동 6', city: '首尔 · 钟路区', group: '首尔',
+      lat: 37.5809, lng: 126.9725, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“창성동 6”定位到창성동一带；具体门牌与机位待核实。',
+      address: '서울특별시 종로구 창성동 6', query: '서울 종로구 창성동', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '居民区，请保持安静。'
+    },
+    {
+      id: 'tang-guro-hyeondae', workId: 'when-life-gives-you-tangerines', name: '五柳路现代城住宅', ko: '오류로62-15', city: '首尔 · 九老区', group: '首尔',
+      lat: 37.4902, lng: 126.8405, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“오류로 62-15”定位到오류로一带；具体楼栋与机位待核实。',
+      address: '서울특별시 구로구 오류로 62-15', query: '서울 구로구 오류로62-15', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '居民区，请勿打扰住户。'
+    },
+    {
+      id: 'tang-yeouido-hanyang', workId: 'when-life-gives-you-tangerines', name: '汉阳公寓 E 栋附近', ko: '여의도동 4-2', city: '首尔 · 永登浦区', group: '首尔',
+      lat: 37.5207, lng: 126.9385, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“여의도동 4-2”定位到여의도一带；具体楼栋与机位待核实。',
+      address: '서울특별시 영등포구 여의도동 4-2', query: '서울 영등포구 여의도동', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '居民区，请保持安静。'
+    },
+    {
+      id: 'tang-ora-buckwheat', workId: 'when-life-gives-you-tangerines', name: '梧罗洞荞麦田', ko: '오라이동 산76', city: '济州 · 济州市', group: '济州',
+      lat: 33.4708, lng: 126.5099, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“오라이동 산76”定位到오라이동一带；荞麦田为农地，机位待核实。',
+      address: '제주특별자치도 제주시 오라이동 산76', query: '제주 오라이동', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '农田，请勿踩踏作物。'
+    },
+    {
+      id: 'tang-jeonju-paldal-147', workId: 'when-life-gives-you-tangerines', name: '八达路 147-2', ko: '팔달로 147-2', city: '全州 · 完山区', group: '全罗北道',
+      lat: 35.819, lng: 127.147, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“전주 완산구 팔달로 147-2”定位到팔달로一带；具体门牌与机位待核实。',
+      address: '전라북도 전주시 완산구 팔달로 147-2', query: '전주 완산구 팔달로', kind: 'other', sourceId: 'xhs-tang-b',
+      visit: '商业街，注意车辆。'
+    },
+    {
+      id: 'lr-house', workId: 'lovely-runner', name: '善宰家外观 · 蓝色大门', ko: '화서문로48번길', city: '水原 · 八达区', group: '水原',
+      lat: 37.2861, lng: 127.0126, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '韩国观光公社确认街对面 몽테드 咖啡馆是小率家；媒体实地报道确认蓝色大门为善宰家外观。现有坐标仅为这一带示意位置，蓝色大门具体门牌与机位待现场核实。',
+      address: '경기도 수원시 팔달구 화서문로48번길 14 对面', query: '몽테드 수원', kind: 'other', sourceId: 'joongang-lr-house',
+      visit: '蓝色大门为居民住宅，请安静拍照、不要逗留打扰。'
+    },
+    {
+      id: 'lr-wallpush', workId: 'lovely-runner', name: '小率壁咚善宰 · 新风路 43', ko: '신풍로 43', city: '水原 · 八达区', group: '水原',
+      lat: 37.2845, lng: 127.0138, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '韩国观光公社确认壁咚场景在行宫洞壁画村；“신풍로 43”为投稿线索，尚未证实与官方所述巷道一致，现有坐标仅示意。',
+      address: '경기도 수원시 팔달구 신풍로 43', query: '수원 신풍로 43', kind: 'other', sourceId: 'visitkorea-lr',
+      visit: '居民区巷道，请保持安静。'
+    },
+    {
+      id: 'lr-flying-kick', workId: 'lovely-runner', name: '大舅哥飞踢 · 正祖路 886 巷 21', ko: '정조로886번길 21', city: '水原 · 八达区', group: '水原',
+      lat: 37.2871, lng: 127.0161, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按笔记“정조로886번길 21”定位到정조로886번길一带；具体门牌与机位待核实。',
+      address: '경기도 수원시 팔달구 정조로886번길 21', query: '수원 정조로886번길', kind: 'other', sourceId: 'xhs-lr',
+      visit: '居民区，请勿打扰住户。'
+    },
+    {
+      id: 'lr-hwahongmun', workId: 'lovely-runner', name: '告白名场面 · 华虹门', ko: '수원화성 화홍문', city: '水原 · 八达区', group: '水原',
+      lat: 37.2875, lng: 127.0176, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '韩国观光公社确认告白场景拍于华虹门前的桥；现有坐标取华虹门景点节点，桥上具体机位待核实。',
+      address: '경기도 수원시 팔달구 북수동 수원화성 화홍문', query: '수원화성 화홍문', kind: 'other', sourceId: 'visitkorea-lr',
+      visit: '华虹门夜景最美，建议傍晚去；注意水边安全。'
+    },
+    {
+      id: 'lr-bus-stop', workId: 'lovely-runner', name: '善宰追公交 · 延武洞公营停车场', ko: '연무동 공영주차장', city: '水原 · 长安区', group: '水原',
+      lat: 37.2885, lng: 127.0195, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'GQ Korea 报道追公交场景在延武洞公营停车场，地址为 경수대로743번길 57；现场并无真正公交站，现有坐标取该路段示意位置，机位待核实。',
+      address: '경기도 수원시 장안구 경수대로743번길 57', query: '연무동 공영주차장', kind: 'other', sourceId: 'gq-lr-bus',
+      visit: '现场是停车场，没有真实公交站；注意车辆进出。'
+    },
+    {
+      id: 'gp-janggeum', workId: 'perfect-crown', name: '大长今主题公园', ko: '용인 대장금파크', city: '龙仁 · 处仁区', group: '京畿道',
+      lat: 37.1256, lng: 127.3619, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按笔记“용천리 778-1”定位到백암면一带；园区范围大，机位待核实。',
+      address: '경기 용인시 처인구 백암면 용천리 778-1', query: '대장금파크', kind: 'other', sourceId: 'xhs-gp',
+      visit: '影视基地，开放时间与门票请查官方信息。'
+    },
+    {
+      id: 'gp-baekje', workId: 'perfect-crown', name: '百济文化园区', ko: '백제문화단지', city: '扶余 · 窥岩面', group: '忠清南道',
+      lat: 36.307382, lng: 126.907241, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“백제문화단지”节点；园区开放时间请以现场为准。',
+      address: '충남 부여군 규암면 백제문로 455', query: '백제문화단지', kind: 'other', sourceId: 'xhs-gp',
+      visit: '大型文化园区，建议预留半天。'
+    },
+    {
+      id: 'gp-mujinjeong', workId: 'perfect-crown', name: '无尽亭', ko: '무진정', city: '咸安 · 咸安面', group: '庆尚南道',
+      lat: 35.2351, lng: 128.4253, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按笔记“괴산4길 25”定位到함안면一带；坐标取면中心，机位待核实。',
+      address: '경남 함안군 함안면 괴산4길 25', query: '함안 무진정', kind: 'other', sourceId: 'xhs-gp',
+      visit: '亭子为开放景点，注意水边安全。'
+    },
+    {
+      id: 'gp-hwaseomun', workId: 'perfect-crown', name: '水原华西门', ko: '화서문', city: '水原 · 八达区', group: '京畿道',
+      lat: 37.28561, lng: 127.00967, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“화서문”节点；世界文化遗产，机位待核实。',
+      address: '경기 수원시 팔달구 장안동 334', query: '수원 화서문', kind: 'other', sourceId: 'xhs-gp',
+      visit: '夜景灯光秀期间人流较多，注意安全。'
+    },
+    {
+      id: 'gp-jongmyo', workId: 'perfect-crown', name: '宗庙', ko: '종묘', city: '首尔 · 钟路区', group: '首尔',
+      lat: 37.5754, lng: 126.9939, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“훈정동”节点；宗庙为世界文化遗产，需预约参观。',
+      address: '서울 종로구 훈정동 157', query: '종묘', kind: 'other', sourceId: 'xhs-gp',
+      visit: '世界文化遗产，参观需按官方预约与时段。'
+    },
+    {
+      id: 'gp-oreung', workId: 'perfect-crown', name: '庆州五陵', ko: '경주 오릉', city: '庆州 · 塔洞', group: '庆尚北道',
+      lat: 35.823024, lng: 129.208371, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“경주 오릉”节点；为皇家陵墓（世遗），机位待核实。',
+      address: '경북 경주시 탑동 67-1', query: '경주 오릉', kind: 'other', sourceId: 'xhs-gp',
+      visit: '皇家陵墓，请勿踩踏草坪、保持肃静。'
+    },
+    {
+      id: 'gp-gwanghallu', workId: 'perfect-crown', name: '广寒楼苑', ko: '광한루원', city: '南原 · 完山区', group: '全罗北道',
+      lat: 35.402798, lng: 127.379539, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“광한루원”节点；为开放景区，机位待核实。',
+      address: '전북 남원시 요천로 1447', query: '광한루원', kind: 'other', sourceId: 'xhs-gp',
+      visit: '景区开放时间请以现场为准。'
+    },
+    {
+      id: 'gp-ordaon', workId: 'perfect-crown', name: '杨平 Ordaon', ko: '양평 오르다온', city: '杨平 · 西宗面', group: '京畿道',
+      lat: 37.6055, lng: 127.3494, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按笔记“서후리 529-34”定位到서종면一带；坐标取면中心，机位待核实。',
+      address: '경기 양평군 서종면 서후리 529-34', query: '양평 오르다온', kind: 'other', sourceId: 'xhs-gp',
+      visit: '婚礼/活动场地，非公开时请勿进入。'
+    },
+    {
+      id: 'gp-gwanghwamun', workId: 'perfect-crown', name: '光化门广场', ko: '광화문광장', city: '首尔 · 钟路区', group: '首尔',
+      lat: 37.571616, lng: 126.976903, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“광화문”节点；广场为公共空间，机位待核实。',
+      address: '서울 종로구 세종대로 172', query: '광화문광장', kind: 'other', sourceId: 'xhs-gp',
+      visit: '公共广场，拍摄时注意人流与交通管制。'
+    },
+    {
+      id: 'gp-awon', workId: 'perfect-crown', name: '我园古宅', ko: '아원고택', city: '完州 · 所阳面', group: '全罗北道',
+      lat: 35.903255, lng: 127.244283, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“아원고택”节点（오성한옥마을）；机位待核实。',
+      address: '전북 완주군 소양면 송광수만로 516-7', query: '아원고택', kind: 'other', sourceId: 'xhs-gp',
+      visit: '古宅为住宿/文化空间，进入前请确认。'
+    },
+    {
+      id: 'gp-soyang', workId: 'perfect-crown', name: '所阳古宅', ko: '소양고택', city: '完州 · 所阳面', group: '全罗北道',
+      lat: 35.903737, lng: 127.243543, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“송광수만로 472-23”定位到오성한옥마을；机位待核实。',
+      address: '전북 완주군 소양면 송광수만로 472-23', query: '소양고택', kind: 'other', sourceId: 'xhs-gp',
+      visit: '古宅/韩屋村，请保持安静。'
+    },
+    {
+      id: 'gp-provincial', workId: 'perfect-crown', name: '道厅大楼（庆尚北道厅）', ko: '경상북도청', city: '安东 · 丰川面', group: '庆尚北道',
+      lat: 36.575391, lng: 128.505163, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“경상북도청”节点；政府机构，机位待核实。',
+      address: '경상북도 안동시 풍천면 도청대로 455', query: '경상북도청', kind: 'other', sourceId: 'xhs-gp',
+      visit: '政府办公场所，请勿影响办公秩序。'
+    },
+    {
+      id: 'qbc-chateau', workId: 'goblin', name: '芳堤娜城堡酒店', ko: 'Fairmont Le Château Frontenac', city: '魁北克城 · 老城', group: '加拿大',
+      lat: 46.811817, lng: -71.205144, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“Fairmont Le Château Frontenac”节点；大堂可免费进入，机位待核实。',
+      address: '1 Rue des Carrières, Québec, QC, Canada', query: 'Château Frontenac', kind: 'other', sourceId: 'xhs-qbc',
+      visit: '剧中“鬼怪大叔的家”；大堂有同款复古信箱，不住店也可进入大堂拍照。'
+    },
+    {
+      id: 'qbc-noel', workId: 'goblin', name: '魁北克圣诞商店', ko: 'La Boutique de Noël de Québec', city: '魁北克城 · 老城', group: '加拿大',
+      lat: 46.813556, lng: -71.206785, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“La Boutique de Noël de Québec”节点；店内可拍照，机位待核实。',
+      address: '47 Rue De Buade, Québec, QC, Canada', query: 'La Boutique de Noël de Québec', kind: 'other', sourceId: 'xhs-qbc',
+      visit: '全年圣诞氛围，二楼可俯瞰老城。'
+    },
+    {
+      id: 'qbc-bastion', workId: 'goblin', name: '鬼怪大草坪 · 王后堡垒公园', ko: 'Parc du Bastion-de-la-Reine', city: '魁北克城 · 老城', group: '加拿大',
+      lat: 46.808594, lng: -71.209264, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“Parc du Bastion-de-la-Reine”节点；大草坪可拍城堡远景，机位待核实。',
+      address: 'Parc du Bastion-de-la-Reine, Québec, QC, Canada', query: 'Parc du Bastion-de-la-Reine', kind: 'other', sourceId: 'xhs-qbc',
+      visit: '鬼怪与恩倬散步、墓地名场面取景地；秋叶铺满山坡，是最出圈机位。'
+    },
+    {
+      id: 'qbc-cassecou', workId: 'goblin', name: '断头台阶（告白楼梯）', ko: 'Escalier Casse-Cou', city: '魁北克城 · 老城', group: '加拿大',
+      lat: 46.812767, lng: -71.203565, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“Escalier Casse-cou”节点；台阶陡峭，注意安全。',
+      address: 'Escalier Casse-Cou, Québec, QC, Canada', query: 'Escalier Casse-Cou', kind: 'other', sourceId: 'xhs-qbc',
+      visit: '鬼怪新娘告白“撒浪嘿”的台阶，从上往下直通小香普兰街。'
+    },
+    {
+      id: 'qbc-petit', workId: 'goblin', name: '小香普兰街 + 鬼怪红门', ko: 'Rue du Petit Champlain', city: '魁北克城 · 老城', group: '加拿大',
+      lat: 46.811551, lng: -71.203632, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“Rue du Petit-Champlain”节点；68号红门为剧场后门，门打不开，只适合拍照。',
+      address: '68 Rue du Petit Champlain, Québec, QC, Canada', query: 'Rue du Petit Champlain', kind: 'other', sourceId: 'xhs-qbc',
+      visit: '68号小红门是剧中金信带恩倬穿越到魁北克的那扇门；彩色法式小楼、雨伞小巷都很好拍。'
+    },
+    {
+      id: 'qbc-royale', workId: 'goblin', name: '皇家广场', ko: 'Place Royale', city: '魁北克城 · 老城', group: '加拿大',
+      lat: 46.813173, lng: -71.202808, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“Place Royale”节点（魁北克城）；北美最古老广场。',
+      address: 'Place Royale, Québec, QC, Canada', query: 'Place Royale', kind: 'other', sourceId: 'xhs-qbc',
+      visit: '巨大老城壁画，剧里街头镜头取景地。'
+    },
+    {
+      id: 'qbc-tourny', workId: 'goblin', name: '图尔尼喷泉', ko: 'Fontaine de Tourny', city: '魁北克城 · 议会大厦', group: '加拿大',
+      lat: 46.809604, lng: -71.212672, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“Fontaine de Tourny”节点；开篇喷泉镜头。',
+      address: 'Fontaine de Tourny, Québec, QC, Canada', query: 'Fontaine de Tourny', kind: 'other', sourceId: 'xhs-qbc',
+      visit: '省议会大厦前，开篇喷泉镜头取景地。'
+    },
   ],
 
   // 一处地标可以有多条场景记录；episode、timeSeconds、image 都需要独立核实。
@@ -228,7 +629,65 @@ window.KDRAMA_CATALOG = {
     { id: 'goblin-samcheong-wall-01', landmarkId: 'goblin-samcheong-wall', description: '第一集：鬼怪与地狱使者沿宫墙路第一次见面。', episode: 1, timeSeconds: null, image: './assets/scenes/goblin/goblin-deoksugung-wall.jpg', imageCredit: '', sourceId: null, episodeSourceId: null },
     { id: 'goblin-yongdap-bridge-01', landmarkId: 'goblin-yongdap-bridge', description: '第三集：地狱使者与公主（Sunny）在天桥上第一次见面。', episode: 3, timeSeconds: null, image: './assets/scenes/goblin/goblin-yongdap-bridge.jpg', imageCredit: '', sourceId: null, episodeSourceId: null },
     { id: 'goblin-sinchon-tunnel-01', landmarkId: 'goblin-sinchon-tunnel', description: '第十集：鬼怪与使者拎着大葱穿过涂鸦隧道。', episode: 10, timeSeconds: null, image: './assets/scenes/goblin/goblin-sinchon-tunnel.jpg', imageCredit: '', sourceId: null, episodeSourceId: null },
-    { id: 'goblin-hanmi-bookstore-01', landmarkId: 'goblin-hanmi-bookstore', description: '第六集：鬼怪与新娘路过的书店，取景于仁川韩美书店。', episode: 6, timeSeconds: null, image: './assets/scenes/goblin/goblin-hanmi-bookstore.jpg', imageCredit: '', sourceId: null, episodeSourceId: null }
+    { id: 'goblin-hanmi-bookstore-01', landmarkId: 'goblin-hanmi-bookstore', description: '第六集：鬼怪与新娘路过的书店，取景于仁川韩美书店。', episode: 6, timeSeconds: null, image: './assets/scenes/goblin/goblin-hanmi-bookstore.jpg', imageCredit: '', sourceId: null, episodeSourceId: null },
+    { id: 'obs-choi-house-01', landmarkId: 'obs-choi-house', description: '崔雄家外墙（카페 피터）前，两人并肩而坐。', episode: null, timeSeconds: null, image: './assets/scenes/our-beloved-summer/obs-choi-house.jpg', imageCredit: '', sourceId: 'xhs-obs-note', episodeSourceId: null },
+    { id: 'obs-yeonsu-house-01', landmarkId: 'obs-yeonsu-house', description: '冬季：成年后的两人站在延秀家（池洞壁画村）绿色大门前。', episode: null, timeSeconds: null, image: './assets/scenes/our-beloved-summer/obs-yeonsu-house-winter.jpg', imageCredit: '', sourceId: 'visitkorea-obs', episodeSourceId: null },
+    { id: 'obs-yeonsu-house-02', landmarkId: 'obs-yeonsu-house', description: '学生时代：崔雄与国延秀在延秀家门口牵手。', episode: null, timeSeconds: null, image: './assets/scenes/our-beloved-summer/obs-yeonsu-house-summer.jpg', imageCredit: '', sourceId: 'visitkorea-obs', episodeSourceId: null },
+    { id: 'obs-cafe-01', landmarkId: 'obs-cafe', description: '男女主雨中打伞的名场面，取景于青麦田旁的咖啡馆一带。', episode: null, timeSeconds: null, image: './assets/scenes/our-beloved-summer/obs-cafe.jpg', imageCredit: '', sourceId: 'filmkorea-obs-cafe', episodeSourceId: null },
+    { id: 'tang-cheongsim-01', landmarkId: 'tang-cheongsim', description: '投稿线索称第 1 集（待核实）：老年爱纯回忆过去的日子。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-cheongsim.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-gogchang-farm-01', landmarkId: 'tang-gogchang-farm', description: '投稿线索称第 2 集（待核实）：爱纯撒娇、宽植在田野的场面。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-gogchang-farm.jpg', imageCredit: '', sourceId: 'visitkorea-tang-farm', episodeSourceId: null },
+    { id: 'tang-maechukji-01', landmarkId: 'tang-maechukji', description: '投稿线索称第 2 集（待核实）：爱纯与宽植发愁的巷子。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-maechukji.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-seongnam-01', landmarkId: 'tang-seongnam', description: '投稿线索称第 2 集（待核实）：爱纯被老板娘压在地上的场面。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-seongnam.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-jangheung-01', landmarkId: 'tang-jangheung', description: '投稿线索称第 3 集（待核实）：宽植离开、爱纯哭着跑的海岸。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-jangheung.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-unmunsa-01', landmarkId: 'tang-unmunsa', description: '投稿线索称第 4 集（待核实）：爱纯与宽植结婚后求子的寺庙。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-unmunsa.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-andong-homin-01', landmarkId: 'tang-andong-homin', description: '投稿线索称第 5 集（待核实）：爱纯怀孕、聊宽植辛苦的场面。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-andong-homin.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-jejumok-01', landmarkId: 'tang-jejumok', description: '宽植与爱纯写诗的场面。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-jejumok.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-jeonbuk-univ-01', landmarkId: 'tang-jeonbuk-univ', description: '投稿线索称第 6 集（待核实）：金明带父母做内视镜的医院。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-jeonbuk-univ.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-incheon-uhyeon-01', landmarkId: 'tang-incheon-uhyeon', description: '投稿线索称第 6 集（待核实）：金明与英凡约会的地方。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-incheon-uhyeon.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-jeonnam-univ-01', landmarkId: 'tang-jeonnam-univ', description: '剧中“首尔大”的取景地。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-jeonnam-univ.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-jeonju-paldal-01', landmarkId: 'tang-jeonju-paldal', description: '投稿线索称第 6 集（待核实）：中年爱纯与宽植约会的地方。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-jeonju-paldal.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-deokwon-01', landmarkId: 'tang-deokwon', description: '投稿线索称第 7 集（待核实）：商吉当村长贿赂选民的小店。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-deokwon.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-jungang-high-01', landmarkId: 'tang-jungang-high', description: '投稿线索称第 7 集（待核实）：金明带补课的富二代女去学校。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-jungang-high.jpg', imageCredit: '', sourceId: 'xhs-tang-a', episodeSourceId: null },
+    { id: 'tang-sinseongru-01', landmarkId: 'tang-sinseongru', description: '投稿线索称第 8 集（待核实）：金明和宽植去的中华食堂。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-sinseongru.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-bugyo-bus-01', landmarkId: 'tang-bugyo-bus', description: '投稿线索称第 8 集（待核实）：金明和宽植离别的车站。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-bugyo-bus.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-daegu-cathedral-01', landmarkId: 'tang-daegu-cathedral', description: '投稿线索称第 8 集（待核实）：金明结婚的礼堂。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-daegu-cathedral.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-yongsan-jangmun-01', landmarkId: 'tang-yongsan-jangmun', description: '投稿线索称第 10 集（待核实）：金明和忠燮去的小吃篷子。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-yongsan-jangmun.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-junggu-45-01', landmarkId: 'tang-junggu-45', description: '投稿线索称第 10 集（待核实）：忠燮母亲的商店。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-junggu-45.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-incheon-songhyeon-01', landmarkId: 'tang-incheon-songhyeon', description: '投稿线索称第 11 集（待核实）：金明与忠燮在金明小区散步（背景+CG）。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-incheon-songhyeon.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-gangnam-pilgyeongjae-01', landmarkId: 'tang-gangnam-pilgyeongjae', description: '投稿线索称第 11 集（待核实）：金明、英凡与双方父母去的餐厅。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-gangnam-pilgyeongjae.jpg', imageCredit: '', sourceId: 'gangnam-tang', episodeSourceId: null },
+    { id: 'tang-changseong-01', landmarkId: 'tang-changseong', description: '投稿线索称第 11 集（待核实）：母亲爱纯因金明家庭地位在路上吵。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-changseong.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-guro-hyeondae-01', landmarkId: 'tang-guro-hyeondae', description: '投稿线索称第 11 集（待核实）：金明与英凡吵架的公寓。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-guro-hyeondae.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-yeouido-hanyang-01', landmarkId: 'tang-yeouido-hanyang', description: '投稿线索称第 11 集（待核实）：金明怪英凡太听母亲话。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-yeouido-hanyang.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-ora-buckwheat-01', landmarkId: 'tang-ora-buckwheat', description: '投稿线索称第 12 集（待核实）：爱纯回忆和儿时的金明。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-ora-buckwheat.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'tang-jeonju-paldal-147-01', landmarkId: 'tang-jeonju-paldal-147', description: '投稿线索称第 12 集（待核实）：忠燮偶然看见金明在公交上，路上追。', episode: null, timeSeconds: null, image: './assets/scenes/when-life-gives-you-tangerines/tang-jeonju-paldal-147.jpg', imageCredit: '', sourceId: 'xhs-tang-b', episodeSourceId: null },
+    { id: 'lr-house-01', landmarkId: 'lr-house', description: '黄色雨伞场景背景中的蓝色大门是善宰家的外观，小率家在街对面。', episode: null, timeSeconds: null, image: './assets/scenes/lovely-runner/lr-house.jpg', imageCredit: '', sourceId: 'joongang-lr-house', episodeSourceId: null },
+    { id: 'lr-wallpush-01', landmarkId: 'lr-wallpush', description: '小率壁咚善宰的场面；投稿线索称第 5 集，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/lovely-runner/lr-wallpush.jpg', imageCredit: '', sourceId: 'visitkorea-lr', episodeSourceId: null },
+    { id: 'lr-flying-kick-01', landmarkId: 'lr-flying-kick', description: '大舅哥飞踢的场面；投稿线索称第 6 集，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/lovely-runner/lr-flying-kick.jpg', imageCredit: '', sourceId: 'xhs-lr', episodeSourceId: null },
+    { id: 'lr-hwahongmun-01', landmarkId: 'lr-hwahongmun', description: '华虹门前桥上的告白场景；投稿线索称第 6 集，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/lovely-runner/lr-hwahongmun.jpg', imageCredit: '', sourceId: 'visitkorea-lr', episodeSourceId: null },
+    { id: 'lr-bus-stop-01', landmarkId: 'lr-bus-stop', description: '善宰追上公交替小率停车的场景，实际在公营停车场拍摄；投稿线索称第 2 集，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/lovely-runner/lr-bus-stop.jpg', imageCredit: '', sourceId: 'gq-lr-bus', episodeSourceId: null },
+    { id: 'gp-janggeum-01', landmarkId: 'gp-janggeum', description: '皇宫内苑（剧中大部分皇室戏份）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-janggeum.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-baekje-01', landmarkId: 'gp-baekje', description: '大君和府院君相遇。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-baekje.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-mujinjeong-a-01', landmarkId: 'gp-mujinjeong', description: '观看落火（夜景）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-mujinjeong-a.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-mujinjeong-b-01', landmarkId: 'gp-mujinjeong', description: '无尽亭周边。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-mujinjeong-b.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-hwaseomun-01', landmarkId: 'gp-hwaseomun', description: '主诞日灯光秀。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-hwaseomun.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-jongmyo-01', landmarkId: 'gp-jongmyo', description: '宗庙祭祀。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-jongmyo.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-oreung-01', landmarkId: 'gp-oreung', description: '翻墙浪漫 kiss。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-oreung.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-gwanghallu-a-01', landmarkId: 'gp-gwanghallu', description: '内进宴求婚（白天）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-gwanghallu-a.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-gwanghallu-b-01', landmarkId: 'gp-gwanghallu', description: '广寒楼苑夜景。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-gwanghallu-b.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-ordaon-01', landmarkId: 'gp-ordaon', description: '熙周与大君成亲。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-ordaon.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-gwanghwamun-01', landmarkId: 'gp-gwanghwamun', description: '婚礼游行。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-gwanghwamun.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-awon-a-01', landmarkId: 'gp-awon', description: '大君私宅（外景）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-awon-a.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-awon-b-01', landmarkId: 'gp-awon', description: '大君私宅（室内）。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-awon-b.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-soyang-01', landmarkId: 'gp-soyang', description: '大君私宅庭院。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-soyang.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'gp-provincial-01', landmarkId: 'gp-provincial', description: '国家政府机构。', episode: null, timeSeconds: null, image: './assets/scenes/perfect-crown/gp-provincial.jpg', imageCredit: '', sourceId: 'xhs-gp', episodeSourceId: null },
+    { id: 'qbc-chateau-01', landmarkId: 'qbc-chateau', description: '芳堤娜城堡外景（鬼怪大叔的家）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-chateau.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
+    { id: 'qbc-chateau-mailbox-01', landmarkId: 'qbc-chateau', description: '大堂内同款复古信箱（女主收信处）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-chateau-mailbox.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
+    { id: 'qbc-lobby-01', landmarkId: 'qbc-chateau', description: '酒店大堂。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-lobby.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
+    { id: 'qbc-noel-a-01', landmarkId: 'qbc-noel', description: '剧中出现的圣诞小店。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-noel-a.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
+    { id: 'qbc-noel-b-01', landmarkId: 'qbc-noel', description: '圣诞商店夜景。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-noel-b.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
+    { id: 'qbc-petit-01', landmarkId: 'qbc-petit', description: '小香普兰街。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-petit.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
+    { id: 'qbc-red-door-01', landmarkId: 'qbc-petit', description: '鬼怪穿越红门（68号）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-red-door.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
+    { id: 'qbc-tourny-01', landmarkId: 'qbc-tourny', description: '开篇喷泉镜头。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-tourny.jpg', imageCredit: '', sourceId: 'xhs-qbc', episodeSourceId: null },
   ],
   updates: [
     { landmarkId: 'jumunjin', reviewedAt: '2026-11-06T14:24:29.372Z' }
