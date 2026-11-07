@@ -239,9 +239,12 @@ function renderRoute() {
 
 const coordinateLabels = {approximate:'示意点',venue:'地点已核实',camera:'机位已核实'};
 const coordinateLabel = (place) => coordinateLabels[place.coordinateStatus] || '示意点';
+const workTypeLabels = {drama:'电视剧',movie:'电影',variety:'综艺'};
+const workType = (work) => ['movie', 'variety'].includes(work.type) ? work.type : 'drama';
 
 function renderList() {
   const showingWorks = selectedSeries === 'all';
+  $('result-count').hidden = showingWorks;
   $('back-to-works').hidden = showingWorks;
   $('browse-tabs').hidden = !showingWorks;
   $('work-tabs').hidden = showingWorks;
@@ -269,7 +272,8 @@ function renderList() {
       const workPlaces = places.filter(place => place.workId === work.id && (!selectedRegion || regionByPlace.get(place.id) === selectedRegion) && (!favoritesOnly || favoriteIds.has(place.id)));
       const screenshots = workPlaces.reduce((n, place) => n + (scenesByLandmark.get(place.id) || []).filter(scene => sceneImageUrl(scene)).length, 0);
       const poster = safePosterUrl(work.poster);
-      return `<button type="button" class="work-card" data-work="${escapeHtml(work.id)}" aria-label="查看${escapeHtml(work.title)}"><span class="work-accent" style="background:${safeColor(work.color)}"></span><span class="work-poster" style="background:${safeColor(work.color)}">${poster ? `<img src="${escapeHtml(poster)}" alt="" loading="lazy">` : `<span>${escapeHtml(work.title.slice(0, 2))}</span>`}</span><span class="work-main"><strong>${escapeHtml(work.title)}</strong><small>${escapeHtml(work.original)}</small><small>${workPlaces.length}取景地 · ${screenshots}截图</small></span><span class="work-arrow" aria-hidden="true">›</span></button>`;
+      const type = workType(work);
+      return `<button type="button" class="work-card" data-work="${escapeHtml(work.id)}" aria-label="查看${escapeHtml(work.title)}，${workTypeLabels[type]}"><span class="work-accent" style="background:${safeColor(work.color)}"></span><span class="work-poster" style="background:${safeColor(work.color)}">${poster ? `<img src="${escapeHtml(poster)}" alt="" loading="lazy">` : `<span>${escapeHtml(work.title.slice(0, 2))}</span>`}</span><span class="work-main"><strong>${escapeHtml(work.title)}</strong><small>${escapeHtml(work.original)}</small><small>${workPlaces.length}取景地 · ${screenshots}截图</small></span><span class="work-type work-type-${type}">${workTypeLabels[type]}</span><span class="work-arrow" aria-hidden="true">›</span></button>`;
     }).join('') : `<div class="empty-state">${browseMode === 'recent' && !selectedRegion ? '还没有审核通过的更新投稿。' : '没有找到相关作品。'}</div>`;
     $('place-list').querySelectorAll('[data-work]').forEach(button => button.addEventListener('click', () => selectWork(button.dataset.work)));
     return;

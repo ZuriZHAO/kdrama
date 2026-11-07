@@ -83,9 +83,10 @@ try {
   assert.equal(catalog.updates.at(-1).workId, catalog.landmarks.find(place => place.id === correction.landmarkId).workId, '近期更新应关联作品');
   assert.ok(catalog.updates.at(-1).reviewedAt, '近期更新应记录审核时间');
 
-  const poster = { ...payload, version: 2, workId: 'new', newWork: { title: '海报测试剧', original: '포스터 테스트' }, imageUrl: null, imageAttachment: false, posterAttachment: true };
+  const poster = { ...payload, version: 2, workId: 'new', newWork: { title: '海报测试电影', original: '포스터 테스트', type: 'movie' }, imageUrl: null, imageAttachment: false, posterAttachment: true };
   assert.equal(run(poster, 9010, `\n<!-- KDRAMA_POSTER_START -->\n![Poster](${imageUrl})\n<!-- KDRAMA_POSTER_END -->\n`).status, 0, '新作品海报附件应导入');
   assert.equal(read().works.at(-1).poster, imageUrl);
+  assert.equal(read().works.at(-1).type, 'movie', '新作品的电影类型应保留');
 
   const before = fs.readFileSync(catalogFile, 'utf8');
   assert.notEqual(run({ ...poster, rightsConfirmed: false }, 9011, `\n<!-- KDRAMA_POSTER_START -->\n![Poster](${imageUrl})\n<!-- KDRAMA_POSTER_END -->\n`).status, 0, '未确认海报许可应拒绝');

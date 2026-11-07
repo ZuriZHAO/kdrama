@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#f7f6f2" />
-  <meta name="description" content="沿着韩剧的故事去旅行。探索韩国电视剧取景地、地址与出行线索。" />
-  <title>剧场之外 · 韩剧取景地地图</title>
+  <meta name="description" content="沿着韩国电视剧、电影和综艺的故事去旅行。探索取景地、地址与出行线索。" />
+  <title>剧场之外 · 韩国影视综艺取景地地图</title>
   <link rel="stylesheet" href="./vendor/leaflet.css" />
   <link rel="stylesheet" href="./vendor/maplibre-gl.css" />
-  <link rel="stylesheet" href="./styles.css?v=22" />
+  <link rel="stylesheet" href="./styles.css?v=23" />
 </head>
 <body>
   <main id="explore" class="map-app">
     <section class="map-panel" aria-label="取景地地图">
-      <div id="map" class="map" role="application" aria-label="韩国韩剧取景地地图"></div>
+      <div id="map" class="map" role="application" aria-label="韩国影视综艺取景地地图"></div>
       <div id="map-fallback" class="map-fallback" hidden>地图脚本未能加载，请查看地点列表。</div>
       <div class="map-status"><span class="live-dot"></span><span id="map-source">正在加载街道地图</span></div>
       <button id="reset-map" class="reset-map" type="button" title="返回全部作品和地点">全部作品</button>
@@ -21,11 +21,11 @@
       <button id="nearby-button" class="nearby-button" type="button">附近取景地</button>
     </section>
 
-    <aside class="sidebar" aria-label="韩剧作品和取景地列表">
-      <header class="sidebar-head"><a class="brand" href="#explore" aria-label="剧场之外，返回地图"><span class="brand-mark">✦</span><span>剧场之外<small>韩剧取景地地图</small></span></a><div class="sidebar-actions"><button id="open-route" class="submit-link" type="button">我的行程</button><a class="submit-link" href="./submit.html">投稿地点</a></div></header>
-      <label class="searchbox"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 5 5"></path></svg><input id="search" type="search" placeholder="搜索韩剧、地点或城市" autocomplete="off" aria-label="搜索韩剧、地点或城市" /></label>
+    <aside class="sidebar" aria-label="作品和取景地列表">
+      <header class="sidebar-head"><a class="brand" href="#explore" aria-label="剧场之外，返回地图"><span class="brand-mark">✦</span><span>剧场之外<small>影视综艺取景地地图</small></span></a><div class="sidebar-actions"><button id="open-route" class="submit-link" type="button">我的行程</button><a class="submit-link" href="./submit.html">投稿地点</a></div></header>
+      <label class="searchbox"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 5 5"></path></svg><input id="search" type="search" placeholder="搜索作品、地点或城市" autocomplete="off" aria-label="搜索作品、地点或城市" /></label>
       <nav id="browse-tabs" class="sidebar-tabs" aria-label="浏览作品"><button type="button" data-browse="regions">地区</button><button type="button" data-browse="recent">近期更新</button><button type="button" data-browse="popular">热门作品</button></nav>
-      <div class="list-heading"><button id="back-to-works" class="back-to-works" type="button" hidden>← 全部作品</button><span id="list-title">作品</span><button id="favorites-filter" class="favorites-filter" type="button" aria-pressed="false">☆ 收藏</button><span id="result-count">3 部</span></div>
+      <div class="list-heading"><button id="back-to-works" class="back-to-works" type="button" hidden>← 全部作品</button><span id="list-title">作品</span><button id="favorites-filter" class="favorites-filter" type="button" aria-pressed="false">☆ 收藏</button><span id="result-count" hidden></span></div>
       <nav id="work-tabs" class="sidebar-tabs" aria-label="作品地点分类" hidden><button type="button" data-work-tab="group">分组</button><button type="button" data-work-tab="episode">集数</button></nav>
       <div id="place-list" class="place-list" aria-live="polite"></div>
     </aside>
@@ -38,8 +38,8 @@
   <script src="./vendor/maplibre-gl.js"></script>
   <script src="./vendor/leaflet-maplibre-gl.js"></script>
   <script src="./data/korea-map.js"></script>
-  <script src="./data/catalog.js?v=8"></script>
+  <script src="./data/catalog.js?v=9"></script>
   <script src="./site-config.js?v=3"></script>
-  <script src="./boot.js?v=7"></script>
+  <script src="./boot.js?v=8"></script>
 </body>
 </html>

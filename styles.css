@@ -73,6 +73,10 @@ p, h1, h2 { margin-top: 0; }
 .work-main strong, .work-main small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .work-main strong { font-size: 14px; }
 .work-main small { margin-top: 5px; color: #88969b; font-size: 11px; font-weight: 400; }
+.work-type { flex: none; padding: 3px 6px; border: 1px solid; border-radius: 4px; font-size: 10px; line-height: 1.2; white-space: nowrap; }
+.work-type-drama { border-color: #a8c7d7; background: #edf6fa; color: #3e7390; }
+.work-type-movie { border-color: #e4baa8; background: #fff3ed; color: #a45c41; }
+.work-type-variety { border-color: #bed2aa; background: #f3f8eb; color: #648443; }
 .work-arrow { color: #96a8ad; font-size: 22px; line-height: 1; }
 .card-main { min-width: 0; flex: 1; }
 .place-card { gap:11px; }

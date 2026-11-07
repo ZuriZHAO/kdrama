@@ -109,7 +109,7 @@ function collect() {
   const link = sourceUrl();
   const payload = { kind, version: 2, sourceUrl: link, sourceTitle: value('source-title') || (link ? new URL(link).hostname : ''), contributor: value('contributor') };
   if (kind === 'place') Object.assign(payload, {
-    workId: value('work-id'), newWork: value('work-id') === 'new' ? { title: value('work-title'), original: value('work-original') } : null,
+    workId: value('work-id'), newWork: value('work-id') === 'new' ? { title: value('work-title'), original: value('work-original'), type: value('work-type') } : null,
     name: value('place-name'), group: value('place-group'), lat: Number(value('lat')), lng: Number(value('lng')), description: value('description'),
     episode: optionalNumber('episode', 1000), timeSeconds: optionalNumber('time-seconds', 100000)
   });

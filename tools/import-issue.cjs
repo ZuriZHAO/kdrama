@@ -60,6 +60,11 @@ const optionalInt = (value, label, min, max) => {
   if (!Number.isInteger(value) || value < min || value > max) throw new Error(`${label}无效`);
   return value;
 };
+const workType = value => {
+  if (value == null || value === '') return 'drama';
+  if (!['drama', 'movie', 'variety'].includes(value)) throw new Error('作品类型无效');
+  return value;
+};
 const findSource = (title, link) => {
   if (!link) return null;
   const old = catalog.sources.find(source => source.url === link);
@@ -140,7 +145,7 @@ function applyCorrection(landmarkId, reason, sourceId) {
 if (payload.kind === 'work') {
   const title = clean(payload.title, '中文剧名', 120);
   if (!uniqueWork(title)) throw new Error('同名作品已存在，请改为向现有作品投稿地标');
-  catalog.works.push({ id: id('work'), title, original: clean(payload.original, '韩文原名', 120), year: clean(payload.year, '年份', 10, false) || '', color: '#617d8d' });
+  catalog.works.push({ id: id('work'), title, original: clean(payload.original, '韩文原名', 120), year: clean(payload.year, '年份', 10, false) || '', color: '#617d8d', type: workType(payload.type) });
 } else if (payload.kind === 'correction') {
   const landmarkId = clean(payload.landmarkId, '所属地点', 120);
   const reason = clean(payload.reason, '更正原因', 800);
@@ -181,7 +186,7 @@ if (payload.kind === 'work') {
       const workTitle = title || original;
       if (!uniqueWork(workTitle)) throw new Error('同名作品已存在，请选择现有作品');
       workId = id('work');
-      catalog.works.push({ id: workId, title: workTitle, original: original || '', year: clean(payload.newWork.year, '年份', 10, false) || '', color: '#617d8d', poster: posterImage() });
+      catalog.works.push({ id: workId, title: workTitle, original: original || '', year: clean(payload.newWork.year, '年份', 10, false) || '', color: '#617d8d', type: workType(payload.newWork.type), poster: posterImage() });
     }
     if (!catalog.works.some(work => work.id === workId)) throw new Error('所属作品不存在');
     const name = clean(payload.name, '地标名称', 120);

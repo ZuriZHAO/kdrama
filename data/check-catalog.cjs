@@ -27,6 +27,8 @@ const landmarkIds = idsOf(catalog.landmarks, 'landmarks');
 idsOf(catalog.scenes, 'scenes');
 
 catalog.works.forEach(work => {
+  if (!work.title || (work.original != null && typeof work.original !== 'string') || (work.year && !/^\d{4}$/.test(work.year))) errors.push(`作品 ${work.id} 的名称或年份无效`);
+  if (work.type && !['drama', 'movie', 'variety'].includes(work.type)) errors.push(`作品 ${work.id} 的类型无效`);
   if (work.aliases && (!Array.isArray(work.aliases) || work.aliases.some(alias => typeof alias !== 'string' || !alias.trim()))) errors.push(`作品 ${work.id} 的搜索别名无效`);
   if (!work.poster) return;
   if (/^https:\/\//.test(work.poster)) return;

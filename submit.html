@@ -9,7 +9,7 @@
 <body>
   <main class="page">
     <header class="top"><a href="./index.html">← 返回地图</a><span>剧场之外</span></header>
-    <h1>分享一个韩剧取景地</h1>
+    <h1>分享一个作品取景地</h1>
     <p class="intro">跟着地图选点、填写场景、确认后提交。提交会打开一个 GitHub 投稿页面，登录 GitHub 提交 Issue；核对通过后才会显示在地图上。</p>
     <ol class="steps" aria-label="投稿步骤"><li class="active">1 选择</li><li>2 地点与场景</li><li>3 检查提交</li></ol>
     <form id="submission-form" novalidate>
@@ -26,6 +26,7 @@
             <p class="hint">新作品填写中文名或韩文名即可。</p>
             <label>中文名（可选）<input id="work-title" maxlength="120" /></label>
             <label>韩文名（可选）<input id="work-original" maxlength="120" /></label>
+            <label>作品类型<select id="work-type"><option value="drama">电视剧</option><option value="movie">电影</option><option value="variety">综艺</option></select></label>
             <label>作品海报（可选）<input id="poster" type="file" accept="image/jpeg,image/png,image/webp" /></label>
           </div>
         </div>
@@ -78,7 +79,7 @@
     <section id="success-panel" class="success-panel" hidden><h2>请在 GitHub 完成投稿</h2><p>请登录 GitHub，把场景图片／作品海报（如有）拖进对应区块，然后点击 Submit new issue 提交。若新标签页没有打开，请点击下面的链接。</p><p><a id="github-issue-link" href="https://github.com/zurizhao/kdrama/issues/new" target="_blank" rel="noopener noreferrer">打开 GitHub 投稿页 ↗</a></p><a href="./index.html">返回地图</a></section>
   </main>
   <script src="./site-config.js?v=3"></script>
-  <script src="./data/catalog.js?v=8"></script>
-  <script src="./submit.js?v=10"></script>
+  <script src="./data/catalog.js?v=9"></script>
+  <script src="./submit.js?v=11"></script>
 </body>
 </html>
