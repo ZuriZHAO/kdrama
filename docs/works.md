@@ -10,7 +10,7 @@
 
 本机放海报的具体位置是 `D:\code\kdrama\assets\posters\`。例如存入 `queen-of-tears.webp` 后，把作品的 `poster` 改成 `./assets/posters/queen-of-tears.webp`；提交并推送仓库后，GitHub Pages 才会显示图片。文件名建议只用英文字母、数字和连字符。已预置作品的海报目前通过此方式加入；投稿表单的海报上传只用于投稿新增作品。
 
-本地已有 27 张海报，对应 100 部预置作品中的 27 部；其余作品显示剧名占位封面。海报随仓库的静态网站发布。旧投稿服务中已审核的注文津图片已迁入 `assets/scenes/`。今后访客投稿的场景图片与作品海报改由 GitHub 托管：投稿时把图片拖进 Issue 正文的对应区块，GitHub 会保存为 user-attachments 链接；审核通过并发布后，地图直接引用该链接。访客投稿图片不会出现在本地 `assets/posters/` 文件夹。
+本地已有 95 张海报，对应 100 部预置作品中的 95 部；其余作品显示剧名占位封面。海报随仓库的静态网站发布。旧投稿服务中已审核的注文津图片已迁入 `assets/scenes/`。今后访客投稿的场景图片与作品海报改由 GitHub 托管：投稿时把图片拖进 Issue 正文的对应区块，GitHub 会保存为 user-attachments 链接；审核通过并发布后，地图直接引用该链接。访客投稿图片不会出现在本地 `assets/posters/` 文件夹。
 
 《我的有罪之人》《请回答1988》《未知的首尔》《眼泪女王》的韩文名已按 [tvN 官方作品页](https://tvn.cjenm.com/ko/Love-in-Disguise/)、[请回答1988](https://tvn.cjenm.com/ko/reply1988/about/)、[未知的首尔](https://tvn.cjenm.com/ko/Our-Unwritten-Seoul/) 与[眼泪女王](https://tvn.cjenm.com/ko/queenoftears/) 核对。
 
