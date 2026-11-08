@@ -188,6 +188,17 @@ window.KDRAMA_CATALOG = {
     { id: 'quebec-goblin', title: '魁北克市旅游局 · 《鬼怪》取景地', url: 'https://www.quebec-cite.com/en/quebec-city/movies-shot-in-quebec-city?list=suggested' },
     { id: 'chungnam-gp', title: '忠清南道旅游局 · 百济文化园区取景作品', url: 'https://tour.chungnam.go.kr/prog/course/kor/sub01_03_02/view.do?courseNo=594' },
     { id: 'kversal-gp', title: 'Kversal · 《21世纪大君夫人》取景地列表', url: 'https://kversal.com/ko/dramas/12233' },
+    { id: 'xhs-busan-note', title: '小红书 · 釜山简直是韩剧痛城（韩剧取景地）', url: 'https://www.xiaohongshu.com/discovery/item/68c904cb000000000e030986' },
+    { id: 'popdaily-suwon', title: 'PopDaily · 6 个水原韩剧同款景点', url: 'https://www.popdaily.com.tw/korea/1535758' },
+    { id: 'popdaily-lr10', title: 'PopDaily · 《背着善宰跑》10 个同款拍摄景点', url: 'https://www.popdaily.com.tw/korea/1499232' },
+    { id: 'popdaily-gangnam', title: 'PopDaily · 《我的ID是江南美人》拍摄景点', url: 'https://www.popdaily.com.tw/korea/24939' },
+    { id: 'popdaily-itaewon', title: 'PopDaily · 9 个《梨泰院Class》必知拍摄景点', url: 'https://www.popdaily.com.tw/korea/625561' },
+    { id: 'popdaily-goblin8', title: 'PopDaily · 《鬼怪》8 个拍摄地整理', url: 'https://www.popdaily.com.tw/korea/11297' },
+    { id: 'popdaily-qot', title: 'PopDaily · 《泪之女王》拍摄地点整理', url: 'https://www.popdaily.com.tw/forum/life/1510131' },
+    { id: 'utravel-qot', title: 'UTravel · 《泪之女王》韩国、德国14大取景地', url: 'https://utravel.com.hk/news/detail/index.lazy.php?cat=20106&city=0&country=47&exclude=20982&id=20031104&task=scroll' },
+    { id: 'visitkorea-glory', title: 'VISITKOREA · 《黑暗荣耀》清州取景地', url: 'https://chinese.visitkorea.or.kr/svc/whereToGo/hdrdslt/hdrdsltView.do?crsSn=311530' },
+    { id: 'visitseoul-one-spring', title: 'VISITSEOUL · 与《春夜》中的首尔坠入爱河', url: 'https://tchinese.visitseoul.net/hallyu/Falling-in-love-with-Seoul-from-the-TV-drama-One-Spring-Night-tch/TCN030949' },
+    { id: 'visitkorea-descendants', title: 'VISITKOREA · 《太阳的后裔》拍摄场地', url: 'https://chinese.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=214590' },
   ],
 
   // coordinateStatus: approximate = 附近示意点；venue = 已核实景点点位；camera = 已核实拍摄机位。
@@ -301,7 +312,7 @@ window.KDRAMA_CATALOG = {
     {
       id: 'obs-yeonsu-house', workId: 'our-beloved-summer', name: '延秀家 · 池洞壁画村', ko: '지동벽화마을', city: '水原 · 八达区', group: '水原',
       lat: 37.283931, lng: 127.02399, coordinateStatus: 'venue', verifiedAt: '2026-11-07', entrance: null,
-      coordinateSourceId: 'cartoontour-obs', coordinateNote: '韩国观光公社确认延秀家位于池洞壁画村，CartoonTour 标出 창룡문로 75-5；坐标指向景点地址，具体拍摄机位待现场核实。',
+      coordinateSourceId: 'cartoontour-obs', coordinateNote: '韩国观光公社确认延秀家位于池洞壁画村，CartoonTour 标出 창룡문로 75-5；PopDaily 另标 화서문로72번길 9-6（同一壁画村），以 창룡문로 75-5 为准；具体拍摄机位待现场核实。',
       address: '경기도 수원시 팔달구 창룡문로 75-5', query: '지동벽화마을', kind: 'suwon', sourceId: 'visitkorea-obs',
       visit: '居民区壁画村，请保持安静、勿打扰住户。'
     },
@@ -669,6 +680,419 @@ window.KDRAMA_CATALOG = {
       address: 'Fontaine de Tourny, Québec, QC, Canada', query: 'Fontaine de Tourny', kind: 'other', sourceId: 'quebec-goblin',
       visit: '省议会大厦前，开篇喷泉镜头取景地。'
     },
+    {
+      id: 'fmw-hocheon', workId: 'fight-for-my-way', name: '虎川村', ko: '호천마을', city: '釜山 · 凡川洞', group: '釜山',
+      lat: 35.152, lng: 129.051, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按笔记“釜山 凡川洞 山坡上”定位到범천동 호천마을一带；具体机位待核实。',
+      address: '부산 부산진구 범천동 호천마을', query: '호천마을', kind: 'other', sourceId: 'xhs-busan-note',
+      visit: '彩色屋顶的老村，走台阶注意安全；居民区请保持安静。'
+    },
+    {
+      id: 'cl-commodore', workId: 'crash-landing', name: '釜山康莫酒店', ko: '코모도호텔 부산', city: '釜山 · 中区', group: '釜山',
+      lat: 35.109254, lng: 129.035465, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“코모도호텔 부산”节点；剧中“平壤大酒店”。',
+      address: '부산 중구 중구로 151', query: '코모도호텔 부산', kind: 'other', sourceId: 'xhs-busan-note',
+      visit: '酒店营业场所，进入请先确认。'
+    },
+    {
+      id: 'wf-gwangalli', workId: 'weightlifting-fairy', name: '广安里海水浴场', ko: '광안리해수욕장', city: '釜山 · 水营区', group: '釜山',
+      lat: 35.150888, lng: 129.116781, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“광안리해수욕장”节点。',
+      address: '부산 수영구 광안해변로', query: '광안리해수욕장', kind: 'other', sourceId: 'xhs-busan-note',
+      visit: '海滩开放；注意潮汐与夜间安全。'
+    },
+    {
+      id: 'qot-ilwol', workId: 'queen-of-tears', name: '日月树木园', ko: '일월수목원', city: '水原 · 长安区', group: '京畿道',
+      lat: 37.288322, lng: 126.975835, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“일월수목원”节点；女王百货顶楼花园取景于温室区。',
+      address: '경기 수원시 장안구 일월로 61', query: '일월수목원', kind: 'other', sourceId: 'popdaily-suwon',
+      visit: '树木园开放时间请以现场为准。'
+    },
+    {
+      id: 'tft-paldal', workId: 'twenty-five-twenty-one', name: '八达山路（南炮楼·八达山）', ko: '팔달산', city: '水原 · 八达区', group: '京畿道',
+      lat: 37.280559, lng: 127.010089, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按笔记“南炮楼/八达山”定位到팔달산一带；公交站为剧组搭建，现场无站牌。',
+      address: '경기 수원시 팔달구 교동 6-197 (남포루) / 우만1동 (팔달산)', query: '팔달산 수원', kind: 'other', sourceId: 'popdaily-suwon',
+      visit: '南炮楼往八达山方向；公交站牌为剧组搭建，现场没有。'
+    },
+    {
+      id: 'ea-seoho', workId: 'extraordinary-attorney', name: 'SEOHO饭卷 行宫店', ko: '서호김밥 행궁점', city: '水原 · 八达区', group: '京畿道',
+      lat: 37.283616, lng: 127.013666, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“신풍로23번길 61”定位；店门口保留了“禹英禑饭卷店”招牌。',
+      address: '경기 수원시 팔달구 신풍로23번길 61', query: '수원 신풍로23번길 61', kind: 'other', sourceId: 'popdaily-suwon',
+      visit: '餐厅营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'shr-wolhwawon', workId: 'scarlet-heart-ryeo', name: '孝园公园 粤华苑', ko: '월화원', city: '水原 · 八达区', group: '京畿道',
+      lat: 37.265278, lng: 127.037845, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“월화원”节点；孝园公园内的中式庭园。',
+      address: '경기 수원시 팔달구 동수원로 399', query: '월화원 수원', kind: 'other', sourceId: 'popdaily-suwon',
+      visit: '公园开放时间请以现场为准。'
+    },
+    {
+      id: 'lr-haenggung-mural', workId: 'lovely-runner', name: '行宫洞壁画村', ko: '행궁동 벽화마을', city: '水原 · 八达区', group: '水原',
+      lat: 37.284039, lng: 127.012635, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“북수동 235-1”定位到행궁동一带。',
+      address: '경기 수원시 팔달구 북수동 235-1', query: '행궁동 벽화마을', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '居民区，请保持安静。'
+    },
+    {
+      id: 'lr-mongted', workId: 'lovely-runner', name: '行宫洞咖啡 Mong Ted', ko: '몽테드', city: '水原 · 八达区', group: '水原',
+      lat: 37.28401, lng: 127.01292, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“신풍동 145-1”定位；剧中任率家，现为咖啡厅 Mong Ted。',
+      address: '경기 수원시 팔달구 신풍동 145-1 1층', query: '수원 신풍동 145-1', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '咖啡厅需消费才能入内，请勿只拍照。'
+    },
+    {
+      id: 'lr-jeonju-hanok', workId: 'lovely-runner', name: '全州韩屋村', ko: '전주한옥마을', city: '全州 · 完山区', group: '全罗北道',
+      lat: 35.81817, lng: 127.153597, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“전주한옥마을”节点。',
+      address: '전북 전주시 완산구 남노송동 100-1', query: '전주한옥마을', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '韩屋村为开放景区。'
+    },
+    {
+      id: 'lr-jeonju-nambu', workId: 'lovely-runner', name: '全州南部市场', ko: '전주남부시장', city: '全州 · 完山区', group: '全罗北道',
+      lat: 35.812193, lng: 127.147446, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“전주남부시장”节点。',
+      address: '전북 전주시 완산구 전동 295-4', query: '전주남부시장', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '市场营业时间请以现场为准。'
+    },
+    {
+      id: 'lr-caferoad', workId: 'lovely-runner', name: 'Cafe Road', ko: '카페로드', city: '首尔 · 衿川区', group: '首尔',
+      lat: 37.468399, lng: 126.897957, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“독산동 1003”定位到독산동一带。',
+      address: '서울 금천구 독산동 1003 2층', query: '서울 금천구 독산동 1003', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '咖啡厅营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'lr-jingwang-high', workId: 'lovely-runner', name: '真光高中', ko: '진광고등학교', city: '原州 · 牛山洞', group: '江原道',
+      lat: 37.372825, lng: 127.936286, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“진광중고등학교”节点。',
+      address: '강원 원주시 우산동 307-1', query: '진광고등학교', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '学校，请勿进入校园。'
+    },
+    {
+      id: 'lr-jungang-high', workId: 'lovely-runner', name: '北村中央高中', ko: '중앙고등학교', city: '首尔 · 钟路区', group: '首尔',
+      lat: 37.584211, lng: 126.986826, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“중앙고등학교”节点；鬼怪也用过同一地点。',
+      address: '서울 종로구 창덕궁길 164', query: '중앙고등학교', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '学校，请勿进入校园；在公共道路拍摄。'
+    },
+    {
+      id: 'lr-ddp', workId: 'lovely-runner', name: '东大门设计广场 DDP', ko: '동대문디자인플라자', city: '首尔 · 中区', group: '首尔',
+      lat: 37.568282, lng: 127.009542, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“동대문디자인플라자”节点。',
+      address: '서울 중구 을지로 281', query: '동대문디자인플라자', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '公共广场。'
+    },
+    {
+      id: 'lr-gimcheon-pool', workId: 'lovely-runner', name: '金泉市室内游泳场', ko: '김천시 실내수영장', city: '金泉 · 文唐洞', group: '庆尚北道',
+      lat: 36.154343, lng: 128.089801, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“문당동 488-1”定位到문당동一带。',
+      address: '경북 김천시 문당동 488-1', query: '김천시 문당동', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '游泳馆为营业场所，请遵守场馆规定。'
+    },
+    {
+      id: 'lr-gongju-bridge', workId: 'lovely-runner', name: '公州锦江桥', ko: '공주 금강교', city: '公州 · 锦城洞', group: '忠清南道',
+      lat: 36.46825, lng: 127.125677, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“금강교”节点。',
+      address: '충남 공주시 금성동', query: '공주 금강교', kind: 'other', sourceId: 'popdaily-lr10',
+      visit: '桥面为道路，注意车辆。'
+    },
+    {
+      id: 'mgb-dito', workId: 'my-id-gangnam-beauty', name: 'DITO 디토', ko: '디토', city: '首尔 · 瑞草区', group: '首尔',
+      lat: 37.48568, lng: 127.00433, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“디토”节点；第8集初次约会/第14集间谍约会的餐厅。',
+      address: '서울 서초구 서초동 1516-2', query: '디토 서초', kind: 'other', sourceId: 'popdaily-gangnam',
+      visit: '餐厅营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'mgb-teruwa', workId: 'my-id-gangnam-beauty', name: 'TERUWA 东首尔大学店', ko: '테루와', city: '城南 · 寿井区', group: '京畿道',
+      lat: 37.45896, lng: 127.1334, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“복정동 685”定位到복정동一带；第12集雨中告白的饮料店。',
+      address: '경기 성남시 수정구 복정동 685', query: '성남시 수정구 복정동 685', kind: 'other', sourceId: 'popdaily-gangnam',
+      visit: '饮品店，营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'itaewon-old-haneul', workId: 'itaewon', name: '甜栗小馆（旧馆）', ko: '甜栗小館', city: '首尔 · 龙山区', group: '首尔',
+      lat: 37.534535, lng: 126.989028, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“녹사평대로40길 57”定位；旧店现为打卡点，不营业。',
+      address: '서울특별시 용산구 녹사평대로40길 57 1층', query: '녹사평대로40길 57', kind: 'other', sourceId: 'popdaily-itaewon',
+      visit: '旧店现为打卡点，不营业；注意不要影响周边。'
+    },
+    {
+      id: 'itaewon-roof', workId: 'itaewon', name: '甜栗小馆屋顶（Oriole）', ko: '오리올', city: '首尔 · 龙山区', group: '首尔',
+      lat: 37.546827, lng: 126.984168, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“신흥로20길 43”定位；四楼 Oriole 咖啡酒吧。',
+      address: '서울특별시 용산구 신흥로20길 43', query: '신흥로20길 43', kind: 'other', sourceId: 'popdaily-itaewon',
+      visit: 'Oriole 咖啡酒吧四楼，可点单后远眺龙山夜景。'
+    },
+    {
+      id: 'itaewon-gosiwon', workId: 'itaewon', name: '张根秀的考试院（G guest house）', ko: '지 게스트하우스', city: '首尔 · 龙山区', group: '首尔',
+      lat: 37.533325, lng: 126.99495, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“G Guest House Itaewon”节点。',
+      address: '서울특별시 용산구 보광로60길 14-38', query: '보광로60길 14-38', kind: 'other', sourceId: 'popdaily-itaewon',
+      visit: 'G guest house，营业场所。'
+    },
+    {
+      id: 'itaewon-finest', workId: 'itaewon', name: 'The Finest（初吻酒吧）', ko: '더 파이니스트', city: '首尔 · 龙山区', group: '首尔',
+      lat: 37.541675, lng: 126.995104, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“회나무로 41”定位；3·4 楼。',
+      address: '서울특별시 용산구 회나무로 41 3·4층', query: '회나무로 41', kind: 'other', sourceId: 'popdaily-itaewon',
+      visit: '酒吧，营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'itaewon-lapland', workId: 'itaewon', name: 'Lapland（泼咖啡）', ko: '라플란드', city: '坡州 · 交河洞', group: '京畿道',
+      lat: 37.715606, lng: 126.698575, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“서패동 243-17”定位到서패동一带。',
+      address: '경기도 파주시 서패동 243-17', query: '서패동 파주', kind: 'other', sourceId: 'popdaily-itaewon',
+      visit: '咖啡厅，营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'itaewon-jamsu', workId: 'itaewon', name: '潜水桥', ko: '잠수교', city: '首尔 · 瑞草区', group: '首尔',
+      lat: 37.514935, lng: 126.996307, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“잠수교”节点。',
+      address: '서울특별시 서초구 반포동', query: '잠수교', kind: 'other', sourceId: 'popdaily-itaewon',
+      visit: '桥上/桥下注意车辆与水位。'
+    },
+    {
+      id: 'itaewon-jangga', workId: 'itaewon', name: '长家小馆', ko: '만만코코로', city: '首尔 · 麻浦区', group: '首尔',
+      lat: 37.55291, lng: 126.921335, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“양화로16길 34”定位；弘大 만만코코로 酒馆。',
+      address: '서울특별시 마포구 양화로16길 34', query: '양화로16길 34', kind: 'other', sourceId: 'popdaily-itaewon',
+      visit: '弘大 만만코코로 酒馆，营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'itaewon-kkulbam', workId: 'itaewon', name: '꿀밤포차（甜夜小馆）', ko: '꿀밤포차', city: '首尔 · 龙山区', group: '首尔',
+      lat: 37.534197, lng: 126.996736, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“우사단로14길 3”定位；原著作者经营。',
+      address: '서울특별시 용산구 우사단로14길 3', query: '우사단로14길 3', kind: 'other', sourceId: 'popdaily-itaewon',
+      visit: '原著作者经营的酒馆，营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'goblin-bbq', workId: 'goblin', name: 'BBQ 大厅站分店（恩倬炸鸡店）', ko: 'BBQ 대청역점', city: '首尔 · 江南区', group: '首尔',
+      lat: 37.494045, lng: 127.086784, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“일원동 687-2”定位到일원동一带。',
+      address: '서울특별시 강남구 일원동 687-2', query: '일원동 687-2', kind: 'other', sourceId: 'popdaily-goblin8',
+      visit: '炸鸡店，营业时间内拍摄请先询问。'
+    },
+    {
+      id: 'goblin-mocha', workId: 'goblin', name: '摩卡书房', ko: '모카책방', city: '首尔 · 城东区', group: '首尔',
+      lat: 37.54048, lng: 127.05601, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“성수동2가 333-93”定位到성수동一带。',
+      address: '서울특별시 성동구 성수동2가 333-93', query: '성수동2가', kind: 'other', sourceId: 'popdaily-goblin8',
+      visit: '书房已不在，仅存壁画；注意场地现状。'
+    },
+    {
+      id: 'goblin-hakwon', workId: 'goblin', name: '鹤园农场（荞麦花田）', ko: '학원농장', city: '高敞 · 公音面', group: '全罗北道',
+      lat: 35.373797, lng: 126.542213, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '与《苦尽柑来遇见你》的학원농장为同一地点；坐标取학원농장。',
+      address: '전라북도 고창군 공음면 선동리 산 119-2', query: '고창 학원농장', kind: 'other', sourceId: 'popdaily-goblin8',
+      visit: '农田为私有地，请勿踩踏；注意季节与开放时间。'
+    },
+    {
+      id: 'qot-walkerhill', workId: 'queen-of-tears', name: '华克山庄', ko: '워커힐 호텔', city: '首尔 · 广津区', group: '首尔',
+      lat: 37.555327, lng: 127.110153, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“그랜드 워커힐 서울”节点；婚礼场地。',
+      address: '서울특별시 광진구 워커힐로 177', query: '워커힐 호텔 서울', kind: 'other', sourceId: 'popdaily-qot',
+      visit: '酒店营业场所。'
+    },
+    {
+      id: 'qot-aqua', workId: 'queen-of-tears', name: '一山海洋世界', ko: '아쿠아플라넷 일산', city: '高阳 · 一山', group: '京畿道',
+      lat: 37.663919, lng: 126.75569, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“아쿠아플라넷 일산”节点；求婚场地。',
+      address: '경기도 고양시 일산서구 한류월드로 282', query: '아쿠아플라넷 일산', kind: 'other', sourceId: 'popdaily-qot',
+      visit: '水族馆营业时间请以现场为准。'
+    },
+    {
+      id: 'qot-hyundai', workId: 'queen-of-tears', name: '现代百货 The Hyundai Seoul', ko: '더현대 서울', city: '首尔 · 永登浦区', group: '首尔',
+      lat: 37.525964, lng: 126.928418, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“더현대 서울”节点；剧中女王百货。',
+      address: '서울특별시 영등포구 여의대로 108', query: '더현대 서울', kind: 'other', sourceId: 'popdaily-qot',
+      visit: '百货营业时间请以现场为准。'
+    },
+    {
+      id: 'qot-stone', workId: 'queen-of-tears', name: '韩国古石博物馆', ko: '한국고석박물관', city: '首尔 · 城北区', group: '首尔',
+      lat: 37.60025, lng: 126.993662, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按“성북구 대사관로”定位到대사관로一带；仅取外景。',
+      address: '서울특별시 성북구 대사관로 13길 66', query: '한국고석박물관 성북', kind: 'other', sourceId: 'popdaily-qot',
+      visit: '博物馆开放时间请以现场为准；仅外景取景。'
+    },
+    {
+      id: 'qot-sanssouci', workId: 'queen-of-tears', name: '忘忧宫（Sanssouci）', ko: 'Sanssouci', city: '波茨坦 · 德国', group: '德国',
+      lat: 52.404347, lng: 13.039297, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“Schloss Sanssouci”节点；世界遗产。',
+      address: 'Sanssouci, Potsdam, Germany', query: 'Sanssouci Potsdam', kind: 'other', sourceId: 'popdaily-qot',
+      visit: '世界遗产，开放时间请以现场为准。'
+    },
+    {
+      id: 'qot-neptun', workId: 'queen-of-tears', name: '海神喷泉（Neptunbrunnen）', ko: 'Neptunbrunnen', city: '柏林 · 德国', group: '德国',
+      lat: 52.519595, lng: 13.406843, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“Neptunbrunnen”节点。',
+      address: 'Neptunbrunnen, Berlin, Germany', query: 'Neptunbrunnen Berlin', kind: 'other', sourceId: 'popdaily-qot',
+      visit: '公共广场喷泉。'
+    },
+    {
+      id: 'qot-dreikoenig', workId: 'queen-of-tears', name: '三皇教堂（Dreikönigskirche）', ko: 'Dreikönigskirche', city: '德累斯顿 · 德国', group: '德国',
+      lat: 51.060883, lng: 13.74336, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: 'Photon“Dreikönigskirche”节点。',
+      address: 'Dreikönigskirche, Dresden, Germany', query: 'Dreikönigskirche Dresden', kind: 'other', sourceId: 'popdaily-qot',
+      visit: '教堂为宗教场所，请遵守礼仪。'
+    },
+    {
+      id: 'qot-yeuido', workId: 'queen-of-tears', name: '汝矣岛公园', ko: '여의도공원', city: '首尔 · 永登浦区', group: '首尔',
+      lat: 37.525536, lng: 126.921586, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（utravel-qot）定位，机位待核实。',
+      address: '서울 영등포구 여의공원로 68', query: '여의도공원', kind: 'other', sourceId: 'utravel-qot',
+      visit: '公园为开放空间，注意人流。'
+    },
+    {
+      id: 'qot-cheonan', workId: 'queen-of-tears', name: '天安王林里·牙山新旺里', ko: '천안 왕림리·아산 신왕리', city: '天安 · 西北区', group: '忠清南道',
+      lat: 36.91501, lng: 127.09265, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（utravel-qot）定位，机位待核实。',
+      address: '충남 천안시 서북구 성환읍 왕림리 390-19', query: '천안 왕림리', kind: 'other', sourceId: 'utravel-qot',
+      visit: '乡村梨园，请勿踩踏农田。'
+    },
+    {
+      id: 'qot-mungyeong', workId: 'queen-of-tears', name: '闻庆铁路自行车', ko: '문경 철로자전거', city: '闻庆 · 麻城面', group: '庆尚北道',
+      lat: 36.677154, lng: 128.122326, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（utravel-qot）定位，机位待核实。',
+      address: '경북 문경시 마성면 신현리', query: '문경 철로자전거', kind: 'other', sourceId: 'utravel-qot',
+      visit: '需购票乘坐，按运营时间前往。'
+    },
+    {
+      id: 'qot-berlin-dom', workId: 'queen-of-tears', name: '柏林大教堂', ko: 'Berliner Dom', city: '柏林 · 德国', group: '德国',
+      lat: 52.519082, lng: 13.401094, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（utravel-qot）定位，机位待核实。',
+      address: 'Am Lustgarten, 10178 Berlin, Germany', query: 'Berliner Dom', kind: 'other', sourceId: 'utravel-qot',
+      visit: '教堂为宗教场所，请遵守礼仪。'
+    },
+    {
+      id: 'qot-pariser-platz', workId: 'queen-of-tears', name: '巴黎广场', ko: 'Pariser Platz', city: '柏林 · 德国', group: '德国',
+      lat: 52.516355, lng: 13.378683, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（utravel-qot）定位，机位待核实。',
+      address: 'Pariser Platz, 10117 Berlin, Germany', query: 'Pariser Platz', kind: 'other', sourceId: 'utravel-qot',
+      visit: '公共广场，注意人流。'
+    },
+    {
+      id: 'qot-nikolassee', workId: 'queen-of-tears', name: '尼古拉湖车站', ko: 'Bahnhof Nikolassee', city: '柏林 · 德国', group: '德国',
+      lat: 52.420277, lng: 13.180613, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（utravel-qot）定位，机位待核实。',
+      address: 'Nikolassee, Berlin, Germany', query: 'Bahnhof Nikolassee', kind: 'other', sourceId: 'utravel-qot',
+      visit: '车站为公共交通设施，注意安全。'
+    },
+    {
+      id: 'hm-cheongjin3', workId: 'hometown', name: '青津3里渔民福利会馆', ko: '청진3리 어민복지회관', city: '浦项 · 兴海邑', group: '庆尚北道',
+      lat: 36.171467, lng: 129.395184, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-hometown）定位，机位待核实。',
+      address: '경상북도 포항시 북구 흥해읍 해안로 1884-2', query: '청진3리 어민복지회관', kind: 'other', sourceId: 'visitkorea-hometown',
+      visit: '室内空间已拆除，只能在外围参观。'
+    },
+    {
+      id: 'hm-cheongjin2', workId: 'hometown', name: '青津2里防波堤', ko: '청진2리 방파제', city: '浦项 · 清河面', group: '庆尚北道',
+      lat: 36.174719, lng: 129.392689, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-hometown）定位，机位待核实。',
+      address: '경상북도 포항시 북구 청하면 청진리', query: '청진2리 방파제', kind: 'other', sourceId: 'visitkorea-hometown',
+      visit: '防波堤无护栏，注意安全。'
+    },
+    {
+      id: 'hm-seokbyeong', workId: 'hometown', name: '石屏1里防波堤', ko: '석병1리 방파제', city: '浦项 · 九龙浦邑', group: '庆尚北道',
+      lat: 36.012139, lng: 129.577021, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-hometown）定位，机位待核实。',
+      address: '경상북도 포항시 남구 구룡포읍 석병리', query: '석병1리 방파제', kind: 'other', sourceId: 'visitkorea-hometown',
+      visit: '附近为居民私有土地，未对外开放。'
+    },
+    {
+      id: 'hm-hwajeong', workId: 'hometown', name: '华贞生鱼片店', ko: '화정횟집', city: '浦项 · 九龙浦邑', group: '庆尚北道',
+      lat: 36.0124, lng: 129.5767, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-hometown）定位，机位待核实。',
+      address: '경상북도 포항시 남구 구룡포읍 석병리', query: '화정횟집', kind: 'other', sourceId: 'visitkorea-hometown',
+      visit: '店铺已不营业，可在店前拍照。'
+    },
+    {
+      id: 'hm-wolpo', workId: 'hometown', name: '月浦海水浴场', ko: '월포해수욕장', city: '浦项 · 清河面', group: '庆尚北道',
+      lat: 36.200569, lng: 129.368486, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-hometown）定位，机位待核实。',
+      address: '경상북도 포항시 북구 청하면 해안로 2394번길', query: '월포해수욕장', kind: 'other', sourceId: 'visitkorea-hometown',
+      visit: '海滩，夏季人多，注意安全。'
+    },
+    {
+      id: 'hm-yangpo', workId: 'hometown', name: '良浦港', ko: '양포항', city: '浦项 · 清河面', group: '庆尚北道',
+      lat: 36.201061, lng: 129.340279, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-hometown）定位，机位待核实。',
+      address: '경상북도 포항시 북구 청하면 해안로 2394번길', query: '양포항', kind: 'other', sourceId: 'visitkorea-hometown',
+      visit: '渔港，注意车辆与作业。'
+    },
+    {
+      id: 'glory-museum', workId: 'glory', name: '国立清州博物馆', ko: '국립청주박물관', city: '清州 · 上党区', group: '忠清北道',
+      lat: 36.649249, lng: 127.512094, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-glory）定位，机位待核实。',
+      address: '충북 청주시 상당구 명암로 143', query: '국립청주박물관', kind: 'other', sourceId: 'visitkorea-glory',
+      visit: '博物馆开放时间请查官网。'
+    },
+    {
+      id: 'glory-park', workId: 'glory', name: '清州中央公园', ko: '청주 중앙공원', city: '清州 · 上党区', group: '忠清北道',
+      lat: 36.635, lng: 127.489, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-glory）定位，机位待核实。',
+      address: '충북 청주시 상당구 남문로2가', query: '청주 중앙공원', kind: 'other', sourceId: 'visitkorea-glory',
+      visit: '公园为开放空间。'
+    },
+    {
+      id: 'glory-yonghwasa', workId: 'glory', name: '龙华寺', ko: '용화사', city: '清州 · 西原区', group: '忠清北道',
+      lat: 36.64156, lng: 127.48205, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-glory）定位，机位待核实。',
+      address: '충북 청주시 서원구 용화사', query: '용화사 청주', kind: 'other', sourceId: 'visitkorea-glory',
+      visit: '寺庙为宗教场所，请遵守礼仪。'
+    },
+    {
+      id: 'glory-unri', workId: 'glory', name: '云理团路', ko: '운리단길', city: '清州 · 兴德区', group: '忠清北道',
+      lat: 36.648535, lng: 127.475425, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-glory）定位，机位待核实。',
+      address: '충북 청주시 흥덕구 운천동', query: '운리단길', kind: 'other', sourceId: 'visitkorea-glory',
+      visit: '街区为商业/咖啡店集中地。'
+    },
+    {
+      id: 'osn-bbq', workId: 'one-spring-night', name: '胡同木炭烤肉店', ko: '골목숯불구이', city: '首尔 · 龙山区', group: '首尔',
+      lat: 37.531027, lng: 126.967704, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitseoul-one-spring）定位，机位待核实。',
+      address: '서울 용산구 한강대로39길 12-12', query: '한강대로39길', kind: 'other', sourceId: 'visitseoul-one-spring',
+      visit: '餐厅营业时间内用餐即可。'
+    },
+    {
+      id: 'osn-park', workId: 'one-spring-night', name: '西大门独立公园', ko: '서대문독립공원', city: '首尔 · 西大门区', group: '首尔',
+      lat: 37.573395, lng: 126.958891, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitseoul-one-spring）定位，机位待核实。',
+      address: '서울 서대문구 통일로 251', query: '서대문독립공원', kind: 'other', sourceId: 'visitseoul-one-spring',
+      visit: '公园为开放空间。'
+    },
+    {
+      id: 'osn-cafe', workId: 'one-spring-night', name: '双门洞咖啡', ko: '쌍문동커피', city: '首尔 · 道峰区', group: '首尔',
+      lat: 37.648228, lng: 127.037332, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitseoul-one-spring）定位，机位待核实。',
+      address: '서울 도봉구 도봉로116길 5', query: '도봉로116길 5', kind: 'other', sourceId: 'visitseoul-one-spring',
+      visit: '咖啡店，营业时间内消费即可。'
+    },
+    {
+      id: 'osn-pharmacy', workId: 'one-spring-night', name: '神力满满药店', ko: '신력만만약국', city: '首尔 · 道峰区', group: '首尔',
+      lat: 37.65, lng: 127.015, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitseoul-one-spring）定位，机位待核实。',
+      address: '서울 도봉구 삼양로 580-4', query: '삼양로 580-4', kind: 'other', sourceId: 'visitseoul-one-spring',
+      visit: '药店仍在营业，请勿影响营业。'
+    },
+    {
+      id: 'itaewon-angel', workId: 'itaewon', name: '天使翅膀涂鸦', ko: '천사날개', city: '首尔 · 龙山区', group: '首尔',
+      lat: 37.539756, lng: 126.98843, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-itaewon）定位，机位待核实。',
+      address: '서울 용산구 이태원동 116-18', query: '이태원동 116-18', kind: 'other', sourceId: 'visitkorea-itaewon',
+      visit: '街边涂鸦，拍照时注意行人车辆。'
+    },
+    {
+      id: 'dots-taebaek', workId: 'descendants-of-sun', name: '通里坦坦公园（乌鲁克太白拍摄地）', ko: '통리탄탄파크', city: '太白 · 江原', group: '江原道',
+      lat: 37.15, lng: 128.99, coordinateStatus: 'approximate', verifiedAt: null, entrance: null,
+      coordinateSourceId: null, coordinateNote: '按公开专题（visitkorea-descendants）定位，机位待核实。',
+      address: '강원특별자치도 태백시 통골길 116-52', query: '통리탄탄파크', kind: 'other', sourceId: 'visitkorea-descendants',
+      visit: '收费景区，按营业时间前往（周一休）。'
+    },
   ],
 
   // 一处地标可以有多条场景记录；episode、timeSeconds、image 都需要独立核实。
@@ -745,6 +1169,46 @@ window.KDRAMA_CATALOG = {
     { id: 'qbc-petit-01', landmarkId: 'qbc-petit', description: '小香普兰街。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-petit.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
     { id: 'qbc-red-door-01', landmarkId: 'qbc-petit', description: '鬼怪穿越红门（68号）。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-red-door.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
     { id: 'qbc-tourny-01', landmarkId: 'qbc-tourny', description: '开篇喷泉镜头。', episode: null, timeSeconds: null, image: './assets/scenes/goblin-quebec/qbc-tourny.jpg', imageCredit: '', sourceId: 'quebec-goblin', episodeSourceId: null },
+    { id: 'busan-hocheon-a-01', landmarkId: 'fmw-hocheon', description: '虎川村夜景（三流之路取景地）。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/busan-hocheon-a.jpg', imageCredit: '', sourceId: 'xhs-busan-note', episodeSourceId: null },
+    { id: 'busan-hocheon-b-01', landmarkId: 'fmw-hocheon', description: '虎川村彩色屋顶与壁画。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/busan-hocheon-b.jpg', imageCredit: '', sourceId: 'xhs-busan-note', episodeSourceId: null },
+    { id: 'busan-commodore-a-01', landmarkId: 'cl-commodore', description: '酒店大堂（剧中平壤大酒店）。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/busan-commodore-a.jpg', imageCredit: '', sourceId: 'xhs-busan-note', episodeSourceId: null },
+    { id: 'busan-commodore-b-01', landmarkId: 'cl-commodore', description: '酒店外观。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/busan-commodore-b.jpg', imageCredit: '', sourceId: 'xhs-busan-note', episodeSourceId: null },
+    { id: 'busan-commodore-c-01', landmarkId: 'cl-commodore', description: '剧中“平壤大酒店”场景。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/busan-commodore-c.jpg', imageCredit: '', sourceId: 'xhs-busan-note', episodeSourceId: null },
+    { id: 'busan-gwangalli-a-01', landmarkId: 'wf-gwangalli', description: '广安里海水浴场与广安大桥。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/busan-gwangalli-a.jpg', imageCredit: '', sourceId: 'xhs-busan-note', episodeSourceId: null },
+    { id: 'busan-gwangalli-b-01', landmarkId: 'wf-gwangalli', description: '海边沙滩。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/busan-gwangalli-b.jpg', imageCredit: '', sourceId: 'xhs-busan-note', episodeSourceId: null },
+    { id: 'itaewon-finest-01', landmarkId: 'itaewon-finest', description: '第4集：朴世路与赵以瑞初吻的酒吧。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/itaewon-finest.jpg', imageCredit: '', sourceId: 'popdaily-itaewon', episodeSourceId: null },
+    { id: 'itaewon-lapland-01', landmarkId: 'itaewon-lapland', description: '赵以瑞泼张根源热咖啡的咖啡厅。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/itaewon-lapland.jpg', imageCredit: '', sourceId: 'popdaily-itaewon', episodeSourceId: null },
+    { id: 'itaewon-jamsu-01', landmarkId: 'itaewon-jamsu', description: '赵以瑞投硬币的潜水桥。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/itaewon-jamsu.jpg', imageCredit: '', sourceId: 'popdaily-itaewon', episodeSourceId: null },
+    { id: 'qot-walkerhill-01', landmarkId: 'qot-walkerhill', description: '白贤祐与洪海仁的婚礼场地。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/qot-walkerhill.jpg', imageCredit: '', sourceId: 'popdaily-qot', episodeSourceId: null },
+    { id: 'qot-aqua-01', landmarkId: 'qot-aqua', description: '白贤祐向洪海仁求婚的水族馆。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/qot-aqua.jpg', imageCredit: '', sourceId: 'popdaily-qot', episodeSourceId: null },
+    { id: 'qot-hyundai-01', landmarkId: 'qot-hyundai', description: '剧中女王百货（现代百货）。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/qot-hyundai.jpg', imageCredit: '', sourceId: 'popdaily-qot', episodeSourceId: null },
+    { id: 'qot-stone-01', landmarkId: 'qot-stone', description: '洪家豪宅（古石博物馆外景）。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/qot-stone.jpg', imageCredit: '', sourceId: 'popdaily-qot', episodeSourceId: null },
+    { id: 'qot-sanssouci-01', landmarkId: 'qot-sanssouci', description: '德国忘忧宫场景。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/qot-sanssouci.jpg', imageCredit: '', sourceId: 'popdaily-qot', episodeSourceId: null },
+    { id: 'qot-neptun-01', landmarkId: 'qot-neptun', description: '德国海神喷泉前的合影。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/qot-neptun.jpg', imageCredit: '', sourceId: 'popdaily-qot', episodeSourceId: null },
+    { id: 'qot-dreikoenig-01', landmarkId: 'qot-dreikoenig', description: '德累斯顿三皇教堂前。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/qot-dreikoenig.jpg', imageCredit: '', sourceId: 'popdaily-qot', episodeSourceId: null },
+    { id: 'qot-ilwol-01', landmarkId: 'qot-ilwol', description: '女王百货顶楼花园（温室区）。', episode: null, timeSeconds: null, image: './assets/scenes/from-notes/qot-ilwol.jpg', imageCredit: '', sourceId: 'popdaily-qot', episodeSourceId: null },
+    { id: 'qot-yeuido-01', landmarkId: 'qot-yeuido', description: '白贤祐与智囊团在公园吃餐点。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'utravel-qot', episodeSourceId: null },
+    { id: 'qot-cheonan-01', landmarkId: 'qot-cheonan', description: '剧中“龙头里”的梨花田（白贤祐家乡）。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'utravel-qot', episodeSourceId: null },
+    { id: 'qot-mungyeong-01', landmarkId: 'qot-mungyeong', description: '白贤祐与洪海仁一起踩铁路自行车。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'utravel-qot', episodeSourceId: null },
+    { id: 'qot-berlin-dom-01', landmarkId: 'qot-berlin-dom', description: '第6集白贤祐独自来此为洪海仁祈祷。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'utravel-qot', episodeSourceId: null },
+    { id: 'qot-pariser-platz-01', landmarkId: 'qot-pariser-platz', description: '白贤祐与洪海仁度蜜月地点之一。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'utravel-qot', episodeSourceId: null },
+    { id: 'qot-nikolassee-01', landmarkId: 'qot-nikolassee', description: '等车时贤祐被搭讪，海仁醋意大发。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'utravel-qot', episodeSourceId: null },
+    { id: 'hm-cheongjin3-01', landmarkId: 'hm-cheongjin3', description: '剧中尹牙科（海景牙科）的取景地。', episode: null, timeSeconds: null, image: './assets/scenes/from-guides/hm-cheongjin3.jpg', imageCredit: '', sourceId: 'visitkorea-hometown', episodeSourceId: null },
+    { id: 'hm-cheongjin2-01', landmarkId: 'hm-cheongjin2', description: '洪班长与池成炫PD初次相遇的防波堤。', episode: null, timeSeconds: null, image: './assets/scenes/from-guides/hm-cheongjin2.jpg', imageCredit: '', sourceId: 'visitkorea-hometown', episodeSourceId: null },
+    { id: 'hm-seokbyeong-01', landmarkId: 'hm-seokbyeong', description: '洪班长与惠珍常一起出现的防波堤。', episode: null, timeSeconds: null, image: './assets/scenes/from-guides/hm-seokbyeong.jpg', imageCredit: '', sourceId: 'visitkorea-hometown', episodeSourceId: null },
+    { id: 'hm-hwajeong-01', landmarkId: 'hm-hwajeong', description: '池成炫PD美食吃播的拍摄地。', episode: null, timeSeconds: null, image: './assets/scenes/from-guides/hm-hwajeong.jpg', imageCredit: '', sourceId: 'visitkorea-hometown', episodeSourceId: null },
+    { id: 'hm-wolpo-01', landmarkId: 'hm-wolpo', description: '洪班长放假时冲浪玩水的海滩。', episode: null, timeSeconds: null, image: './assets/scenes/from-guides/hm-wolpo.jpg', imageCredit: '', sourceId: 'visitkorea-hometown', episodeSourceId: null },
+    { id: 'hm-yangpo-01', landmarkId: 'hm-yangpo', description: '洪班长竞标渔获、惠珍与阿姨们处理鱿鱼的公辰港。', episode: null, timeSeconds: null, image: './assets/scenes/from-guides/hm-yangpo.jpg', imageCredit: '', sourceId: 'visitkorea-hometown', episodeSourceId: null },
+    { id: 'glory-museum-01', landmarkId: 'glory-museum', description: '清州取景路线起点（剧中场景待核实）。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitkorea-glory', episodeSourceId: null },
+    { id: 'glory-park-01', landmarkId: 'glory-park', description: '文东恩和朱汝贞在这里下围棋结缘。', episode: null, timeSeconds: null, image: './assets/scenes/from-guides/glory-a.jpg', imageCredit: '', sourceId: 'visitkorea-glory', episodeSourceId: null },
+    { id: 'glory-yonghwasa-01', landmarkId: 'glory-yonghwasa', description: '崔惠程向文东恩表明忠心的场景。', episode: null, timeSeconds: null, image: './assets/scenes/from-guides/glory-b.jpg', imageCredit: '', sourceId: 'visitkorea-glory', episodeSourceId: null },
+    { id: 'glory-unri-01', landmarkId: 'glory-unri', description: '《浪漫速成班》全度妍经营的小菜店所在街区。', episode: null, timeSeconds: null, image: './assets/scenes/from-guides/glory-c.jpg', imageCredit: '', sourceId: 'visitkorea-glory', episodeSourceId: null },
+    { id: 'osn-bbq-01', landmarkId: 'osn-bbq', description: '智昊与基硕赛后聚餐的烤肉店。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitseoul-one-spring', episodeSourceId: null },
+    { id: 'osn-park-01', landmarkId: 'osn-park', description: '静仁与智昊在公园长椅确认心意。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitseoul-one-spring', episodeSourceId: null },
+    { id: 'osn-cafe-01', landmarkId: 'osn-cafe', description: '静仁与智昊面对面坐着聊天。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitseoul-one-spring', episodeSourceId: null },
+    { id: 'osn-pharmacy-01', landmarkId: 'osn-pharmacy', description: '静仁宿醉跑进药店买药，与智昊初次相遇。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitseoul-one-spring', episodeSourceId: null },
+    { id: 'itaewon-angel-01', landmarkId: 'itaewon-angel', description: '世路与伊瑞约会拍照的阶前涂鸦。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitkorea-itaewon', episodeSourceId: null },
+    { id: 'dots-taebaek-01', landmarkId: 'dots-taebaek', description: '剧中“乌鲁克太白”拍摄场地，再现 Medicube、急救室等摄影棚。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitkorea-descendants', episodeSourceId: null },
   ],
   updates: [
     { landmarkId: 'jumunjin', reviewedAt: '2026-11-06T14:24:29.372Z' }
