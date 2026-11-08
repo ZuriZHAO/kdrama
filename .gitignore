@@ -1,3 +1,6 @@
 dist/
 runtime/
 *.tmp
+media-src/
+.env
+.env.*

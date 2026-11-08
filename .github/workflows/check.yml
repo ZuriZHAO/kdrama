@@ -22,7 +22,10 @@ jobs:
           node --check submit.js
           node --check review.js
           node --check tools/import-issue.cjs
+          node --check tools/check-assets.cjs
+          node --check tools/optimize-assets.cjs
           node data/check-catalog.cjs
+          node tools/check-assets.cjs
           node tools/test-flow.cjs
       - name: Build site
         run: node tools/build-site.cjs

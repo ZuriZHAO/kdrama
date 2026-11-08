@@ -24,6 +24,7 @@
 
 ```powershell
 node data/check-catalog.cjs
+node tools/check-assets.cjs
 node tools/test-flow.cjs
 node tools/build-site.cjs
 ```

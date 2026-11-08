@@ -33,6 +33,7 @@ jobs:
           node --check submit.js
           node --check review.js
           node data/check-catalog.cjs
+          node tools/check-assets.cjs
           node tools/test-flow.cjs
 
   publish:
@@ -69,6 +70,7 @@ jobs:
           node --check submit.js
           node --check review.js
           node data/check-catalog.cjs
+          node tools/check-assets.cjs
       - name: Build static site
         run: node tools/build-site.cjs
       - name: Save approved catalog update

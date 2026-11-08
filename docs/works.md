@@ -3,14 +3,22 @@
 在 `data/catalog.js` 的 `works` 数组添加一项即可预置作品；无需同时添加地点。作品会出现在“热门作品”列表，地点数和截图数显示为 0。有人投稿并审核通过后，地点会自动关联作品。`type` 可填 `drama`（电视剧）、`movie`（电影）或 `variety`（综艺）；旧条目未填时默认电视剧。
 
 ```js
-{ id: 'example-drama', title: '中文剧名', original: '한국어 제목', year: '2025', color: '#6d8293', poster: './assets/posters/example-drama.webp' }
+{ id: 'example-drama', title: '中文剧名', original: '한국어 제목', year: '2025', color: '#6d8293', poster: './assets/posters/example-drama-600w.webp' }
 ```
 
 `id` 必须唯一，发布后不要改动。`poster` 可以是 HTTPS 图片链接或项目内的 `./assets/` 路径；没有授权可用的海报时填 `null`，页面会显示剧名占位封面。项目内图片放进 `assets/posters/`，静态构建会一起复制。投稿新作品时也可上传海报；图片和海报都需确认展示许可，署名可选。不要直接引用其他站点的受限海报文件。
 
-本机放海报的具体位置是 `D:\code\kdrama\assets\posters\`。例如存入 `queen-of-tears.webp` 后，把作品的 `poster` 改成 `./assets/posters/queen-of-tears.webp`；提交并推送仓库后，GitHub Pages 才会显示图片。文件名建议只用英文字母、数字和连字符。已预置作品的海报目前通过此方式加入；投稿表单的海报上传只用于投稿新增作品。
+本机放海报的具体位置是 `D:\code\kdrama\assets\posters\`。例如存入 `queen-of-tears-600w.webp` 后，把作品的 `poster` 改成 `./assets/posters/queen-of-tears-600w.webp`；提交并推送仓库后，GitHub Pages 才会显示图片。文件名建议只用英文字母、数字和连字符。已预置作品的海报目前通过此方式加入；投稿表单的海报上传只用于投稿新增作品。
 
-目前 154 部预置作品均有海报。海报随仓库的静态网站发布。旧投稿服务中已审核的注文津图片已迁入 `assets/scenes/`。今后访客投稿的场景图片与作品海报改由 GitHub 托管：投稿时把图片拖进 Issue 正文的对应区块，GitHub 会保存为 user-attachments 链接；审核通过并发布后，地图直接引用该链接。访客投稿图片不会出现在本地 `assets/posters/` 文件夹。
+## 图片体积规范
+
+- 海报：600 px 宽 WebP（质量 80），单张 ≤ 200 KB；命名 `<作品id>-600w.webp`。
+- 场景图：最长边 ≤ 1280 px、保持原宽不放大，WebP（质量 82），单张 ≤ 400 KB；命名 `<原名>-<实际宽度>w.webp`。
+- 新增或替换图片后运行 `node tools/check-assets.cjs`；`assets/` 总量上限 20 MB，超限会被 CI 拒绝。
+- 投稿图片仍走 Issue 附件，不要下载后提交进 `assets/`；只有确认授权、且需要长期放进仓库的图片才进 `assets/`。
+- 需要重新压缩时，先运行 `node tools/optimize-assets.cjs --dry-run` 看报告，再去掉 `--dry-run` 执行。
+
+目前 154 部预置作品均有海报。海报随仓库的静态网站发布。旧投稿服务中已审核的注文津图片已迁入 `assets/scenes/`。今后访客投稿的场景图片与作品海报改由 GitHub 托管：投稿时把图片拖进 Issue 正文的对应区块，GitHub 会保存为 user-attachments 链接；审核通过并发布后，地图直接引用该链接。这些附件不会进入仓库，也不会出现在本地 `assets/posters/` 文件夹。
 
 《我的有罪之人》《请回答1988》《未知的首尔》《眼泪女王》的韩文名已按 [tvN 官方作品页](https://tvn.cjenm.com/ko/Love-in-Disguise/)、[请回答1988](https://tvn.cjenm.com/ko/reply1988/about/)、[未知的首尔](https://tvn.cjenm.com/ko/Our-Unwritten-Seoul/) 与[眼泪女王](https://tvn.cjenm.com/ko/queenoftears/) 核对。
 
