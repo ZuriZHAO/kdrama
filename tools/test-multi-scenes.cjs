@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),vm=require('node:vm'),{execFileSync}=require('node:child_process');
+const core=require('../submission-core');const ctx={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../data/catalog.js'),'utf8'),ctx);const cat=JSON.parse(JSON.stringify(ctx.window.KDRAMA_CATALOG));
+const url='https://github.com/user-attachments/assets/12345678-1234-1234-1234-123456789012';
+const payload={version:2,kind:'update',landmarkId:cat.landmarks[0].id,rightsConfirmed:true,scenes:[{key:'s1',description:'只有文字的场景',episode:1,timeSeconds:0,crop:{x:50,y:50}},{key:'s2',attachment:true,description:'',episode:2,timeSeconds:65,crop:{x:0,y:100},imageCredit:''}]};
+const body=p=>'<!-- KDRAMA_SUBMISSION_V2_START -->\n```json\n'+JSON.stringify(p)+'\n```\n<!-- KDRAMA_SUBMISSION_V2_END -->\n<!-- KDRAMA_SCENE_s2_START -->\n![scene]('+url+')\n<!-- KDRAMA_SCENE_s2_END -->';
+const checked=core.validateSubmission(payload,body(payload),cat);assert.equal(checked.sceneRecords.length,2);assert.equal(checked.sceneRecords[1].imageUrl,url);assert.equal(checked.sceneRecords[0].timeSeconds,0);
+assert.throws(()=>core.validateSubmission(payload,body(payload).replace('![scene]('+url+')',''),cat),/上传一张/);
+assert.throws(()=>core.validateSubmission({...payload,scenes:[payload.scenes[1],payload.scenes[1]]},body(payload),cat),/重复/);
+assert.throws(()=>core.validateSubmission({...payload,scenes:[{...payload.scenes[1],crop:{x:-1,y:0}}]},body(payload),cat),/裁剪/);
+assert.throws(()=>core.extractSceneImage(body(payload).replace('![scene]','<!-- KDRAMA_IMAGE_START -->![scene]'),'s2'),/嵌套/);
+assert.throws(()=>core.extractSceneImage(body(payload).replace('![scene]('+url+')','![scene]('+url+')\n![again]('+url+')'),'s2'),/一张/);
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'kdrama-multi-'));try{const file=path.join(dir,'body.md'),catalogFile=path.join(dir,'catalog.js');fs.writeFileSync(file,body(payload));fs.writeFileSync(catalogFile,'window.KDRAMA_CATALOG='+JSON.stringify(cat));execFileSync(process.execPath,[path.join(__dirname,'import-issue.cjs'),file,'99952',catalogFile]);const loaded={window:{}};vm.runInNewContext(fs.readFileSync(catalogFile,'utf8'),loaded);const scenes=loaded.window.KDRAMA_CATALOG.scenes.filter(s=>s.id.startsWith('issue-99952-scene'));assert.equal(scenes.length,2);assert.equal(scenes[1].crop.y,100);assert.equal(scenes[0].image,null);}finally{fs.rmSync(dir,{recursive:true,force:true});}
+console.log('Multi-scene attachments, per-image metadata, crop validation and importer passed.');

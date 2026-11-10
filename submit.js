@@ -164,7 +164,7 @@ function validateCurrentStep(atStep = step) {
       const lat = Number(required('lat', '请填写地图纬度'));
       const lng = Number(required('lng', '请填写地图经度'));
       if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) throw new Error('纬度需在 -90～90、经度需在 -180～180 之间');
-      required('description', '请描述剧中的场景');
+      // Scene description can be supplied per image in the next step.
     }
     for (const [id, limit] of [['correction-lat', 90], ['correction-lng', 180]]) {
       if (value(id) !== '' && (!Number.isFinite(Number(value(id))) || Math.abs(Number(value(id))) > limit)) throw new Error('更正坐标超出经纬度范围');
@@ -192,18 +192,20 @@ function collect() {
     Object.assign(payload, { landmarkId: value('landmark-id'), description: value('description'), changes,
       episode: optionalNumber('episode', 1000), timeSeconds: optionalNumber('time-seconds', 100000) });
   }
-  const file = $('image').files[0];
+  const files = KdramaImages.files(); const file = files[0];
   const poster = kind === 'place' && value('work-id') === 'new' ? $('poster').files[0] : null;
   if ((restoredFiles.image && !file) || (restoredFiles.poster && !poster && kind === 'place' && value('work-id') === 'new')) throw new Error('草稿中的图片需要重新选择；如不再使用，请点击“移除草稿图片提醒”。');
   if (kind === 'update' && !payload.description && !Object.keys(payload.changes).length && !file) throw new Error('请至少补充场景、图片或一项更正资料');
-  for (const upload of [file, poster].filter(Boolean)) {
+  for (const upload of [...files, poster].filter(Boolean)) {
     if (upload.size > 5000000 || !['image/jpeg', 'image/png', 'image/webp'].includes(upload.type)) throw new Error('图片仅支持 JPG、PNG、WebP，最大 5 MB');
     if (!$('rights-confirmed').checked) throw new Error('请确认图片展示许可');
   }
   if (file || poster) { payload.imageCredit = value('image-credit'); payload.rightsConfirmed = true; }
-  payload.imageAttachment = !!file;
+  payload.imageAttachment = false;
+  if(files.length) payload.scenes = KdramaImages.payload();
+  if(kind==='place'&&!payload.description&&!files.length)throw new Error('请填写场景描述或添加场景图片。');
   payload.posterAttachment = !!poster;
-  return { payload, file, poster };
+  return { payload, file, files, poster };
 }
 function markdownText(text) { return String(text ?? '').replace(/[\r\n]+/g, ' ').replace(/[\\`*_{}\[\]()#+.!|<>]/g, '\\$&'); }
 function issueTitle(payload) {
@@ -222,13 +224,14 @@ function issueBody(payload) {
     ? `作品：${markdownText(work?.title || payload.newWork?.title || payload.newWork?.original)}\n\n地点：${markdownText(payload.name)}\n\n坐标：${payload.lat}, ${payload.lng}\n\n分组：${markdownText(payload.group || '未分组')}`
     : `地点：${markdownText(place?.name || payload.landmarkId)}\n\n补充／更正：${markdownText(payload.description || (Object.keys(payload.changes).length ? Object.keys(payload.changes).map(key => `${key} → ${payload.changes[key]}`).join('；') : '补充场景图片'))}`;
   let body = `## 投稿摘要\n\n${summary}\n\n请检查摘要，在下方对应区域附图后点击 **Submit new issue**。\n\n<details>\n<summary>供地图读取的投稿信息（请保留）</summary>\n\n<!-- KDRAMA_SUBMISSION_V2_START -->\n\`\`\`json\n${JSON.stringify(payload, null, 2)}\n\`\`\`\n<!-- KDRAMA_SUBMISSION_V2_END -->\n\n</details>`;
+  for(const scene of payload.scenes||[])body += `\n\n## 场景 ${scene.key.slice(1)} 图片：${markdownText(scene.filename)}\n<!-- KDRAMA_SCENE_${scene.key}_START -->\n（将这张原图拖到这里，保留标记。地图会使用刚才设置的裁剪位置。）\n<!-- KDRAMA_SCENE_${scene.key}_END -->`;
   if (payload.imageAttachment) body += '\n\n## 场景图片\n<!-- KDRAMA_IMAGE_START -->\n（把场景图片拖到这里，替换这行文字。请保留上下两行标记，等待图片上传完成。）\n<!-- KDRAMA_IMAGE_END -->';
   if (payload.posterAttachment) body += '\n\n## 作品海报\n<!-- KDRAMA_POSTER_START -->\n（把作品海报拖到这里，替换这行文字。请保留上下两行标记，等待图片上传完成。）\n<!-- KDRAMA_POSTER_END -->';
   return body;
 }
 function updateImageRights() {
   const posterActive = value('kind') === 'place' && value('work-id') === 'new';
-  $('image-rights').hidden = !$('image').files[0] && !(posterActive && $('poster').files[0]);
+  $('image-rights').hidden = !KdramaImages.files().length && !(posterActive && $('poster').files[0]);
 }
 function updateFileNotice() {
   const pending = [restoredFiles.image ? `场景图片：${restoredFiles.image}` : '', restoredFiles.poster && value('kind') === 'place' && value('work-id') === 'new' ? `海报：${restoredFiles.poster}` : ''].filter(Boolean);
@@ -245,9 +248,9 @@ function saveDraft() {
   clearTimeout(saveTimer);
   draftDirty = false;
   const fields = Object.fromEntries(draftFields.map(id => [id, $(id).value]));
-  const files = { image: $('image').files[0]?.name || restoredFiles.image || '', poster: $('poster').files[0]?.name || restoredFiles.poster || '' };
+  const files = { image: KdramaImages.files().map(f=>f.name).join('、') || restoredFiles.image || '', poster: $('poster').files[0]?.name || restoredFiles.poster || '' };
   try {
-    localStorage.setItem(draftKey, JSON.stringify({version:2, fields, files, step, savedAt:Date.now()}));
+    localStorage.setItem(draftKey, JSON.stringify({version:2, fields, files, scenes:KdramaImages.draft(), step, savedAt:Date.now()}));
     $('draft-status').textContent = '文字草稿已保存在当前浏览器。';
     $('restore-draft').hidden = true;
   } catch { $('draft-status').textContent = '当前浏览器无法保存草稿，请保留此页面。'; }
@@ -255,7 +258,7 @@ function saveDraft() {
 function restoreDraft(draft) {
   if (!draft || draft.version !== 2 || !draft.fields || typeof draft.fields !== 'object') return false;
   $('success-panel').hidden = true;
-  $('image').value = ''; $('poster').value = '';
+  $('image').value = ''; $('poster').value = ''; KdramaImages.restore(draft.scenes);
   if (previewUrl) URL.revokeObjectURL(previewUrl);
   previewUrl = ''; $('image-preview-img').removeAttribute('src'); $('image-preview').hidden = true;
   for (const id of draftFields) if (typeof draft.fields[id] === 'string') $(id).value = draft.fields[id];
@@ -318,7 +321,8 @@ async function checkProgress() {
       if (issueResult.status !== 'fulfilled') throw issueResult.reason;
       const issue = issueResult.value;
       const payload = core.parseIssue(issue.body || '').payload;
-      const missingImages = [payload.imageAttachment && !core.extractImage(issue.body, 'image') ? '场景图片' : '', payload.posterAttachment && !core.extractImage(issue.body, 'poster') ? '作品海报' : ''].filter(Boolean);
+      const missingScenes=(payload.scenes||[]).filter(s=>s.attachment&&!core.extractSceneImage(issue.body,s.key)).map(s=>'场景 '+s.key.slice(1));
+      const missingImages = [...missingScenes,payload.imageAttachment && !core.extractImage(issue.body, 'image') ? '场景图片' : '', payload.posterAttachment && !core.extractImage(issue.body, 'poster') ? '作品海报' : ''].filter(Boolean);
       const labels = (issue.labels || []).map(label => typeof label === 'string' ? label : label.name);
       const publicUnavailable = publicationResult.status !== 'fulfilled';
       if (labels.includes('publish-failed')) $('progress-status').textContent = '发布失败：维护者正在处理，请在 GitHub 查看回执。';
@@ -377,11 +381,9 @@ $('add-new-work').addEventListener('click', () => { selectWork('new'); $('work-t
 $('kind').addEventListener('change', showKind);
 $('landmark-search').addEventListener('input', resolveLandmark);
 $('image').addEventListener('change', () => {
-  if (previewUrl) URL.revokeObjectURL(previewUrl);
-  delete restoredFiles.image;
-  const file = $('image').files[0]; previewUrl = file ? URL.createObjectURL(file) : '';
-  if (previewUrl) $('image-preview-img').src = previewUrl; else $('image-preview-img').removeAttribute('src');
-  $('image-preview').hidden = !file; updateImageRights(); updateFileNotice(); saveDraft();
+  try {KdramaImages.select([...$('image').files]);delete restoredFiles.image;$('form-status').textContent='';}
+  catch(error){$('form-status').textContent=error.message;$('image').value='';KdramaImages.clear();}
+  updateImageRights();updateFileNotice();saveDraft();
 });
 $('poster').addEventListener('change', () => { delete restoredFiles.poster; updateImageRights(); updateFileNotice(); saveDraft(); });
 window.addEventListener('pagehide', event => { clearTimeout(saveTimer); if (draftDirty) saveDraft(); if (!event.persisted && previewUrl) URL.revokeObjectURL(previewUrl); });
@@ -390,7 +392,7 @@ $('back-button').addEventListener('click', () => { $('success-panel').hidden = t
 $('return-edit').addEventListener('click', () => { $('success-panel').hidden = true; step = 2; showStep(); $('submission-form').scrollIntoView({behavior:'smooth'}); });
 $('restore-draft').addEventListener('click', () => { restoreDraft(savedDraft); });
 $('clear-draft').addEventListener('click', () => {
-  clearTimeout(saveTimer); draftDirty = false; $('submission-form').reset(); restoredFiles = {}; savedDraft = null; step = 0;
+  clearTimeout(saveTimer); draftDirty = false; $('submission-form').reset(); restoredFiles = {}; savedDraft = null; step = 0; KdramaImages.clear();
   if (previewUrl) URL.revokeObjectURL(previewUrl); previewUrl = ''; $('image-preview').hidden = true; $('image-preview-img').removeAttribute('src');
   selectWork(''); selectLandmark(''); showKind(); showStep(false); $('success-panel').hidden = true;
   try { localStorage.removeItem(draftKey); } catch {}
@@ -406,13 +408,15 @@ $('copy-issue-body').addEventListener('click', async () => {
 $('submission-form').addEventListener('submit', event => {
   event.preventDefault();
   try {
-    const { payload, file, poster } = collect();
+    const { payload, file, files, poster } = collect();
     const title = issueTitle(payload), body = issueBody(payload);
-    const url = `https://github.com/${repo}/issues/new?${new URLSearchParams({ title, body })}`;
+    const params = new URLSearchParams({title}); if (body.length<5500)params.set('body',body);
+    const url = `https://github.com/${repo}/issues/new?${params}`;
     $('github-issue-link').href = url; $('issue-title-copy').value = title; $('issue-body-copy').value = body;
-    $('handoff-files').replaceChildren(...[[file, '场景图片'], [poster, '作品海报']].filter(([upload]) => upload).map(([upload, label]) => { const li = document.createElement('li'); li.textContent = `${label}：${upload.name}（请在 GitHub 的“${label}”区域附上）`; return li; }));
+    $('handoff-files').replaceChildren(...[...files.map((f,i)=>[f,'场景 '+(i+1)+' 图片']), [poster, '作品海报']].filter(([upload]) => upload).map(([upload, label]) => { const li = document.createElement('li'); li.textContent = `${label}：${upload.name}（请在 GitHub 的“${label}”区域附上）`; return li; }));
     $('handoff-image-note').hidden = !file && !poster;
     $('attachment-instruction').textContent = file || poster ? '把下列图片拖入对应区域，等待 GitHub 显示图片预览。' : '检查投稿摘要；这条投稿没有选择图片，可直接确认。';
+    if(body.length>=5500)$('attachment-instruction').textContent='本次多图内容较长：请先复制下方完整正文，粘贴到 GitHub，再按编号附图。';
     $('success-panel').hidden = false; saveDraft();
     window.open(url, '_blank', 'noopener');
     $('success-panel').scrollIntoView({behavior:'smooth', block:'start'});
@@ -420,4 +424,4 @@ $('submission-form').addEventListener('submit', event => {
 });
 init();
 $('submission-form').addEventListener('input', () => { $('success-panel').hidden = true; draftDirty = true; updateSummary(); clearTimeout(saveTimer); saveTimer = setTimeout(saveDraft, 350); });
-$('submission-form').addEventListener('change', () => { $('success-panel').hidden = true; updateSummary(); saveDraft(); });
+$('submission-form').addEventListener('change', () => { $('success-panel').hidden = true; updateSummary(); updateImageRights(); saveDraft(); });

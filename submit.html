@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>投稿取景地 · 剧场之外</title>
-  <link rel="stylesheet" href="./submit.css?v=9" />
-</head>
+  <link rel="stylesheet" href="./submit.css?v=10" />
+<script src="./image-fallback.js?v=1" defer></script></head>
 <body>
   <main class="page">
     <header class="top"><a href="./index.html">← 返回地图</a><span>剧场之外</span></header>
@@ -71,11 +71,11 @@
         <label>来源名称（可选）<input id="source-title" maxlength="160" placeholder="例如：韩国观光公社" /></label>
         <p class="hint">不确定来源可以留空；审核时会按资料情况标注。</p>
         <div id="image-fields">
-          <label>场景图片（可选）<input id="image" type="file" accept="image/jpeg,image/png,image/webp" /></label>
-          <figure id="image-preview" class="image-preview" hidden><div class="image-preview-frame"><img id="image-preview-img" alt="场景图片地图卡片裁剪预览" /></div><figcaption>地图地点卡片中的裁剪预览</figcaption></figure>
+          <label>场景图片（可选，最多 12 张）<input id="image" type="file" multiple accept="image/jpeg,image/png,image/webp" /></label>
+          <div id="multi-images"></div><figure id="image-preview" class="image-preview" hidden><div class="image-preview-frame"><img id="image-preview-img" alt="场景图片地图卡片裁剪预览" /></div><figcaption>地图地点卡片中的裁剪预览</figcaption></figure>
           <div id="image-rights" hidden>
             <label>图片署名（可选）<input id="image-credit" maxlength="160" placeholder="作者或授权方" /></label>
-            <label class="check"><input id="rights-confirmed" type="checkbox" />我有权允许本站展示这张图片</label>
+            <label class="check"><input id="rights-confirmed" type="checkbox" />我有权允许本站展示这些图片</label>
           </div>
         </div>
         <label>投稿署名（可选）<input id="contributor" maxlength="80" /></label>
@@ -108,7 +108,7 @@
   </main>
   <script src="./site-config.js?v=3"></script>
   <script src="./data/catalog.js?v=14"></script>
-  <script src="./submission-core.js?v=1"></script>
-  <script src="./submit.js?v=12"></script>
+  <script src="./submission-core.js?v=3"></script>
+  <script src="./submission-images.js?v=1"></script><script src="./submit.js?v=13"></script>
 </body>
 </html>

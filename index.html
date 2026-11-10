@@ -8,8 +8,8 @@
   <title>剧场之外 · 韩国影视综艺取景地地图</title>
   <link rel="stylesheet" href="./vendor/leaflet.css" />
   <link rel="stylesheet" href="./vendor/maplibre-gl.css" />
-  <link rel="stylesheet" href="./styles.css?v=23" />
-</head>
+  <link rel="stylesheet" href="./styles.css?v=24" />
+<script src="./image-fallback.js?v=1" defer></script></head>
 <body>
   <main id="explore" class="map-app">
     <section class="map-panel" aria-label="取景地地图">
@@ -18,28 +18,29 @@
       <div class="map-status"><span class="live-dot"></span><span id="map-source">正在加载街道地图</span></div>
       <button id="reset-map" class="reset-map" type="button" title="返回全部作品和地点">全部作品</button>
       <button id="thumbnail-toggle" class="thumbnail-toggle" type="button" aria-pressed="false" disabled title="暂无获许可的场景图片">场景缩略图</button>
-      <button id="nearby-button" class="nearby-button" type="button">附近取景地</button>
+      <div id="route-map-notice" class="route-map-notice" hidden>虚线仅连接行程地点，不代表道路路线。<button id="route-clear-line" type="button">清除</button></div><button id="nearby-button" class="nearby-button" type="button">附近取景地</button>
     </section>
 
-    <aside class="sidebar" aria-label="作品和取景地列表">
+    <aside class="sidebar" aria-label="作品和取景地列表"><nav class="panel-modes" aria-label="列表高度"><button type="button" data-panel-mode="collapsed">收起</button><button type="button" data-panel-mode="half" aria-pressed="true">半屏</button><button type="button" data-panel-mode="expanded">展开</button></nav>
       <header class="sidebar-head"><a class="brand" href="#explore" aria-label="剧场之外，返回地图"><span class="brand-mark">✦</span><span>剧场之外<small>影视综艺取景地地图</small></span></a><div class="sidebar-actions"><button id="open-route" class="submit-link" type="button">我的行程</button><a class="submit-link" href="./submit.html">投稿地点</a></div></header>
       <label class="searchbox"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 5 5"></path></svg><input id="search" type="search" placeholder="搜索作品、地点或城市" autocomplete="off" aria-label="搜索作品、地点或城市" /></label>
       <nav id="browse-tabs" class="sidebar-tabs" aria-label="浏览作品"><button type="button" data-browse="regions">地区</button><button type="button" data-browse="recent">近期更新</button><button type="button" data-browse="popular">热门作品</button></nav>
       <div class="list-heading"><button id="back-to-works" class="back-to-works" type="button" hidden>← 全部作品</button><span id="list-title">作品</span><button id="favorites-filter" class="favorites-filter" type="button" aria-pressed="false">☆ 收藏</button><span id="result-count" hidden></span></div>
       <nav id="work-tabs" class="sidebar-tabs" aria-label="作品地点分类" hidden><button type="button" data-work-tab="group">分组</button><button type="button" data-work-tab="episode">集数</button></nav>
-      <div id="place-list" class="place-list" aria-live="polite"></div>
+      <button type="button" id="group-reset" class="group-reset" hidden></button><div id="place-list" class="place-list" aria-live="polite"></div>
     </aside>
   </main>
 
-  <div id="detail-overlay" class="detail-overlay" hidden><div class="detail-backdrop" data-close="true"></div><article class="detail-drawer" role="dialog" aria-modal="true" aria-labelledby="detail-title" tabindex="-1"><button id="close-detail" class="close-detail" type="button" aria-label="关闭详情">×</button><div id="detail-content"></div></article></div>
+  <div id="detail-overlay" class="detail-overlay" hidden><div class="detail-backdrop" data-close="true"></div><article class="detail-drawer" role="dialog" aria-modal="false" aria-labelledby="detail-title" tabindex="-1"><button id="detail-collapse" class="detail-collapse" type="button">收起看地图</button><button id="close-detail" class="close-detail" type="button" aria-label="关闭详情">×</button><div id="detail-content"></div></article></div>
   <dialog id="image-dialog" class="image-dialog" aria-label="场景图片预览"><button id="close-image" class="close-image" type="button" aria-label="关闭图片">×</button><img id="large-scene-image" alt="" /><p id="image-caption"></p><div class="image-controls"><button id="previous-image" type="button">← 上一张</button><span id="image-position"></span><button id="next-image" type="button">下一张 →</button></div></dialog>
-  <dialog id="route-dialog" class="route-dialog" aria-labelledby="route-title"><button id="close-route" class="close-route" type="button" aria-label="关闭行程">×</button><h2 id="route-title">我的巡礼行程</h2><p class="route-intro">按收藏顺序排列。可调整站点顺序；两点间显示的是直线距离，实际交通请在导航应用中确认。</p><div id="route-content"></div></dialog>
-  <script src="./vendor/leaflet.js"></script>
+  <dialog id="route-dialog" class="route-dialog" aria-labelledby="route-title"><button id="close-route" class="close-route" type="button" aria-label="关闭行程">×</button><h2 id="route-title">我的巡礼行程</h2><p class="route-intro">按收藏顺序排列。可调整站点顺序；两点间显示的是直线距离，实际交通请在导航应用中确认。</p><div id="route-content"></div><div class="personal-actions"><button id="route-on-map" type="button">在地图查看行程</button><button id="route-share" type="button">分享行程</button></div><div id="route-share-result" hidden><label>行程链接<input id="route-share-url" readonly></label></div><details class="personal-backup"><summary>备份与导入个人记录</summary><p>收藏即行程站点，顺序会一起保存。到访与签到日期仅保存在本机。</p><button id="personal-export" type="button">导出备份</button><label>导入备份文件<input id="personal-file" type="file" accept="application/json,.json"></label><div id="personal-confirm" hidden><p id="personal-preview"></p><select id="personal-mode" aria-label="导入方式"><option value="merge">合并，保留本机已有记录</option><option value="replace">替换本机全部记录</option></select><button id="personal-apply" type="button">确认导入</button></div></details><p id="personal-status" role="status"></p></dialog>
+  <dialog id="shared-route-dialog" class="route-dialog" aria-labelledby="shared-title"><button id="shared-close" class="close-route" type="button" aria-label="关闭分享行程">×</button><h2 id="shared-title">分享的巡礼行程</h2><p id="shared-status" role="status"></p><div id="shared-route-list"></div><div class="personal-actions"><button id="shared-map" type="button">在地图查看</button><button id="shared-save" type="button">加入我的行程</button></div></dialog>
+  <script src="./personal-core.js?v=1"></script><script src="./personal-tools.js?v=1"></script><script src="./vendor/leaflet.js"></script>
   <script src="./vendor/maplibre-gl.js"></script>
   <script src="./vendor/leaflet-maplibre-gl.js"></script>
   <script src="./data/korea-map.js"></script>
   <script src="./data/catalog.js?v=14"></script>
   <script src="./site-config.js?v=3"></script>
-  <script src="./boot.js?v=8"></script>
+  <script src="./map-core.js?v=1"></script><script src="./boot.js?v=9"></script>
 </body>
 </html>

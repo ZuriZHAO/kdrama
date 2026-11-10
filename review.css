@@ -31,3 +31,13 @@
 #review-status:empty { display:none; }
 #review-status[data-error="true"] { color:#a03632; border-color:#e5beba; }
 @media (max-width:600px) { .review-page{width:calc(100% - 20px)} .review-panel{padding:16px} #review-map{height:260px} .review-diff th:first-child{width:56px} }
+
+.queue-row {display:grid;gap:7px;padding:12px 0;border-bottom:1px solid #e0e7e7;}
+.queue-row>a:first-child {font-weight:700;color:#315f78;}
+.queue-row small {color:#7a858b;}
+.manage-change {padding:12px;border:1px solid #dce5e7;border-radius:7px;margin:10px 0;}
+.manage-change pre {white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:12px;}
+.manage-selection {max-height:220px;overflow:auto;margin:10px 0;}
+.manage-selection label {display:flex;align-items:center;gap:8px;font-size:13px;}
+.manage-selection input {width:auto;}
+.manage-preview {display:block;max-width:320px;width:100%;max-height:220px;object-fit:contain;margin:14px 0;}

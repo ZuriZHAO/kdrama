@@ -40,6 +40,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: node tools/submission-status.cjs verify
+      - name: Install image tools
+        run: npm ci --no-audit --no-fund
       - name: Check scripts and catalog
         run: |
           node --check script.js
@@ -53,6 +55,14 @@ jobs:
           node tools/test-flow.cjs
           node tools/test-submission-core.cjs
           node tools/test-publication-status.cjs
+          node tools/test-map-core.cjs
+          node tools/test-maintenance.cjs
+          node tools/test-multi-scenes.cjs
+          node tools/test-media.cjs
+          node tools/test-personal.cjs
+          node --check manage.js
+          node --check personal-tools.js
+          node --check compare.js
 
   publish:
     needs: validate
@@ -88,6 +98,13 @@ jobs:
           ISSUE_BODY_FILE: ${{ steps.approved.outputs.body_path }}
         run: |
           node tools/import-issue.cjs "$ISSUE_BODY_FILE" "$ISSUE_NUMBER"
+      - name: Prepare approved scene thumbnails
+        if: github.event_name == 'issues'
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          npm ci --no-audit --no-fund
+          node tools/prepare-media.cjs "$ISSUE_NUMBER"
       - name: Validate catalog and scripts
         run: |
           node --check script.js
@@ -112,7 +129,7 @@ jobs:
           if ! git diff --quiet -- data/catalog.js; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/catalog.js
+            git add data/catalog.js assets/generated 2>/dev/null || git add data/catalog.js
             git commit -m "Publish approved pilgrimage submission #$ISSUE_NUMBER"
             git push
           fi

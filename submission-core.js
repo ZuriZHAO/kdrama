@@ -13,7 +13,7 @@
     if (typeof body !== 'string' || body.length > 100000) throw new Error('投稿正文无效或过长。');
     const markers = body.match(/<!-- KDRAMA_SUBMISSION_(?:V2_START|V1:)/g) || [];
     if (markers.length !== 1) throw new Error('请保留且仅保留一份本项目的投稿数据标记。');
-    const editable = /<!-- KDRAMA_SUBMISSION_V2_START -->\s*```json\s*\r?\n([\s\S]{1,30000}?)\r?\n```\s*<!-- KDRAMA_SUBMISSION_V2_END -->/.exec(body);
+    const editable = /<!-- KDRAMA_SUBMISSION_V2_START -->\s*```json\s*\r?\n([\s\S]{1,60000}?)\r?\n```\s*<!-- KDRAMA_SUBMISSION_V2_END -->/.exec(body);
     if (editable) {
       const payload = JSON.parse(editable[1]);
       if (!isObject(payload) || payload.version !== 2) throw new Error('可编辑投稿版本无效。');
@@ -112,6 +112,31 @@
   }
 
   function validateSubmission(payload, body, catalog) {
+    if (payload?.kind === 'maintenance') { const maintenance = typeof module === 'object' && module.exports ? require('./maintenance-core.js') : globalThis.KdramaMaintenance; if (!maintenance) throw new Error('维护模块未加载'); return { maintenance: maintenance.apply(catalog, payload) }; }
+    if (payload?.scenes != null) {
+      if (!['place','scene','update'].includes(payload.kind) || !Array.isArray(payload.scenes) || !payload.scenes.length || payload.scenes.length > 12) throw new Error('每次投稿支持 1–12 条场景。');
+      if (payload.imageAttachment || payload.imageUrl) throw new Error('多图投稿不能同时包含旧版单图字段。');
+      const keys = new Set(), records = [];
+      let first;
+      for (const scene of payload.scenes) {
+        if (!isObject(scene) || typeof scene.key !== 'string' || !/^s[1-9]\d{0,2}$/.test(scene.key) || keys.has(scene.key)) throw new Error('场景编号缺失或重复。');
+        keys.add(scene.key);
+        if (scene.attachment != null && typeof scene.attachment !== 'boolean') throw new Error('场景附件标记无效。');
+        if (scene.attachment && scene.imageUrl) throw new Error('场景链接与附件不能同时提供。');
+        const imageUrl = scene.attachment ? extractSceneImage(body,scene.key) : (scene.imageUrl || '');
+        if (scene.attachment && !imageUrl) throw new Error(`请在场景 ${scene.key.slice(1)} 的图片区块上传一张 GitHub 图片。`);
+        const crop = scene.crop || {x:50,y:50};
+        if (!isObject(crop) || ['x','y'].some(k=>typeof crop[k]!=='number'||!Number.isFinite(crop[k])||crop[k]<0||crop[k]>100)) throw new Error('截图裁剪位置无效。');
+        const single = {...payload,description:scene.description||'',episode:scene.episode??null,timeSeconds:scene.timeSeconds??null,imageCredit:scene.imageCredit||'',imageAttachment:false};
+        delete single.scenes; delete single.imageUrl;
+        if(imageUrl)single.imageUrl=imageUrl;
+        const checked=validateSubmission(single,body,catalog);
+        if(!imageUrl && !single.description)throw new Error('每条场景请提供图片或描述。');
+        first ||= checked;
+        records.push({description:single.description,episode:scene.episode??null,timeSeconds:scene.timeSeconds??null,imageCredit:single.imageCredit,imageUrl,crop});
+      }
+      return {...first,sceneRecords:records};
+    }
     if (!isObject(payload) || payload.version !== 2 || !['work', 'place', 'scene', 'correction', 'update'].includes(payload.kind)) throw new Error('投稿类型或版本无效。');
     if (!catalog || !Array.isArray(catalog.works) || !Array.isArray(catalog.landmarks)) throw new Error('作品与地点目录尚未加载，请刷新后重试。');
     const text = (value, label, max, required = false) => {
@@ -148,7 +173,7 @@
     if ((imageUrl || posterUrl) && ['work', 'correction'].includes(payload.kind)) throw new Error('此旧版投稿类型不支持图片，请使用补充／更正投稿。');
     if (payload.episode != null) number(payload.episode, '集数', 1, 1000, true);
     if (payload.timeSeconds != null) number(payload.timeSeconds, '播放时间', 0, 100000, true);
-    const description = text(payload.description, '场景描述', 800, ['place', 'scene'].includes(payload.kind));
+    const description = text(payload.description, '场景描述', 800, ['place', 'scene'].includes(payload.kind) && !imageUrl);
     let landmark = null;
     if (['update', 'scene', 'correction'].includes(payload.kind)) {
       const id = text(payload.landmarkId, '所属地点', 120, true);
@@ -194,5 +219,23 @@
     }
     return { imageUrl, posterUrl };
   }
-  return { parseIssue, serializeIssue, extractImage, replaceImage, isGitHubImage, parseIssueNumber, validateSubmission };
+  function extractSceneImage(body,key) {
+    if(!/^s[1-9]\d{0,2}$/.test(key))throw new Error('场景编号无效。');
+    const tail=attachmentTail(body),begin=`<!-- KDRAMA_SCENE_${key}_START -->`,end=`<!-- KDRAMA_SCENE_${key}_END -->`;
+    let open=null;const seen=new Set();
+    for(const marker of tail.matchAll(/<!-- KDRAMA_(IMAGE|POSTER|SCENE_s[1-9]\d{0,2})_(START|END) -->/g)){
+      if(marker[2]==='START'){if(open||seen.has(marker[1]))throw new Error('图片区块不能嵌套或重复。');open=marker[1];seen.add(open);}
+      else {if(open!==marker[1])throw new Error('图片区块标记缺失或重叠。');open=null;}
+    }
+    if(open)throw new Error('图片区块标记缺失。');
+    const from=tail.indexOf(begin),to=tail.indexOf(end);
+    if(from<0&&to<0)return '';
+    if(from<0||to<=from||tail.indexOf(begin,from+1)>=0||tail.indexOf(end,to+1)>=0)throw new Error('场景图片区块标记重复或缺失。');
+    const content=tail.slice(from+begin.length,to);
+    if(/<!-- KDRAMA_/.test(content))throw new Error('图片区块不能嵌套。');
+    const urls=imageUrls(content);
+    if(urls.length>1)throw new Error('每个场景图片区块只放一张图。');
+    return urls.find(isGitHubImage)||'';
+  }
+  return { parseIssue, serializeIssue, extractImage, extractSceneImage, replaceImage, isGitHubImage, parseIssueNumber, validateSubmission };
 });

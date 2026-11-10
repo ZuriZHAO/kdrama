@@ -4,7 +4,7 @@ const series = catalog.works;
 const places = catalog.landmarks;
 const scenesByLandmark = new Map();
 const sourcesById = Object.fromEntries(catalog.sources.map(source => [source.id, source]));
-catalog.scenes.forEach(scene => {
+[...catalog.scenes].sort((a,b)=>(a.order??100000)-(b.order??100000)).forEach(scene => {
   const group = scenesByLandmark.get(scene.landmarkId) || [];
   group.push(scene);
   scenesByLandmark.set(scene.landmarkId, group);
@@ -12,7 +12,13 @@ catalog.scenes.forEach(scene => {
 const $ = (id) => document.getElementById(id);
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const safeColor = value => /^#[0-9a-f]{6}$/i.test(value || '') ? value : '#617d8d';
-const initialViewport = new URLSearchParams(location.search);
+let restoringView = false;
+let selectedGroup = '';
+let panelMode = 'half';
+let detailMode = false;
+const collapsedGroups = new Set();
+let clusterLayer;
+let markerFrame = 0;
 let selectedSeries = 'all';
 let browseMode = 'popular';
 let selectedRegion = null;
@@ -21,7 +27,7 @@ let selectedPlace = null;
 let favoritesOnly = false;
 let thumbnailsOn = false;
 const favoriteIds = new Set((() => {
-  try { const saved = JSON.parse(localStorage.getItem('kdrama-favorites') || '[]'); return Array.isArray(saved) ? saved.filter(id => typeof id === 'string') : []; }
+  try { const saved = JSON.parse(localStorage.getItem('kdrama-favorites') || '[]'); return Array.isArray(saved) ? saved.filter(id => typeof id === 'string').map(id=>catalog.redirects?.[id]||id) : []; }
   catch { return []; }
 })());
 const visitDates = (() => {
@@ -74,9 +80,9 @@ function textMatches(place, term) {
   return [place.name,place.ko,place.city,place.address,work.title,work.original,work.year,...(work.aliases || []),...scenes.map(scene => scene.description)].join(' ').toLocaleLowerCase().includes(term);
 }
 
-function visiblePlaces() {
+function visiblePlaces(includeAllGroups = false) {
   const term = $('search').value.trim().toLocaleLowerCase();
-  return places.filter(p => (selectedSeries === 'all' || p.workId === selectedSeries) && (!selectedRegion || regionByPlace.get(p.id) === selectedRegion) && (!favoritesOnly || favoriteIds.has(p.id)) && (!term || textMatches(p,term)));
+  return places.filter(p => (selectedSeries === 'all' || p.workId === selectedSeries) && (!selectedRegion || regionByPlace.get(p.id) === selectedRegion) && (!favoritesOnly || favoriteIds.has(p.id)) && (!term || textMatches(p,term)) && (includeAllGroups || !selectedGroup || KdramaMapCore.groupKeys(p, scenesByLandmark.get(p.id) || [], workTab).includes(selectedGroup)));
 }
 
 function visibleWorks() {
@@ -244,6 +250,7 @@ const workType = (work) => ['movie', 'variety'].includes(work.type) ? work.type 
 
 function renderList() {
   const showingWorks = selectedSeries === 'all';
+  if (showingWorks) $('group-reset').hidden = true;
   $('result-count').hidden = showingWorks;
   $('back-to-works').hidden = showingWorks;
   $('browse-tabs').hidden = !showingWorks;
@@ -261,7 +268,7 @@ function renderList() {
         const count = places.filter(place => regionByPlace.get(place.id) === id).length;
         return `<button type="button" class="region-card" data-region="${escapeHtml(id)}"><span>${escapeHtml(regionNames[id] || '韩国境外')}</span><small>${count}取景地</small></button>`;
       }).join('');
-      $('place-list').querySelectorAll('[data-region]').forEach(button => button.addEventListener('click', () => { selectedRegion = button.dataset.region; render(); fitVisible(); }));
+      $('place-list').querySelectorAll('[data-region]').forEach(button => button.addEventListener('click', () => { selectedRegion = button.dataset.region; selectedGroup = ''; render(); fitVisible(); saveView(true); }));
       return;
     }
     let filtered = visibleWorks();
@@ -278,20 +285,30 @@ function renderList() {
     $('place-list').querySelectorAll('[data-work]').forEach(button => button.addEventListener('click', () => selectWork(button.dataset.work)));
     return;
   }
-  const filtered = visiblePlaces();
+  const filtered = visiblePlaces(true).sort((a,b)=>(a.order??100000)-(b.order??100000));
   $('result-count').textContent = `${filtered.length} 处`;
   const groups = new Map();
   for (const place of filtered) {
     const scenes = scenesByLandmark.get(place.id) || [];
-    const episodeKeys = [...new Set(scenes.filter(scene => scene.episode != null).map(scene => `第 ${scene.episode} 集`))];
-    const keys = workTab === 'group' ? [place.group || '未分组'] : episodeKeys.length ? episodeKeys : ['未分组'];
+    const keys = KdramaMapCore.groupKeys(place, scenes, workTab);
     for (const key of keys.length ? keys : ['未分组']) { if (!groups.has(key)) groups.set(key, []); groups.get(key).push(place); }
   }
-  const entries = [...groups].sort((a,b) => a[0] === '未分组' ? 1 : b[0] === '未分组' ? -1 : workTab === 'episode' ? Number(a[0].match(/\d+/)?.[0] || 0) - Number(b[0].match(/\d+/)?.[0] || 0) : a[0].localeCompare(b[0], 'zh'));
-  $('place-list').innerHTML = entries.length ? entries.map(([heading, items]) => `<section class="place-group"><h3>${escapeHtml(heading)} <small>${items.length}</small></h3>${items.map(place => {
-    const firstImage = (scenesByLandmark.get(place.id) || []).map(scene => sceneImageUrl(scene)).find(Boolean);
-    return `<button type="button" class="place-card ${selectedPlace === place.id ? 'active' : ''}" data-place="${escapeHtml(place.id)}" aria-label="查看${escapeHtml(place.name)}详情，${coordinateLabel(place)}">${firstImage ? `<img class="place-card-image" src="${escapeHtml(firstImage)}" alt="${escapeHtml(place.name)}场景截图" loading="lazy" referrerpolicy="no-referrer">` : ''}<span class="card-main">${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}<span class="card-title">${escapeHtml(place.name)}</span><span class="card-sub">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</span></span></button>`;
-  }).join('')}</section>`).join('') : '<div class="empty-state">这部作品还没有地点，欢迎投稿。</div>';
+  if (selectedGroup && !groups.has(selectedGroup)) selectedGroup = '';
+  $('group-reset').hidden = !selectedGroup;
+  $('group-reset').textContent = selectedGroup ? `正在查看：${selectedGroup} · 显示全部` : '';
+  const entries = [...groups].sort((a,b) => {
+    if(a[0]==='未分组')return 1;
+    if(b[0]==='未分组')return -1;
+    if(workTab==='episode')return Number(a[0].match(/\d+/)?.[0]||0)-Number(b[0].match(/\d+/)?.[0]||0);
+    return Math.min(...a[1].map(p=>p.order??100000))-Math.min(...b[1].map(p=>p.order??100000)) || a[0].localeCompare(b[0],'zh');
+  });
+  $('place-list').innerHTML = entries.length ? entries.map(([heading, items]) => `<section class="place-group"><div class="group-heading"><button type="button" data-collapse="${escapeHtml(heading)}" aria-expanded="${!collapsedGroups.has(heading)}" aria-label="折叠或展开${escapeHtml(heading)}">${collapsedGroups.has(heading) ? "▸" : "▾"}</button><button type="button" data-group="${escapeHtml(heading)}" aria-pressed="${selectedGroup === heading}">${escapeHtml(heading)} <small>${items.length}</small></button></div><div ${collapsedGroups.has(heading) ? "hidden" : ""}>${items.map(place => {
+    const firstScene = (scenesByLandmark.get(place.id) || []).find(scene=>sceneImageUrl(scene));
+    const firstImage = firstScene && sceneImageUrl(firstScene);
+    return `<button type="button" class="place-card ${selectedPlace === place.id ? 'active' : ''}" data-place="${escapeHtml(place.id)}" aria-label="查看${escapeHtml(place.name)}详情，${coordinateLabel(place)}">${firstImage ? `<img class="place-card-image" ${sceneImageAttrs(firstScene)} src="${escapeHtml(firstImage)}" alt="${escapeHtml(place.name)}场景截图" loading="lazy" referrerpolicy="no-referrer">` : ''}<span class="card-main">${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}<span class="card-title">${escapeHtml(place.name)}</span><span class="card-sub">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</span></span></button>`;
+  }).join('')}</div></section>`).join('') : '<div class="empty-state">这部作品还没有地点，欢迎投稿。</div>';
+  $('place-list').querySelectorAll('[data-group]').forEach(button => button.addEventListener('click', () => { selectedGroup = selectedGroup === button.dataset.group ? '' : button.dataset.group; selectedPlace = null; map?.closePopup(); render(); fitVisible(); saveView(true); }));
+  $('place-list').querySelectorAll('[data-collapse]').forEach(button => button.addEventListener('click', () => { const key = button.dataset.collapse; if (collapsedGroups.has(key)) collapsedGroups.delete(key); else collapsedGroups.add(key); renderList(); saveView(); }));
   $('place-list').querySelectorAll('[data-place]').forEach(button => button.addEventListener('click', () => openPlace(button.dataset.place)));
 }
 
@@ -299,39 +316,91 @@ function safePosterUrl(value) { return typeof value === 'string' && (/^https:\/\
 
 function selectWork(id) {
   if (!seriesById[id]) return;
-  selectedSeries = id;
+  selectedSeries = id; selectedGroup = ''; selectedPlace = null; collapsedGroups.clear(); hideDetail(); map?.closePopup();
   $('search').value = '';
   render();
   fitVisible();
-  history.replaceState(null, '', `#work=${encodeURIComponent(id)}`);
+  saveView(true);
 }
 
 function showAllWorks() {
-  selectedSeries = 'all';
+  selectedSeries = 'all'; selectedRegion = null; selectedGroup = ''; selectedPlace = null; collapsedGroups.clear(); hideDetail(); map?.closePopup();
   $('search').value = '';
   render();
   fitVisible();
-  history.replaceState(null, '', '#explore');
+  saveView(true);
 }
 
 function renderMarkers() {
   if (!map) return;
-  const ids = new Set(visiblePlaces().map(p => p.id));
-  places.forEach(place => {
-    const marker = markers.get(place.id);
-    if (!marker) return;
-    if (ids.has(place.id)) marker.addTo(map); else marker.remove();
-    marker.setIcon(iconFor(place));
-  });
+  if (markerFrame) cancelAnimationFrame(markerFrame);
+  markerFrame = requestAnimationFrame(updateMarkers);
 }
 
-function iconFor(place) {
+function updateMarkers() {
+  markerFrame = 0;
+  clusterLayer.clearLayers();
+  const bounds = map.getBounds().pad(.2);
+  const points = visiblePlaces().filter(p => bounds.contains([p.lat, p.lng])).map(place => {
+    const pixel = map.latLngToContainerPoint([place.lat, place.lng]);
+    return { id: place.id, x: pixel.x, y: pixel.y, place };
+  });
+  const groups = KdramaMapCore.cluster(points, map.getZoom() < 12 ? 38 : 18, selectedPlace);
+  const singles = groups.filter(g => g.items.length === 1).map(g => g.items[0]);
+  const thumbIds = thumbnailsOn && map.getZoom() >= 12
+    ? KdramaMapCore.thumbnails(singles.filter(p => (scenesByLandmark.get(p.id) || []).some(sceneImageUrl)), selectedPlace) : new Set();
+  const shown = new Set();
+  for (const group of groups) {
+    if (group.items.length === 1) {
+      const place = group.items[0].place, marker = markers.get(place.id);
+      const key = `${thumbIds.has(place.id)}:${selectedPlace === place.id}`;
+      if (marker._displayKey !== key) { marker.setIcon(iconFor(place, thumbIds.has(place.id))); marker._displayKey = key; }
+      if (!map.hasLayer(marker)) marker.addTo(map);
+      marker.setZIndexOffset(selectedPlace === place.id ? 1000 : 0);
+      shown.add(place.id);
+    } else {
+      const at = map.containerPointToLatLng([group.x, group.y]);
+      const marker = L.marker(at, { icon: L.divIcon({ className: 'cluster-marker', html: `<span>${group.items.length}</span>`, iconSize: [32,32], iconAnchor: [16,16] }), title: `${group.items.length} 个取景地，点击展开` });
+      marker.on('click', () => {
+        const box = document.createElement('div'); box.className = 'cluster-list';
+        const zoom = document.createElement('button'); zoom.textContent = '放大查看这一带';
+        zoom.disabled = map.getZoom() >= map.getMaxZoom();
+        zoom.onclick = () => map.fitBounds(L.latLngBounds(group.items.map(p => [p.place.lat,p.place.lng])), {maxZoom: Math.min(18,map.getZoom()+3),padding:[50,50]}); box.append(zoom);
+        for (const p of group.items) {
+          const button = document.createElement('button'); button.textContent = `${seriesById[p.place.workId].title} · ${p.place.name}`;
+          button.onclick = () => focusPlace(p.place.id); box.append(button);
+        }
+        L.popup({maxWidth:300}).setLatLng(at).setContent(box).openOn(map);
+      });
+      clusterLayer.addLayer(marker);
+    }
+  }
+  markers.forEach((marker,id) => { if (!shown.has(id) && map.hasLayer(marker)) marker.remove(); });
+}
+
+function iconFor(place, thumbnail = false) {
   const color = selectedPlace === place.id ? '#1d2a2a' : seriesById[place.workId].color;
   const imageScene = (scenesByLandmark.get(place.id) || []).find(scene => sceneImageUrl(scene));
-  if (thumbnailsOn && imageScene && map && map.getZoom() >= 12) {
-    return L.divIcon({className:'scene-thumbnail-marker',html:`<span class="thumbnail-frame" style="border-color:${safeColor(color)}"><img src="${escapeHtml(sceneImageUrl(imageScene))}" alt="" loading="lazy" referrerpolicy="no-referrer"></span>`,iconSize:[70,58],iconAnchor:[35,58]});
+  if (thumbnail && imageScene) {
+    return L.divIcon({className:'scene-thumbnail-marker',html:`<span class="thumbnail-frame" style="border-color:${safeColor(color)}"><img ${sceneImageAttrs(imageScene)} src="${escapeHtml(sceneImageUrl(imageScene))}" alt="" loading="lazy" referrerpolicy="no-referrer"></span>`,iconSize:[70,58],iconAnchor:[35,58]});
   }
   return L.divIcon({className:'place-marker',html:`<span class="pin ${selectedPlace === place.id ? 'selected' : ''}" style="background:${safeColor(color)}"></span>`,iconSize:[24,24],iconAnchor:[12,12]});
+}
+
+function focusPlace(id, record = true) {
+  const place = placesById[id]; if (!place) return;
+  if (selectedSeries !== place.workId) { selectedSeries = place.workId; selectedGroup = ''; collapsedGroups.clear(); }
+  if (selectedRegion && regionByPlace.get(id) !== selectedRegion) selectedRegion = null;
+  if (selectedGroup && !KdramaMapCore.groupKeys(place, scenesByLandmark.get(id)||[],workTab).includes(selectedGroup)) selectedGroup = '';
+  if (favoritesOnly && !favoriteIds.has(id)) favoritesOnly = false;
+  $('search').value = ''; selectedPlace = id;
+  for (const key of KdramaMapCore.groupKeys(place, scenesByLandmark.get(id)||[],workTab)) collapsedGroups.delete(key);
+  hideDetail(); render(); syncControls();
+  if (map) {
+    const marker = markers.get(id); marker.addTo(map); map.panTo([place.lat,place.lng]); marker.openPopup();
+  }
+  requestAnimationFrame(() => $('place-list').querySelector('.place-card.active')?.scrollIntoView({block:'nearest'}));
+  if (record) saveView(true);
 }
 
 function placePopup(place) {
@@ -343,7 +412,7 @@ function placePopup(place) {
   const card = document.createElement('div');
   card.className = 'place-popup';
   card.innerHTML = `${imageUrl
-    ? `<img class="place-popup-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(image.description || `${place.name} 场景图片`)}" loading="lazy" referrerpolicy="no-referrer">`
+    ? `<img class="place-popup-image" ${sceneImageAttrs(image)} src="${escapeHtml(imageUrl)}" alt="${escapeHtml(image.description || `${place.name} 场景图片`)}" loading="lazy" referrerpolicy="no-referrer">`
     : '<div class="place-popup-placeholder">暂无截图</div>'}
     <div class="place-popup-body"><small>${escapeHtml(work?.title || '')} · ${escapeHtml(place.city || '')}</small>
     <strong>${escapeHtml(place.name)}</strong>
@@ -363,24 +432,56 @@ function fitVisible() {
   else if (filtered.length > 1) map.fitBounds(L.latLngBounds(filtered.map(p => [p.lat,p.lng])).pad(.25),{animate:true,maxZoom:selectedSeries === 'all' ? 9 : 14});
 }
 
-function saveMapView() {
-  if (!map) return;
-  const center = map.getCenter();
-  const url = new URL(location.href);
-  url.searchParams.set('mLat', center.lat.toFixed(5));
-  url.searchParams.set('mLng', center.lng.toFixed(5));
-  url.searchParams.set('mZoom', String(map.getZoom()));
-  history.replaceState(null, '', url.pathname + url.search + url.hash);
+function syncControls() {
+  $('favorites-filter').setAttribute('aria-pressed', String(favoritesOnly));
+  $('favorites-filter').textContent = favoritesOnly ? '★ 收藏中' : '☆ 收藏';
+  $('thumbnail-toggle').setAttribute('aria-pressed', String(thumbnailsOn));
+  $('thumbnail-toggle').textContent = thumbnailsOn ? '● 场景缩略图' : '场景缩略图';
+  document.body.dataset.panel = panelMode;
+  document.querySelectorAll('[data-panel-mode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.panelMode === panelMode)));
 }
-
-function restoreMapView() {
-  if (!map) return;
-  const lat = Number(initialViewport.get('mLat'));
-  const lng = Number(initialViewport.get('mLng'));
-  const zoom = Number(initialViewport.get('mZoom'));
-  if (!initialViewport.has('mLat') || !initialViewport.has('mLng') || !initialViewport.has('mZoom')) return;
-  if (!Number.isFinite(lat) || !Number.isFinite(lng) || !Number.isInteger(zoom) || Math.abs(lat) > 90 || Math.abs(lng) > 180 || zoom < 2 || zoom > 18) return;
-  map.setView([lat,lng], zoom, {animate:false});
+function viewUrl() {
+  const url = new URL(location.href), params = url.searchParams;
+  for (const [key,value] of Object.entries({region:selectedRegion||'',browse:browseMode,tab:workTab,group:selectedGroup,q:$('search').value,fav:favoritesOnly?'1':'',thumb:thumbnailsOn?'1':'',panel:panelMode,detail:detailMode?'1':'',collapsed:JSON.stringify([...collapsedGroups])})) {
+    if (value) params.set(key,value); else params.delete(key);
+  }
+  if (map) { const c=map.getCenter(); params.set('mLat',c.lat.toFixed(5));params.set('mLng',c.lng.toFixed(5));params.set('mZoom',String(map.getZoom())); }
+  url.hash = selectedPlace ? `place=${selectedPlace}` : selectedSeries !== 'all' ? `work=${selectedSeries}` : 'explore';
+  return url.pathname + url.search + url.hash;
+}
+function saveView(push = false) {
+  if (restoringView || (!push && location.hash.startsWith('#route='))) return;
+  const url=viewUrl();
+  if (url !== location.pathname + location.search + location.hash) history[push?'pushState':'replaceState'](null,'',url);
+}
+function hideDetail() { detailMode=false; $('detail-overlay').hidden=true;document.body.style.overflow=''; }
+function restoreView() {
+  restoringView=true;
+  const url=new URL(location.href), p=url.searchParams;
+  selectedPlace=null; hideDetail(); map?.closePopup();
+  const match=url.hash.match(/^#(work|place)=([\w-]+)$/);
+  selectedSeries=match?.[1]==='work' && seriesById[match[2]] ? match[2] : 'all';
+  if(match?.[1]==='place')match[2]=catalog.redirects?.[match[2]]||match[2];
+  if (match?.[1]==='place' && placesById[match[2]]) {selectedPlace=match[2];selectedSeries=placesById[selectedPlace].workId;}
+  selectedRegion=Object.hasOwn(regionNames,p.get('region')) || p.get('region')==='overseas' ? p.get('region') : null;
+  browseMode=['regions','recent','popular'].includes(p.get('browse'))?p.get('browse'):'popular';
+  workTab=p.get('tab')==='episode'?'episode':'group'; selectedGroup=p.get('group')||'';
+  favoritesOnly=p.get('fav')==='1';thumbnailsOn=p.get('thumb')==='1';
+  panelMode=['collapsed','half','expanded'].includes(p.get('panel'))?p.get('panel'):'half';
+  collapsedGroups.clear();try {const keys=JSON.parse(p.get('collapsed')||'[]');if(Array.isArray(keys))keys.filter(k=>typeof k==='string').slice(0,300).forEach(k=>collapsedGroups.add(k));}catch{}
+  $('search').value=p.get('q')||'';
+  syncControls();render();
+  const lat=Number(p.get('mLat')),lng=Number(p.get('mLng')),zoom=Number(p.get('mZoom'));
+  const hasView=['mLat','mLng','mZoom'].every(k=>p.has(k)) && Number.isFinite(lat)&&Number.isFinite(lng)&&Math.abs(lat)<=90&&Math.abs(lng)<=180&&Number.isInteger(zoom)&&zoom>=2&&zoom<=18;
+  map?.invalidateSize({pan:false});
+  if (hasView) map?.setView([lat,lng],zoom,{animate:false}); else fitVisible();
+  if(selectedPlace){
+    const id=selectedPlace;
+    if(p.get('detail')==='1'||!p.has('panel'))openPlace(id);
+    else { const marker=markers.get(id); if(marker){marker.addTo(map);marker.openPopup();} }
+    if(hasView)map?.setView([lat,lng],zoom,{animate:false});
+  }
+  restoringView=false;
 }
 
 function navLinks(place) {
@@ -399,17 +500,24 @@ function sceneMeta(scene) {
   return parts.length ? parts.join(' · ') : '集数与时间点待核实';
 }
 
-function sceneImageUrl(scene) {
-  if (typeof scene.image !== 'string') return '';
-  if (/^\.\/assets\//.test(scene.image)) return scene.image;
-  try { const url = new URL(scene.image); return url.protocol === 'https:' ? url.href : ''; }
+function sceneImageUrl(scene, size = 'thumb') {
+  const url = size === 'original' ? scene.image : size === 'medium' ? (scene.mediumImage || scene.image) : (scene.thumbnail || scene.image);
+  if (typeof url !== 'string') return '';
+  if (/^\.\/assets\//.test(url)) return url;
+  try { const parsed = new URL(url); return parsed.protocol === 'https:' && !parsed.username && !parsed.password ? parsed.href : ''; }
   catch { return ''; }
+}
+function sceneImageAttrs(scene,size='thumb') {
+  const derived=size==='thumb'?scene.thumbnail:scene.mediumImage;
+  const crop=derived?{x:50,y:50}:(scene.crop||{x:50,y:50});
+  const x=Number.isFinite(crop.x)?Math.max(0,Math.min(100,crop.x)):50,y=Number.isFinite(crop.y)?Math.max(0,Math.min(100,crop.y)):50;
+  return `data-fallback="${escapeHtml(sceneImageUrl(scene,'original'))}" style="object-position:${x}% ${y}%"`;
 }
 
 function showGalleryImage() {
   const scene = galleryImages[galleryIndex];
   if (!scene) return;
-  $('large-scene-image').src = sceneImageUrl(scene);
+  $('large-scene-image').src = sceneImageUrl(scene,'original');$('large-scene-image').classList.remove('image-unavailable');
   $('large-scene-image').alt = scene.description;
   $('image-caption').textContent = [scene.description || '场景图片', scene.imageCredit].filter(Boolean).join(' · ');
   $('image-position').textContent = `${galleryIndex + 1} / ${galleryImages.length}`;
@@ -434,22 +542,28 @@ function renderScenes(place) {
       ? `<a class="source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">场景来源：${escapeHtml(source.title)} ↗</a>` : '';
     const separateEpisodeSource = episodeSource
       ? `<a class="source-link" href="${escapeHtml(episodeSource.url)}" target="_blank" rel="noopener noreferrer">集数依据：${escapeHtml(episodeSource.title)} ↗</a>` : '';
-    const imageUrl = sceneImageUrl(scene);
+    const imageUrl = sceneImageUrl(scene,'medium');
     const image = imageUrl
-      ? `<figure class="scene-image"><button class="scene-image-open" type="button" data-scene-image="${escapeHtml(scene.id)}" aria-label="放大查看场景图片"><img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(scene.description)}" loading="lazy" referrerpolicy="no-referrer"></button><figcaption>${escapeHtml(scene.imageCredit || '')}</figcaption></figure>` : '';
+      ? `<figure class="scene-image"><button class="scene-image-open" type="button" data-scene-image="${escapeHtml(scene.id)}" aria-label="放大查看场景图片"><img ${sceneImageAttrs(scene,'medium')} src="${escapeHtml(imageUrl)}" alt="${escapeHtml(scene.description)}" loading="lazy" referrerpolicy="no-referrer"></button><figcaption>${escapeHtml(scene.imageCredit || '')}</figcaption></figure>` : '';
     const description = scene.description ? `<p class="detail-description">${escapeHtml(scene.description)}</p>` : '';
-    return `<section class="scene-record"><p class="scene-meta">场景 ${String(index+1).padStart(2,'0')} · ${escapeHtml(sceneMeta(scene))}</p>${image}${description}${separateSource}${separateEpisodeSource}</section>`;
+    return `<section class="scene-record"><p class="scene-meta">场景 ${String(index+1).padStart(2,'0')} · ${escapeHtml(sceneMeta(scene))}</p>${image}${imageUrl ? `<a class="source-link" href="./compare.html?scene=${encodeURIComponent(scene.id)}">制作实拍对比图 ↗</a>` : ''}${description}${separateSource}${separateEpisodeSource}</section>`;
   }).join('');
 }
 
 function openPlace(id) {
+  id = catalog.redirects?.[id] || id;
   const place = places.find(p => p.id === id);
   if (!place) return;
   if (selectedSeries !== place.workId) {
     selectedSeries = place.workId;
     $('search').value = '';
   }
+  if (selectedRegion && regionByPlace.get(id) !== selectedRegion) selectedRegion = null;
+  if (selectedGroup && !KdramaMapCore.groupKeys(place, scenesByLandmark.get(id)||[], workTab).includes(selectedGroup)) selectedGroup = '';
+  if (favoritesOnly && !favoriteIds.has(id)) favoritesOnly = false;
   selectedPlace = id;
+  detailMode = true;
+  syncControls();
   const work = seriesById[place.workId];
   const source = sourcesById[place.sourceId];
   const coordinateSource = sourcesById[place.coordinateSourceId];
@@ -486,7 +600,7 @@ function openPlace(id) {
   $('detail-content').querySelectorAll('[data-scene-image]').forEach(button => button.addEventListener('click', () => openGallery(place, button.dataset.sceneImage)));
   $('share-place').addEventListener('click', async () => {
     try {
-      await navigator.clipboard.writeText(new URL(`#place=${encodeURIComponent(place.id)}`, location.href).href);
+      saveView(); await navigator.clipboard.writeText(location.href);
       $('share-place').textContent = '链接已复制';
     } catch {
       $('share-place').textContent = '请复制浏览器地址';
@@ -497,15 +611,12 @@ function openPlace(id) {
   if (map) { map.setView([place.lat,place.lng],streetMapReady ? 15 : 9,{animate:true}); renderMarkers(); }
   renderList();
   $('detail-overlay').querySelector('.detail-drawer').focus();
-  history.replaceState(null,'',`#place=${place.id}`);
+  saveView(true);
 }
 
 function closePlace() {
-  $('detail-overlay').hidden = true;
-  document.body.style.overflow = '';
-  selectedPlace = null;
-  renderList(); renderMarkers();
-  if (location.hash.startsWith('#place=')) history.replaceState(null,'',`#work=${encodeURIComponent(selectedSeries)}`);
+  hideDetail();
+  renderList();renderMarkers();saveView(true);
 }
 
 function preferChineseLabels(style) {
@@ -580,6 +691,7 @@ function initMap() {
   if (!window.L || !window.KDRAMA_MAP_DATA) { $('map-fallback').hidden = false; return; }
   const geography = window.KDRAMA_MAP_DATA;
   map = L.map('map',{zoomControl:true,scrollWheelZoom:true,touchZoom:true,minZoom:2,maxZoom:18,attributionControl:false});
+  clusterLayer = L.layerGroup().addTo(map);
   map.createPane('fallbackPane').style.zIndex = 180;
   L.geoJSON(geography.neighbors,{pane:'fallbackPane',interactive:false,style:{color:'#bbc8c1',weight:1,fillColor:'#d9e0d9',fillOpacity:1}}).addTo(map);
   const regions = L.geoJSON(geography.regions,{pane:'fallbackPane',interactive:false,style:{color:'#aebfb3',weight:1.15,fillColor:'#f4f0e7',fillOpacity:1}}).addTo(map);
@@ -594,6 +706,7 @@ function initMap() {
   places.forEach(place => {
     const marker = L.marker([place.lat,place.lng],{icon:iconFor(place),title:place.name});
     marker.bindPopup(() => placePopup(place), {maxWidth:280, minWidth:240, className:'place-popup-shell', offset:[0,-8]});
+    marker.on('click', () => focusPlace(place.id));
     markers.set(place.id,marker);
   });
   map.on('click', event => {
@@ -604,19 +717,22 @@ function initMap() {
   const attribution = L.control.attribution({prefix:false}).addAttribution('地图边界：Natural Earth / geoBoundaries').addTo(map);
   renderMarkers();
   map.fitBounds(fullMapBounds,{padding:[28,28],animate:false});
-  map.on('moveend', saveMapView);
+  let viewTimer;
+  map.on('moveend', () => { clearTimeout(viewTimer); viewTimer=setTimeout(() => saveView(),0); renderMarkers(); });
   map.on('zoomend', renderMarkers);
   initStreetMap(cityMarkers, attribution);
 }
 
-$('search').addEventListener('input', () => {renderList();renderMarkers();fitVisible();});
-document.querySelectorAll('[data-browse]').forEach(button => button.addEventListener('click', () => { browseMode = button.dataset.browse; selectedRegion = null; selectedSeries = 'all'; render(); fitVisible(); }));
-document.querySelectorAll('[data-work-tab]').forEach(button => button.addEventListener('click', () => { workTab = button.dataset.workTab; renderList(); }));
+let searchTimer;
+$('search').addEventListener('focus', () => { history.pushState(null,'',location.href); });
+$('search').addEventListener('input', () => {clearTimeout(searchTimer);searchTimer=setTimeout(() => {selectedGroup='';selectedPlace=null;render();fitVisible();saveView();},200);});
+document.querySelectorAll('[data-browse]').forEach(button => button.addEventListener('click', () => { browseMode = button.dataset.browse; selectedRegion = null; selectedSeries = 'all'; selectedPlace=null; selectedGroup='';hideDetail(); map?.closePopup();render();fitVisible();saveView(true); }));
+document.querySelectorAll('[data-work-tab]').forEach(button => button.addEventListener('click', () => { workTab = button.dataset.workTab; selectedGroup='';collapsedGroups.clear();render();fitVisible();saveView(true); }));
 $('favorites-filter').addEventListener('click', () => {
   favoritesOnly = !favoritesOnly;
   $('favorites-filter').setAttribute('aria-pressed', String(favoritesOnly));
   $('favorites-filter').textContent = favoritesOnly ? '★ 收藏中' : '☆ 收藏';
-  render(); fitVisible();
+  render(); fitVisible(); saveView(true);
 });
 $('nearby-button').addEventListener('click', locateNearby);
 const thumbnailButton = $('thumbnail-toggle');
@@ -626,7 +742,7 @@ thumbnailButton.addEventListener('click', () => {
   thumbnailsOn = !thumbnailsOn;
   thumbnailButton.setAttribute('aria-pressed', String(thumbnailsOn));
   thumbnailButton.textContent = thumbnailsOn ? '● 场景缩略图' : '场景缩略图';
-  renderMarkers();
+  renderMarkers();saveView(true);
 });
 $('open-route').addEventListener('click', () => { renderRoute(); $('route-dialog').showModal(); });
 $('close-route').addEventListener('click', () => $('route-dialog').close());
@@ -640,11 +756,10 @@ $('next-image').addEventListener('click', () => { galleryIndex += 1; showGallery
 $('image-dialog').addEventListener('click', event => { if (event.target === $('image-dialog')) $('image-dialog').close(); });
 $('detail-overlay').addEventListener('click',e => {if(e.target.dataset.close) closePlace();});
 document.addEventListener('keydown',e => {if(e.key === 'Escape' && !$('image-dialog').open && !$('detail-overlay').hidden) closePlace();});
-render(); initMap();
-const initialPlace = location.hash.match(/^#place=([\w-]+)$/);
-if (initialPlace) openPlace(initialPlace[1]);
-else {
-  const initialWork = location.hash.match(/^#work=([\w-]+)$/);
-  if (initialWork) selectWork(initialWork[1]);
-  restoreMapView();
-}
+$('group-reset').addEventListener('click',()=>{selectedGroup='';render();fitVisible();saveView(true);});
+document.querySelectorAll('[data-panel-mode]').forEach(b=>b.addEventListener('click',()=>{panelMode=b.dataset.panelMode;syncControls();map?.invalidateSize({pan:false});renderMarkers();saveView(true);}));
+$('detail-collapse').addEventListener('click',closePlace);
+document.querySelector('.brand').addEventListener('click',event=>{event.preventDefault();showAllWorks();});
+window.addEventListener('popstate',restoreView);
+window.addEventListener('hashchange',restoreView);
+render(); initMap(); restoreView(); saveView(); initPersonalTools();

@@ -4,3 +4,4 @@ runtime/
 media-src/
 .env
 .env.*
+node_modules/

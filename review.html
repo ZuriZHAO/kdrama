@@ -4,16 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>审核投稿 · 剧场之外</title>
-  <link rel="stylesheet" href="./submit.css?v=9" />
+  <link rel="stylesheet" href="./submit.css?v=10" />
   <link rel="stylesheet" href="./vendor/leaflet.css" />
   <link rel="stylesheet" href="./vendor/maplibre-gl.css" />
-  <link rel="stylesheet" href="./review.css?v=2" />
-</head>
+  <link rel="stylesheet" href="./review.css?v=4" />
+<script src="./image-fallback.js?v=1" defer></script></head>
 <body>
   <main class="page review-page">
     <header class="top"><a href="./index.html">← 返回地图</a><span>维护者工具</span></header>
     <h1>审核投稿</h1>
     <p class="intro">读取投稿，用表单、地图和图片预览核对并修改。生成修订正文后，回到原 GitHub Issue 保存，再添加 <code>publish-approved</code> 标签。保存与批准由 GitHub 仓库权限控制。</p>
+<details id="queue-panel" class="review-panel"><summary>投稿队列</summary><div class="review-actions"><select id="queue-filter" aria-label="投稿状态"><option value="pending">待审核／发布中</option><option value="needs-info">待补充</option><option value="publish-failed">发布失败</option><option value="published">已发布标签</option></select><button id="queue-refresh" type="button">刷新</button><a href="manage.html">维护已发布作品与地点 →</a></div><div id="queue-list"></div><p id="queue-status" role="status"></p><div class="review-actions"><button id="queue-prev" type="button" disabled>上一页</button><button id="queue-next" type="button" disabled>下一页</button></div></details>
     <section class="review-panel">
       <h2>1. 读取投稿</h2>
       <label>本仓库的 Issue 链接或编号<input id="review-issue" type="text" inputmode="url" placeholder="例如：123 或 GitHub Issue 链接" autocomplete="off" /></label>
@@ -51,7 +52,7 @@
   <script src="./data/korea-map.js"></script>
   <script src="./data/catalog.js?v=14"></script>
   <script src="./site-config.js?v=3"></script>
-  <script src="./submission-core.js?v=1"></script>
-  <script src="./review.js?v=2"></script>
-</body>
+  <script src="./maintenance-core.js?v=1"></script><script src="./submission-core.js?v=3"></script>
+  <script src="./review-scenes.js?v=1"></script><script src="./review.js?v=4"></script>
+<script src="./review-queue.js?v=1"></script></body>
 </html>

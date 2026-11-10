@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict'),core=require('../personal-core');
+const places=[{id:'a'},{id:'b'}],base={format:'kdrama-personal',version:1,favorites:['old','a','b','gone'],visits:{a:'2026-11-10'},checkins:{}};
+const normalized=core.normalize(base,places,{old:'a'});assert.deepEqual(normalized.favorites,['a','b']);assert.deepEqual(normalized.missing,['gone']);
+const shared=core.readShare(core.share(['a','b']),places);assert.deepEqual(shared.favorites,['a','b']);assert.deepEqual(shared.visits,{});
+assert.throws(()=>core.share([]),/1–100/);assert.throws(()=>core.readShare('%%%invalid',places),/无效/);
+assert.throws(()=>core.normalize({...base,visits:{a:'2026-02-30'}},places),/日期/);
+assert.throws(()=>core.normalize({...base,favorites:['<script>']},places),/编号/);
+const merged=core.merge({...normalized,favorites:['b'],visits:{a:'2026-11-09'}},shared);assert.deepEqual(merged.favorites,['b','a']);assert.equal(merged.visits.a,'2026-11-09');
+assert.deepEqual(core.merge(normalized,shared,true).visits,{});
+console.log('Personal backup validation, redirects, merge/replace, date checks and private-field-free route sharing passed.');

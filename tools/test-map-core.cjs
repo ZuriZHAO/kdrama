@@ -1,0 +1,13 @@
+const assert = require('node:assert/strict');
+const {cluster,thumbnails,groupKeys}=require('../map-core');
+const points=[{id:'a',x:37,y:0},{id:'b',x:39,y:0},{id:'c',x:500,y:0},{id:'d',x:37,y:0}];
+assert.deepEqual(cluster(points,38).map(g=>g.items.map(p=>p.id)),[['a','b','d'],['c']]);
+const selected=cluster(points,38,'d');
+assert.equal(selected.find(g=>g.items.some(p=>p.id==='d')).items.length,1);
+assert.deepEqual([...thumbnails(points,'d')],['d','c']);
+assert.deepEqual(groupKeys({},[{episode:1},{episode:null},{episode:1}],'episode'),['第 1 集']);
+assert.deepEqual(groupKeys({},[{episode:null}],'episode'),['未分组']);
+assert.deepEqual(groupKeys({},[{episode:'特别篇'}],'episode'),['特别篇']);
+const many=Array.from({length:10000},(_,i)=>({id:String(i),x:i%100*2,y:Math.floor(i/100)*2}));
+assert.equal(cluster(many,38).flatMap(g=>g.items).length,10000);
+console.log('Map clustering, overlapping points, thumbnail priority and grouping passed.');

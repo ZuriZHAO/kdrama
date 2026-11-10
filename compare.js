@@ -1,0 +1,19 @@
+(() => {
+  const $=id=>document.getElementById(id),c=$('compare-preview'),ctx=c.getContext('2d');let sceneImage=null,photo=null,urls=[],sceneGeneration=0,photoGeneration=0;
+  const catalog=window.KDRAMA_CATALOG,scene=catalog.scenes.find(s=>s.id===new URLSearchParams(location.search).get('scene')),place=catalog.landmarks.find(p=>p.id===scene?.landmarkId),work=catalog.works.find(w=>w.id===place?.workId);
+  const title=place?`${work?.title||''} · ${place.name}`:'选择场景截图与实拍照片';$('compare-title').textContent=title;if(place)$('compare-back').href='./index.html#place='+place.id;
+  let crop=scene?.mediumImage?{x:50,y:50}:(scene?.crop||{x:50,y:50});
+  function load(src){return new Promise((resolve,reject)=>{const img=new Image();if(!src.startsWith('blob:'))img.crossOrigin='anonymous';img.onload=()=>{if(img.naturalWidth*img.naturalHeight>40_000_000)return reject(Error('图片尺寸过大，请先缩小到 4000 万像素以内。'));resolve(img);};img.onerror=()=>reject(Error('图片无法加载，请选择本地截图。'));img.src=src;});}
+  function drawImage(img,x,y,w,h,pos){if(!img)return;const ratio=w/h,sw=Math.min(img.naturalWidth,img.naturalHeight*ratio),sh=sw/ratio;ctx.drawImage(img,(img.naturalWidth-sw)*pos.x/100,(img.naturalHeight-sh)*pos.y/100,sw,sh,x,y,w,h);}
+  function render(){const overlay=$('compare-mode').value==='overlay';c.width=overlay?1000:1600;c.height=overlay?600:500;ctx.fillStyle='#f3f5f4';ctx.fillRect(0,0,c.width,c.height);const photoCrop={x:Number($('compare-x').value),y:Number($('compare-y').value)};
+    $('compare-divider-label').hidden=!overlay;
+    if(overlay){drawImage(sceneImage,0,0,1000,512,crop);ctx.save();ctx.beginPath();const split=1000*Number($('compare-divider').value)/100;ctx.rect(split,0,1000-split,512);ctx.clip();drawImage(photo,0,0,1000,512,photoCrop);ctx.restore();ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(split,0);ctx.lineTo(split,512);ctx.stroke();}
+    else {drawImage(sceneImage,0,0,800,410,crop);drawImage(photo,800,0,800,410,photoCrop);}
+    const y=overlay?540:440;ctx.fillStyle='#26343c';ctx.font='22px sans-serif';ctx.fillText(title,20,y,c.width-40);ctx.font='16px sans-serif';ctx.fillStyle='#60767d';ctx.fillText(['场景截图'+(scene?.imageCredit?'：'+scene.imageCredit:''),'实拍'+($('compare-credit').value?'：'+$('compare-credit').value:'')].join('  /  '),20,y+30,c.width-40);$('compare-download').disabled=!sceneImage||!photo;
+  }
+  async function choose(file,kind){if(!file)return;const token=kind==='scene'?++sceneGeneration:++photoGeneration;try{if(file.size>12_000_000||!['image/jpeg','image/png','image/webp'].includes(file.type))throw Error('请选择 12 MB 以内的 JPG、PNG 或 WebP 图片。');const url=URL.createObjectURL(file);urls.push(url);const image=await load(url);if(token!==(kind==='scene'?sceneGeneration:photoGeneration))return;if(kind==='scene'){sceneImage=image;crop={x:50,y:50};}else photo=image;$('compare-status').textContent='预览已更新，图片仅在当前浏览器处理。';render();}catch(e){$('compare-status').textContent=e.message;}}
+  $('compare-scene').onchange=()=>choose($('compare-scene').files[0],'scene');$('compare-photo').onchange=()=>choose($('compare-photo').files[0],'photo');for(const id of ['compare-mode','compare-x','compare-y','compare-divider','compare-credit'])$(id).oninput=render;
+  $('compare-download').onclick=()=>{try{c.toBlob(blob=>{if(!blob){$('compare-status').textContent='导出失败，请改用本地截图。';return;}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='kdrama-compare.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);},'image/png');}catch{$('compare-status').textContent='图片来源不允许导出，请选择本地截图后重试。';}};
+  render();if(scene?.image){const token=++sceneGeneration;load(scene.mediumImage||scene.image).then(img=>{if(token!==sceneGeneration)return;sceneImage=img;render();}).catch(e=>{$('compare-status').textContent=e.message;});}
+  window.addEventListener('pagehide',e=>{if(!e.persisted)urls.forEach(URL.revokeObjectURL);});
+})();

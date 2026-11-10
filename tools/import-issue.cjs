@@ -16,7 +16,7 @@ const bodyHash = createHash('sha256').update(body, 'utf8').digest('hex');
 
 const context = { window: {} };
 vm.runInNewContext(fs.readFileSync(catalogFile, 'utf8'), context);
-const catalog = context.window.KDRAMA_CATALOG;
+let catalog = context.window.KDRAMA_CATALOG;
 if (!catalog || !['works', 'landmarks', 'scenes', 'sources'].every(key => Array.isArray(catalog[key]))) throw new Error('公开目录结构无效');
 
 const id = suffix => `issue-${issueNumber}-${suffix}`;
@@ -24,7 +24,7 @@ catalog.revisions ||= [];
 if (!Array.isArray(catalog.revisions)) throw new Error('更正记录结构无效');
 catalog.updates ||= [];
 if (!Array.isArray(catalog.updates)) throw new Error('更新记录结构无效');
-if (catalog.works.some(item => item.id === id('work')) || catalog.landmarks.some(item => item.id === id('place')) || catalog.scenes.some(item => item.id === id('scene')) || catalog.revisions.some(item => item.id === id('correction'))) {
+if (catalog.updates.some(item => Number(item.issueNumber) === Number(issueNumber)) || catalog.works.some(item => item.id === id('work')) || catalog.landmarks.some(item => item.id === id('place')) || catalog.scenes.some(item => item.id === id('scene')) || catalog.revisions.some(item => item.id === id('correction'))) {
   const previous = catalog.updates.find(item => Number(item.issueNumber) === Number(issueNumber));
   if (!previous?.bodyHash || previous.bodyHash !== bodyHash) throw new Error('此 Issue 已导入，正文与导入版本无法确认一致；后续修改请新建补充／更正投稿。');
   console.log(`Issue #${issueNumber} 已导入，跳过`);
@@ -72,6 +72,11 @@ function sceneImage() {
   return { url: checked.imageUrl || null, credit: checked.imageUrl ? clean(payload.imageCredit, '图片署名', 160, false) || '' : null };
 }
 
+function appendScenes(landmarkId,sourceId) {
+  const records=checked.sceneRecords || [{description:payload.description||'',episode:payload.episode??null,timeSeconds:payload.timeSeconds??null,imageUrl:checked.imageUrl||null,imageCredit:payload.imageCredit||''}];
+  records.forEach((scene,index)=>catalog.scenes.push({id:id(index?'scene-'+(index+1):'scene'),landmarkId,description:scene.description,episode:scene.episode,timeSeconds:scene.timeSeconds,image:scene.imageUrl||null,imageCredit:scene.imageCredit||null,sourceId,episodeSourceId:scene.episode==null?null:sourceId,...(scene.crop?{crop:scene.crop}:{})}));
+}
+
 function posterImage() {
   return checked.posterUrl || null;
 }
@@ -106,7 +111,11 @@ function applyCorrection(landmarkId, reason, sourceId) {
   catalog.revisions.push({ id: id('correction'), landmarkId, changes: next, reason, sourceId, date: new Date().toISOString().slice(0, 10) });
 }
 
-if (payload.kind === 'work') {
+if (payload.kind === 'maintenance') {
+  catalog = checked.maintenance.catalog;
+  catalog.maintenanceLog ||= [];
+  catalog.maintenanceLog.push({ issueNumber: Number(issueNumber), date: new Date().toISOString(), changes: checked.maintenance.changes });
+} else if (payload.kind === 'work') {
   const title = clean(payload.title, '中文剧名', 120);
   if (!uniqueWork(title)) throw new Error('同名作品已存在，请改为向现有作品投稿地标');
   catalog.works.push({ id: id('work'), title, original: clean(payload.original, '韩文原名', 120), year: clean(payload.year, '年份', 10, false) || '', color: '#617d8d', type: workType(payload.type) });
@@ -125,14 +134,14 @@ if (payload.kind === 'work') {
   const sourceUrl = https(payload.sourceUrl, '取景来源', false);
   const image = sceneImage();
   const hasChanges = payload.changes && typeof payload.changes === 'object' && !Array.isArray(payload.changes) && Object.keys(payload.changes).length > 0;
-  if (!description && !image.url && !hasChanges) throw new Error('请至少补充场景、图片或一项更正资料');
+  if (!description && !image.url && !hasChanges && !checked.sceneRecords) throw new Error('请至少补充场景、图片或一项更正资料');
   const sourceId = findSource(sourceTitle, sourceUrl);
-  if (description || image.url) {
-    catalog.scenes.push({ id: id('scene'), landmarkId, description, episode, timeSeconds, image: image.url, imageCredit: image.credit, sourceId, episodeSourceId: episode === null ? null : sourceId });
+  if (description || image.url || checked.sceneRecords) {
+    appendScenes(landmarkId,sourceId);
   }
   if (hasChanges) applyCorrection(landmarkId, '投稿补充／更正资料', sourceId);
 } else {
-  const description = clean(payload.description, '场景描述', 800);
+  const description = clean(payload.description, '场景描述', 800, !checked.sceneRecords && !checked.imageUrl) || '';
   const sourceTitle = clean(payload.sourceTitle, '来源名称', 160, false) || '';
   const sourceUrl = https(payload.sourceUrl, '取景来源', false);
   const episode = optionalInt(payload.episode, '集数', 1, 1000);
@@ -172,13 +181,15 @@ if (payload.kind === 'work') {
     landmarkId = clean(payload.landmarkId, '所属地点', 120);
     if (!catalog.landmarks.some(place => place.id === landmarkId)) throw new Error('所属地点不存在');
   }
-  catalog.scenes.push({ id: id('scene'), landmarkId, description, episode, timeSeconds, image: image.url, imageCredit: image.credit, sourceId, episodeSourceId: episode === null ? null : sourceId });
+  appendScenes(landmarkId,sourceId);
 }
 
 const updatedLandmarkId = payload.kind === 'place' ? id('place') : payload.landmarkId;
 const updatedPlace = catalog.landmarks.find(place => place.id === updatedLandmarkId);
-const updatedWorkId = payload.kind === 'work' ? id('work') : updatedPlace?.workId;
+const updatedWorkId = payload.kind === 'maintenance' ? checked.maintenance.workIds[0] : payload.kind === 'work' ? id('work') : updatedPlace?.workId;
 catalog.updates.push({ issueNumber: Number(issueNumber), workId: updatedWorkId || null, landmarkId: updatedPlace?.id || null, reviewedAt: new Date().toISOString(), bodyHash });
+
+if (payload.kind === 'maintenance') for (const workId of checked.maintenance.workIds.slice(1)) catalog.updates.push({issueNumber:Number(issueNumber),workId,landmarkId:null,reviewedAt:new Date().toISOString(),bodyHash});
 
 const output = `// 作品 → 地标 → 场景。通过 GitHub 投稿并经维护者审核后更新。\nwindow.KDRAMA_CATALOG = ${JSON.stringify(catalog, null, 2)};\n`;
 const target = path.resolve(catalogFile);

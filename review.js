@@ -82,10 +82,10 @@ function refreshVisibility() {
   $('review-new-work').hidden = !(kind === 'work' || isPosterKind());
   $('review-landmark-fields').hidden = !['update', 'correction', 'scene'].includes(kind);
   $('review-location').hidden = !isLocationKind();
-  $('review-scene').hidden = !isSceneKind();
+  $('review-scene').hidden = !isSceneKind() || Array.isArray(basePayload.scenes);
   $('review-reason-label').hidden = kind !== 'correction';
   $('review-images').hidden = !isSceneKind();
-  $('review-image-section').hidden = !isSceneKind();
+  $('review-image-section').hidden = !isSceneKind() || Array.isArray(basePayload.scenes);
   $('review-poster-section').hidden = !isPosterKind();
   const place = currentPlace();
   $('review-current').hidden = kind === 'place';
@@ -102,6 +102,7 @@ function fillEditor(payload, body, source) {
   const nextParsed = core.parseIssue(body);
   const nextPayload = clone(payload);
   const nextImage = payload.imageAttachment ? core.extractImage(body, 'image') : payload.imageUrl;
+  KdramaReviewScenes.load(payload,body);
   const nextPoster = payload.posterAttachment ? core.extractImage(body, 'poster') : '';
   if (arguments.length > 2) setSource(source);
   parsed = nextParsed;
@@ -131,6 +132,7 @@ function fillEditor(payload, body, source) {
   $('review-editor').hidden = false;
   invalidate();
   refreshVisibility();
+  if(payload.scenes){$('review-scene').hidden=true;$('review-image-section').hidden=true;}
   updatePreviews();
 }
 function collectPayload() {
@@ -175,6 +177,10 @@ function collectPayload() {
     payload.imageCredit = value('review-credit');
     payload.rightsConfirmed = $('review-rights').checked;
   }
+  if(Array.isArray(basePayload.scenes)){
+    payload.scenes=KdramaReviewScenes.collect();delete payload.imageUrl;payload.imageAttachment=false;
+    if(!payload.scenes.length){delete payload.scenes;if(kind==='update')payload.description='';}
+  }
   payload.sourceUrl = value('review-source-url');
   payload.sourceTitle = value('review-source-title');
   payload.contributor = value('review-contributor');
@@ -183,7 +189,7 @@ function collectPayload() {
 function buildDraft() {
   const payload = collectPayload();
   let body = draftBody;
-  if (isSceneKind() && dirtyFields.has('review-image-url')) {
+  if (isSceneKind() && !payload.scenes && dirtyFields.has('review-image-url')) {
     const url = value('review-image-url');
     delete payload.imageUrl;
     if (url && !isGitHubImage(url)) {
@@ -265,6 +271,7 @@ async function loadFromGitHub() {
     if (!number) throw new Error('请输入本仓库的 Issue 编号或完整链接。');
     const issue = await fetchIssue(number);
     const result = core.parseIssue(issue.body);
+    if(result.payload.kind==='maintenance'){location.href='./manage.html?issue='+number;return;}
     fillEditor(result.payload, issue.body, issue);
     setValue('review-input', issue.body);
     status('已读取 Issue #' + number + '。修改后生成正文，再回 GitHub 保存与批准。');
@@ -418,3 +425,8 @@ $('review-copy').addEventListener('click', async () => {
 });
 const query = new URLSearchParams(location.search);
 if (query.has('issue')) { setValue('review-issue', query.get('issue')); void loadFromGitHub(); }
+
+const initialReviewIssue = new URLSearchParams(location.search).get('issue');
+if (initialReviewIssue) { setValue('review-issue', initialReviewIssue); loadFromGitHub(); }
+
+document.addEventListener('review-scenes-change',invalidate);

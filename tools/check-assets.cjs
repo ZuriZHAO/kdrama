@@ -5,9 +5,9 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const assetsDir = path.join(root, 'assets');
 const catalogPath = path.join(root, 'data', 'catalog.js');
-const TOTAL_LIMIT = 20 * 1024 * 1024;
+const TOTAL_LIMIT = 150 * 1024 * 1024;
 const FILE_LIMIT = 400 * 1024;
-const ALLOW_UNREFERENCED = [/^assets\/brand\//];
+const ALLOW_UNREFERENCED = [/^assets\/brand\//, /^assets\/generated\//];
 
 const context = { window: {} };
 vm.runInNewContext(fs.readFileSync(catalogPath, 'utf8'), context);
@@ -20,7 +20,9 @@ const referenced = new Set();
 for (const work of catalog.works) {
   if (typeof work.poster === 'string' && work.poster.startsWith('./assets/')) referenced.add(work.poster.slice(2));
 }
+for(const change of (catalog.maintenanceLog||[]).flatMap(log=>log.changes||[]))for(const key of ['image','poster','thumbnail','mediumImage']){const value=change.before?.[key];if(typeof value==='string'&&value.startsWith('./assets/'))referenced.add(value.slice(2));}
 for (const scene of catalog.scenes) {
+  for(const key of ['thumbnail','mediumImage'])if(typeof scene[key]==='string'&&scene[key].startsWith('./assets/'))referenced.add(scene[key].slice(2));
   if (typeof scene.image === 'string' && scene.image.startsWith('./assets/')) referenced.add(scene.image.slice(2));
 }
 
