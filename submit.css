@@ -34,6 +34,36 @@ input:focus,select:focus,textarea:focus { outline:2px solid #315f7826; border-co
 .image-preview-frame img { display:block; width:100%; height:100%; object-fit:cover; }
 .image-preview figcaption { padding:8px 10px; border:1px solid var(--line); border-top:0; border-radius:0 0 9px 9px; color:var(--muted); font-size:11px; }
 .success-panel { margin-top:28px; }
+.text-button { padding:7px 10px; border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--accent); font:inherit; font-size:12px; cursor:pointer; }
+.text-button:hover { background:#eaf1ef; }
+.text-button:disabled { opacity:.6; cursor:wait; }
+.text-button:focus-visible,.work-option:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+.draft-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:16px; }
+.draft-bar .hint { flex:1 1 250px; margin:0; }
+.work-picker { position:relative; }
+.work-picker > label { margin-bottom:7px; }
+.work-results { max-height:330px; overflow-y:auto; margin:5px 0; border:1px solid var(--line); border-radius:8px; background:white; overscroll-behavior:contain; }
+.work-option { display:flex; align-items:center; gap:11px; padding:10px; cursor:pointer; border-bottom:1px solid #edf1ef; }
+.work-option:last-child { border-bottom:0; }
+.work-option:hover,.work-option.active { background:#e9f2ef; }
+.work-option-poster { display:flex; align-items:center; justify-content:center; flex:none; width:38px; height:53px; border-radius:4px; overflow:hidden; background:#e9eeeb; color:#65747b; font-size:12px; }
+.work-option-poster img { width:100%; height:100%; object-fit:cover; }
+.work-option-copy { display:flex; flex-direction:column; min-width:0; gap:3px; }
+.work-option-copy strong { font-size:13px; font-weight:600; }
+.work-option-copy small { color:var(--muted); font-size:11px; overflow-wrap:anywhere; }
+.work-selection { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; padding:11px; margin:10px 0; border-radius:7px; background:#eef6f1; font-size:12px; line-height:1.6; }
+.work-selection span { flex:1 1 180px; }
+.file-notice { padding:10px 12px; margin-top:18px; border-radius:7px; background:#fff6df; color:#74602d; overflow-wrap:anywhere; }
+.handoff-steps { padding-left:22px; }
+.handoff-steps li { padding:3px 0; }
+.handoff-files { padding-left:22px; font-size:13px; overflow-wrap:anywhere; }
+.success-panel h2,.progress-panel h2 { margin:0 0 10px; font-size:18px; }
+.success-panel p,.success-panel li { font-size:13px; }
+.success-panel details { margin-top:20px; padding-top:12px; border-top:1px solid var(--line); }
+.success-panel summary { cursor:pointer; font-size:12px; }
+.progress-panel { margin-top:24px; padding:20px; border:1px solid var(--line); border-radius:12px; background:#fff; }
+.progress-panel > a { display:inline-block; margin:12px 12px 0 0; font-size:13px; }
+#issue-body-copy { font-family:Consolas,monospace; font-size:11px; }
 .honeypot { position:absolute; left:-9999px; width:1px; height:1px; opacity:0; }
 [hidden] { display:none !important; }
 @media (max-width:560px) { .page{width:min(100% - 20px,680px)} form{padding:16px} .two{grid-template-columns:1fr;gap:0} }

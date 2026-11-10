@@ -89,6 +89,9 @@ try {
   assert.equal(read().works.at(-1).type, 'movie', '新作品的电影类型应保留');
 
   const before = fs.readFileSync(catalogFile, 'utf8');
+  assert.notEqual(run({ ...imageOnly, description: '导入后修改的正文' }, 9009, `\n<!-- KDRAMA_IMAGE_START -->\n![Image](${imageUrl})\n<!-- KDRAMA_IMAGE_END -->\n`, 'ignore').status, 0, '已导入的 Issue 修改后不能静默跳过并假称发布');
+  assert.notEqual(run({ ...imageOnly, landmarkId: 'does-not-exist' }, 9013, `\n<!-- KDRAMA_IMAGE_START -->\n![Image](${imageUrl})\n<!-- KDRAMA_IMAGE_END -->\n`, 'ignore').status, 0, '仅图片投稿也必须引用存在的地点');
+  assert.equal(fs.readFileSync(catalogFile, 'utf8'), before, '拒绝的投稿不改变目录');
   assert.notEqual(run({ ...poster, rightsConfirmed: false }, 9011, `\n<!-- KDRAMA_POSTER_START -->\n![Poster](${imageUrl})\n<!-- KDRAMA_POSTER_END -->\n`, 'ignore').status, 0, '未确认海报许可应拒绝');
   assert.notEqual(run({ ...poster, imageAttachment: true }, 9012, `\n<!-- KDRAMA_POSTER_START -->\n![Poster](${imageUrl})\n<!-- KDRAMA_POSTER_END -->\n`, 'ignore').status, 0, '海报不能代替场景图片');
   assert.equal(fs.readFileSync(catalogFile, 'utf8'), before, '无效附件不能修改目录');

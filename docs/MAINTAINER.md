@@ -8,7 +8,15 @@
 
 仓库默认分支为 `main`，现已公开。地图主入口为 https://zurizhao.github.io/kdrama/ ，由 GitHub Pages 工作流发布。旧 Sites 地图项目为 `kdrama-map-zuri`；投稿已改走 GitHub Issue，不再使用 Sites 投稿服务。
 
-访客在地图内选点后通过三步表单填写，表单会生成预填的投稿 Issue，访客登录 GitHub 提交。投稿集中在仓库的 Issues；维护者核对取景来源、坐标、图片展示许可与署名，必要时用 `review.html` 修订 Issue 正文里的 JSON，确认后给 Issue 加上 `publish-approved` 标签，工作流会自动导入目录并发布地图。场景图片与作品海报以 GitHub 附件形式保存在 Issue 正文对应区块。来源链接可以留空，但缺少依据的点位不得标为已核实拍摄机位。不要仅因链接可打开就认为拍摄关系成立。
+访客在地图内选点后通过三步表单填写。作品支持中文名、韩文名与别名搜索，文字草稿保存在当前浏览器。表单生成预填的投稿 Issue，访客登录 GitHub 附图并点击 Submit new issue，才完成提交。场景图片与作品海报保存在 Issue 正文各自的附件区块；浏览器选图只是预览，不会自动上传。
+
+在[可视化审核页](https://zurizhao.github.io/kdrama/review.html)输入本仓库 Issue 链接／编号，或粘贴完整正文。可用表单修订地点、分组、场景和来源，在地图拖动标记修正坐标，并预览或替换图片。新增替换图片先上传到原 Issue，再复制图片链接；一条投稿使用一张场景图，作品海报单独处理。署名可留空。生成修订正文时会保留未编辑字段和其余原文，并检查原 Issue 是否被他人修改。
+
+审核顺序：**读取 → 修改预览 → 生成并复制完整正文 → 回原 Issue 保存 → 添加 `publish-approved` 标签**。先保存再批准；批准后的正文若变化，工作流会要求重新审核。公开审核页只是编辑工具，写入和批准受 GitHub 仓库权限控制，页面不要求填写访问令牌。高级 JSON 保留为折叠工具，修改后须先应用到表单。
+
+状态标签：`needs-info` 由维护者标记需要补充；`publish-approved` 启动发布；`published` 由部署成功后的工作流添加；`publish-failed` 表示发布未完成。成功回执含地图直达链接与运行记录，随后关闭 Issue；失败时保持打开，修正后重新加批准标签。Issue 关闭或存在批准标签本身都不能证明上线，投稿页以随网站部署的 `data/publication-status.json` 为准。批准版本已发布后又修改正文，会提示后来修改尚未发布，后续应另建补充／更正投稿。
+
+来源链接可以留空；新地点和更正坐标仍按示意点导入。图片需要投稿者确认展示许可，署名可选。自动导入与审核页共用 `submission-core.js` 校验规则。已导入的投稿记录原始正文 SHA256，只有相同正文可幂等重试；早期无哈希记录的投稿如需更改，请另建补充／更正 Issue。
 
 旧 ChatGPT Sites 投稿服务源码在 `api-site/`；公开地图已不再读取该服务，新投稿也不再写入该服务。旧服务项目本身仍在线，保留供历史数据核对。
 
@@ -18,7 +26,7 @@
 
 ## 数据与检查
 
-目录由 `works`、`landmarks`、`scenes`、`sources` 和可选 `revisions` 构成。新增或更正坐标先标为示意点；集数与时间点无法核实时留空。图片需展示许可与署名。演示数据的核验记录见 [核验记录](../data/verification-2026-11-06.md)。
+目录由 `works`、`landmarks`、`scenes`、`sources` 和可选 `revisions`、`updates` 构成。新增或更正坐标先标为示意点；集数与时间点无法核实时留空。图片需展示许可，署名可选。演示数据的核验记录见 [核验记录](../data/verification-2026-11-06.md)。
 
 修改后运行：
 
@@ -26,6 +34,8 @@
 node data/check-catalog.cjs
 node tools/check-assets.cjs
 node tools/test-flow.cjs
+node tools/test-submission-core.cjs
+node tools/test-publication-status.cjs
 node tools/build-site.cjs
 ```
 

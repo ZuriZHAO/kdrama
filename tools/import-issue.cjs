@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const { createHash } = require('node:crypto');
+const { parseIssue, validateSubmission } = require('../submission-core.js');
 
 const [issueFile, issueNumber, catalogFile = path.join(__dirname, '..', 'data', 'catalog.js')] = process.argv.slice(2);
 if (!issueFile || !/^\d+$/.test(issueNumber || '')) {
@@ -9,20 +11,8 @@ if (!issueFile || !/^\d+$/.test(issueNumber || '')) {
 }
 
 const body = fs.readFileSync(issueFile, 'utf8');
-const editable = /<!-- KDRAMA_SUBMISSION_V2_START -->\s*```json\s*\n([\s\S]{1,30000}?)\n```\s*<!-- KDRAMA_SUBMISSION_V2_END -->/.exec(body);
-let payload;
-if (editable) {
-  payload = JSON.parse(editable[1]);
-  if (payload.version !== 2) throw new Error('可编辑投稿版本无效');
-} else {
-  const match = /<!-- KDRAMA_SUBMISSION_V1:([A-Za-z0-9_-]{20,16000}) -->/.exec(body);
-  if (!match) throw new Error('Issue 中缺少可识别的投稿数据；请从网站投稿页生成 Issue');
-  const bytes = Buffer.from(match[1], 'base64url');
-  if (bytes.toString('base64url') !== match[1]) throw new Error('投稿数据编码无效');
-  payload = JSON.parse(bytes.toString('utf8'));
-  if (payload.version !== 1) throw new Error('旧版投稿版本无效');
-}
-if (!payload || !['work', 'place', 'scene', 'correction', 'update'].includes(payload.kind)) throw new Error('投稿类型无效');
+const { payload } = parseIssue(body);
+const bodyHash = createHash('sha256').update(body, 'utf8').digest('hex');
 
 const context = { window: {} };
 vm.runInNewContext(fs.readFileSync(catalogFile, 'utf8'), context);
@@ -35,9 +25,12 @@ if (!Array.isArray(catalog.revisions)) throw new Error('更正记录结构无效
 catalog.updates ||= [];
 if (!Array.isArray(catalog.updates)) throw new Error('更新记录结构无效');
 if (catalog.works.some(item => item.id === id('work')) || catalog.landmarks.some(item => item.id === id('place')) || catalog.scenes.some(item => item.id === id('scene')) || catalog.revisions.some(item => item.id === id('correction'))) {
+  const previous = catalog.updates.find(item => Number(item.issueNumber) === Number(issueNumber));
+  if (!previous?.bodyHash || previous.bodyHash !== bodyHash) throw new Error('此 Issue 已导入，正文与导入版本无法确认一致；后续修改请新建补充／更正投稿。');
   console.log(`Issue #${issueNumber} 已导入，跳过`);
   process.exit(0);
 }
+const checked = validateSubmission(payload, body, catalog);
 const clean = (value, label, max, required = true) => {
   if (value == null && !required) return null;
   if (typeof value !== 'string') throw new Error(`${label}必须是文字`);
@@ -75,41 +68,12 @@ const findSource = (title, link) => {
 };
 const uniqueWork = title => !catalog.works.some(work => work.title.trim().toLocaleLowerCase() === title.trim().toLocaleLowerCase());
 
-const afterData = editable ? body.slice(editable.index + editable[0].length) : '';
-const markdownImageUrls = text => [...(text || '').matchAll(/!\[[^\]\n]{0,200}\]\((https:\/\/[^\s)]+)\)/g)].map(match => match[1]);
-const isGitHubImage = link => {
-  try {
-    const url = new URL(link);
-    return (url.hostname === 'github.com' && /^\/user-attachments\/assets\/[A-Za-z0-9-]{8,100}$/.test(url.pathname))
-      || (url.hostname === 'user-images.githubusercontent.com' && /^\/\d+\/[A-Za-z0-9._/%-]+$/.test(url.pathname));
-  } catch { return false; }
-};
-const firstGitHubImage = text => markdownImageUrls(text).find(isGitHubImage) || null;
-const slot = (text, startMarker, endMarker) => {
-  const escape = marker => marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const match = new RegExp(`${escape(startMarker)}([\\s\\S]*?)${escape(endMarker)}`).exec(text || '');
-  return match ? match[1] : '';
-};
-
 function sceneImage() {
-  if (payload.imageAttachment !== true) {
-    if (payload.imageUrl == null) return { url: null, credit: null };
-    if (payload.rightsConfirmed !== true) throw new Error('图片缺少使用许可声明');
-    return { url: https(payload.imageUrl, '图片链接'), credit: clean(payload.imageCredit, '图片署名', 160, false) || '' };
-  }
-  if (payload.imageUrl != null) throw new Error('图片链接和 Issue 附件不能同时提交');
-  if (payload.rightsConfirmed !== true) throw new Error('图片缺少使用许可声明');
-  const url = firstGitHubImage(slot(afterData, '<!-- KDRAMA_IMAGE_START -->', '<!-- KDRAMA_IMAGE_END -->')) || (payload.posterAttachment ? null : firstGitHubImage(afterData));
-  if (!url) throw new Error('请在 Issue 正文的投稿图片段落附上 GitHub 托管的图片');
-  return { url, credit: clean(payload.imageCredit, '图片署名', 160, false) || '' };
+  return { url: checked.imageUrl || null, credit: checked.imageUrl ? clean(payload.imageCredit, '图片署名', 160, false) || '' : null };
 }
 
 function posterImage() {
-  if (payload.posterAttachment !== true) return null;
-  if (payload.rightsConfirmed !== true) throw new Error('海报缺少使用许可声明');
-  const url = firstGitHubImage(slot(afterData, '<!-- KDRAMA_POSTER_START -->', '<!-- KDRAMA_POSTER_END -->'));
-  if (!url) throw new Error('请在 Issue 正文的作品海报段落附上 GitHub 托管的图片');
-  return url;
+  return checked.posterUrl || null;
 }
 
 function applyCorrection(landmarkId, reason, sourceId) {
@@ -214,7 +178,7 @@ if (payload.kind === 'work') {
 const updatedLandmarkId = payload.kind === 'place' ? id('place') : payload.landmarkId;
 const updatedPlace = catalog.landmarks.find(place => place.id === updatedLandmarkId);
 const updatedWorkId = payload.kind === 'work' ? id('work') : updatedPlace?.workId;
-catalog.updates.push({ issueNumber: Number(issueNumber), workId: updatedWorkId || null, landmarkId: updatedPlace?.id || null, reviewedAt: new Date().toISOString() });
+catalog.updates.push({ issueNumber: Number(issueNumber), workId: updatedWorkId || null, landmarkId: updatedPlace?.id || null, reviewedAt: new Date().toISOString(), bodyHash });
 
 const output = `// 作品 → 地标 → 场景。通过 GitHub 投稿并经维护者审核后更新。\nwindow.KDRAMA_CATALOG = ${JSON.stringify(catalog, null, 2)};\n`;
 const target = path.resolve(catalogFile);

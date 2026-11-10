@@ -4,42 +4,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>审核投稿 · 剧场之外</title>
-  <link rel="stylesheet" href="./submit.css" />
-  <style>
-    .review-actions { display:flex; flex-wrap:wrap; gap:10px; }
-    .review-actions button { width:auto; margin-top:0; }
-    .review-actions button:disabled { opacity:.5; cursor:default; }
-    .review-panel { margin-top:24px; padding:20px; border:1px solid var(--line); border-radius:12px; background:#fff; }
-    .review-panel h2 { margin:0 0 8px; font-size:17px; }
-    textarea { min-height:150px; font-family:Consolas,monospace; font-size:12px; line-height:1.6; }
-    #review-json { min-height:290px; }
-    #review-output { min-height:220px; }
-  </style>
+  <link rel="stylesheet" href="./submit.css?v=9" />
+  <link rel="stylesheet" href="./vendor/leaflet.css" />
+  <link rel="stylesheet" href="./vendor/maplibre-gl.css" />
+  <link rel="stylesheet" href="./review.css?v=2" />
 </head>
 <body>
-  <main class="page">
+  <main class="page review-page">
     <header class="top"><a href="./index.html">← 返回地图</a><span>维护者工具</span></header>
     <h1>审核投稿</h1>
-    <p class="intro">从 GitHub Issue 的“编辑”界面复制完整正文，粘贴到下方。修订 JSON 后生成新正文，再粘回同一个 Issue 保存；核对无误后添加 <code>publish-approved</code> 标签。本页不连接 GitHub，也不保存投稿内容。</p>
+    <p class="intro">读取投稿，用表单、地图和图片预览核对并修改。生成修订正文后，回到原 GitHub Issue 保存，再添加 <code>publish-approved</code> 标签。保存与批准由 GitHub 仓库权限控制。</p>
     <section class="review-panel">
-      <h2>1. 读取 Issue 正文</h2>
-      <label>完整正文<textarea id="review-input" spellcheck="false" placeholder="粘贴 Issue 正文，包括 KDRAMA_SUBMISSION 标记"></textarea></label>
-      <div class="review-actions"><button id="review-load" class="submit-button" type="button">读取投稿</button></div>
+      <h2>1. 读取投稿</h2>
+      <label>本仓库的 Issue 链接或编号<input id="review-issue" type="text" inputmode="url" placeholder="例如：123 或 GitHub Issue 链接" autocomplete="off" /></label>
+      <div class="review-actions"><button id="review-fetch" class="submit-button" type="button">从 GitHub 读取</button><a id="review-issue-link" hidden target="_blank" rel="noopener noreferrer">打开原 Issue ↗</a></div>
+      <details class="paste-fallback"><summary>也可以粘贴完整正文</summary><p class="hint">从 GitHub Issue 的编辑框复制正文，包括投稿标记和图片链接。</p><label>完整正文<textarea id="review-input" class="code-field" spellcheck="false" placeholder="粘贴完整 Issue 正文"></textarea></label><button id="review-load" type="button">读取粘贴的正文</button></details>
     </section>
     <section id="review-editor" class="review-panel" hidden>
       <h2>2. 核对并修订</h2>
       <p id="review-summary" class="hint"></p>
-      <label>投稿 JSON<textarea id="review-json" spellcheck="false"></textarea></label>
-      <p class="hint">保持字段名和 JSON 格式；图片附件须保留在正文的投稿图片段落。生成后仍须在 GitHub Issue 中保存更改。</p>
+      <div id="review-fields">
+        <div id="review-work-fields"><label>所属作品<select id="review-work"></select></label></div>
+        <fieldset id="review-new-work"><legend>作品资料</legend><div class="two"><label>中文名<input id="review-title" maxlength="120" /></label><label>韩文原名<input id="review-original" maxlength="120" /></label></div><div class="two"><label>年份（可选）<input id="review-year" maxlength="4" inputmode="numeric" /></label><label>作品类型<select id="review-type"><option value="drama">电视剧</option><option value="movie">电影</option><option value="variety">综艺</option></select></label></div></fieldset>
+        <div id="review-landmark-fields"><label>所属地点<select id="review-landmark"></select></label></div>
+        <fieldset id="review-location"><legend>地点与分组</legend><p id="review-current" class="current-summary"></p><div class="two"><label>地点名称<input id="review-name" maxlength="120" /></label><label>韩文地名（可选）<input id="review-ko" maxlength="120" /></label></div><div class="two"><label>分组（留空为未分组）<input id="review-group" maxlength="100" /></label><label>城市／地区（可选）<input id="review-city" maxlength="100" /></label></div><label>地址（可选）<input id="review-address" maxlength="240" /></label><label>到访提示（可选）<textarea id="review-visit" maxlength="500" rows="2"></textarea></label><div class="two"><label>纬度<input id="review-lat" type="number" min="-90" max="90" step="any" /></label><label>经度<input id="review-lng" type="number" min="-180" max="180" step="any" /></label></div><p class="hint">点击地图或拖动圆点调整坐标，支持世界各地。</p><div id="review-map" aria-label="拖动标记修正坐标"></div><p id="review-map-status" class="hint" role="status"></p><table id="review-diff" class="review-diff"><caption>当前资料与修改后内容</caption><thead><tr><th>字段</th><th>当前资料</th><th>修改后</th></tr></thead><tbody></tbody></table></fieldset>
+        <fieldset id="review-scene"><legend>场景</legend><label>场景描述<textarea id="review-description" rows="3" maxlength="800"></textarea></label><div class="two"><label>集数（可选）<input id="review-episode" type="number" min="1" max="1000" step="1" /></label><label>播放时间，秒（可选）<input id="review-time" type="number" min="0" max="100000" step="1" /></label></div></fieldset>
+        <label id="review-reason-label">更正原因<textarea id="review-reason" maxlength="800" rows="2"></textarea></label>
+        <fieldset id="review-images"><legend>图片预览</legend><p class="hint">场景图按地图卡片裁剪。替换图片时，先将新图片上传到原 Issue，再复制图片链接；海报需使用 GitHub 附件链接。</p><div id="review-image-section"><label>场景图片链接（可留空）<input id="review-image-url" type="url" maxlength="1000" placeholder="https://…" /></label><button id="review-remove-image" type="button">移除场景图片</button><figure id="review-image-preview" class="review-image-preview" hidden><div class="review-image-frame"><img id="review-image-img" alt="场景图的地图卡片裁剪预览" referrerpolicy="no-referrer" /></div><figcaption>地图卡片预览</figcaption></figure><p id="review-image-feedback" class="hint"></p></div><div id="review-poster-section"><label>作品海报链接（可留空）<input id="review-poster-url" type="url" maxlength="1000" placeholder="GitHub 附件链接" /></label><button id="review-remove-poster" type="button">移除海报</button><figure id="review-poster-preview" class="review-poster-preview" hidden><img id="review-poster-img" alt="作品海报预览" referrerpolicy="no-referrer" /></figure><p id="review-poster-feedback" class="hint"></p></div><label>图片署名（可选）<input id="review-credit" maxlength="160" /></label><label class="check"><input id="review-rights" type="checkbox" />投稿者已确认有权展示图片</label></fieldset>
+        <fieldset><legend>来源与投稿署名</legend><div class="two"><label>资料来源链接（可选）<input id="review-source-url" type="url" maxlength="1000" /></label><label>来源名称（可选）<input id="review-source-title" maxlength="160" /></label></div><label>投稿署名（可选）<input id="review-contributor" maxlength="80" /></label></fieldset>
+      </div>
+      <details id="review-advanced"><summary>高级 JSON（可选）</summary><p class="hint">未显示的字段会保留。修改 JSON 后请点击“应用 JSON 到表单”；“从表单刷新”会覆盖下方尚未应用的 JSON。</p><label>投稿 JSON<textarea id="review-json" class="code-field" spellcheck="false"></textarea></label><div class="review-actions"><button id="review-refresh-json" type="button">从表单刷新</button><button id="review-apply-json" type="button">应用 JSON 到表单</button></div></details>
+      <p class="hint">生成正文会再次检查原 Issue 是否已被他人修改。粘贴方式读取的内容，请在保存前自行对照原 Issue。</p>
       <div class="review-actions"><button id="review-generate" class="submit-button" type="button">检查并生成正文</button></div>
     </section>
     <section id="review-result" class="review-panel" hidden>
       <h2>3. 粘回 GitHub Issue</h2>
-      <label>修订后的完整正文<textarea id="review-output" readonly spellcheck="false"></textarea></label>
+      <p class="hint">先复制并保存到原 Issue，再添加 <code>publish-approved</code> 标签。添加标签后等待发布结果；发布失败时请查看 Issue 中的提示。</p>
+      <label>修订后的完整正文<textarea id="review-output" class="code-field" readonly spellcheck="false"></textarea></label>
       <div class="review-actions"><button id="review-copy" class="submit-button" type="button">复制正文</button></div>
     </section>
     <p id="review-status" class="status" role="status" aria-live="polite"></p>
   </main>
-  <script src="./review.js"></script>
+  <script src="./vendor/leaflet.js"></script>
+  <script src="./vendor/maplibre-gl.js"></script>
+  <script src="./vendor/leaflet-maplibre-gl.js"></script>
+  <script src="./data/korea-map.js"></script>
+  <script src="./data/catalog.js?v=14"></script>
+  <script src="./site-config.js?v=3"></script>
+  <script src="./submission-core.js?v=1"></script>
+  <script src="./review.js?v=2"></script>
 </body>
 </html>

@@ -4,13 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>投稿取景地 · 剧场之外</title>
-  <link rel="stylesheet" href="./submit.css?v=8" />
+  <link rel="stylesheet" href="./submit.css?v=9" />
 </head>
 <body>
   <main class="page">
     <header class="top"><a href="./index.html">← 返回地图</a><span>剧场之外</span></header>
     <h1>分享一个作品取景地</h1>
-    <p class="intro">跟着地图选点、填写场景、确认后提交。提交会打开一个 GitHub 投稿页面，登录 GitHub 提交 Issue；核对通过后才会显示在地图上。</p>
+    <p class="intro">选择作品、填写地点与场景，预览后前往 GitHub 完成投稿。需要 GitHub 账号；审核并发布后，地点才会显示在地图上。</p>
+    <div class="draft-bar"><p id="draft-status" class="hint" role="status"></p><button id="restore-draft" class="text-button" type="button" hidden>恢复已有草稿</button><button id="clear-draft" class="text-button" type="button">清空草稿</button></div>
     <ol class="steps" aria-label="投稿步骤"><li class="active">1 选择</li><li>2 地点与场景</li><li>3 检查提交</li></ol>
     <form id="submission-form" novalidate>
       <section class="step-panel" data-step="0">
@@ -21,7 +22,15 @@
           </select>
         </label>
         <div id="work-fields">
-          <label>选择作品<select id="work-id"></select></label>
+          <div id="work-picker" class="work-picker">
+            <label for="work-search">选择作品</label>
+            <input id="work-search" type="search" role="combobox" aria-expanded="false" aria-controls="work-results" aria-autocomplete="list" autocomplete="off" placeholder="输入中文名、韩文名或别名" />
+            <input id="work-id" type="hidden" />
+            <div id="work-results" class="work-results" role="listbox" aria-label="作品搜索结果" hidden></div>
+            <p id="work-search-status" class="hint" aria-live="polite"></p>
+            <div id="work-selection" class="work-selection" hidden><span id="work-selection-text"></span><button id="change-work" class="text-button" type="button">重新选择</button></div>
+            <button id="add-new-work" class="text-button" type="button">找不到？添加新作品</button>
+          </div>
           <div id="new-work-fields" hidden>
             <p class="hint">新作品填写中文名或韩文名即可。</p>
             <label>中文名（可选）<input id="work-title" maxlength="120" /></label>
@@ -73,13 +82,33 @@
         <div id="review-summary" class="review-summary" aria-live="polite"></div>
       </section>
       <input id="website" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
-      <div class="form-actions"><button id="back-button" type="button" hidden>上一步</button><button id="next-button" type="button">下一步</button><button id="send-button" class="submit-button" type="submit" hidden>提交待审核</button></div>
+      <p id="draft-file-notice" class="hint file-notice" hidden></p>
+      <div class="form-actions"><button id="back-button" type="button" hidden>上一步</button><button id="next-button" type="button">下一步</button><button id="send-button" class="submit-button" type="submit" hidden>前往 GitHub 完成投稿</button></div>
       <p id="form-status" class="status" role="status" aria-live="polite"></p>
     </form>
-    <section id="success-panel" class="success-panel" hidden><h2>请在 GitHub 完成投稿</h2><p>请登录 GitHub，把场景图片／作品海报（如有）拖进对应区块，然后点击 Submit new issue 提交。若新标签页没有打开，请点击下面的链接。</p><p><a id="github-issue-link" href="https://github.com/zurizhao/kdrama/issues/new" target="_blank" rel="noopener noreferrer">打开 GitHub 投稿页 ↗</a></p><a href="./index.html">返回地图</a></section>
+    <section id="success-panel" class="success-panel" hidden>
+      <h2>待在 GitHub 完成提交</h2>
+      <p>投稿页已准备好。完成下面三步后，这条投稿才会进入待审核状态。</p>
+      <ol class="handoff-steps"><li>登录 GitHub，打开下面的投稿页。</li><li id="attachment-instruction">检查投稿摘要；有图片时，把图片拖入对应区域。</li><li>等待图片上传完成，再点击 GitHub 的 <strong>Submit new issue</strong>。</li></ol>
+      <ul id="handoff-files" class="handoff-files"></ul>
+      <p id="handoff-image-note" class="hint">本页选择的图片用于预览，尚未上传到 GitHub。</p>
+      <p><a id="github-issue-link" href="https://github.com/zurizhao/kdrama/issues/new" target="_blank" rel="noopener noreferrer">打开 GitHub 投稿页 ↗</a></p>
+      <button id="return-edit" class="text-button" type="button">返回修改表单</button>
+      <details><summary>链接未正常带入内容？</summary><p class="hint">可在 GitHub 新建 Issue，将下面的正文完整粘贴进去，再添加图片。</p><label>投稿标题<input id="issue-title-copy" readonly /></label><label>投稿正文<textarea id="issue-body-copy" readonly rows="8"></textarea></label><button id="copy-issue-body" class="text-button" type="button">复制投稿正文</button><p id="copy-status" class="hint" role="status"></p></details>
+    </section>
+    <section id="submission-progress" class="progress-panel">
+      <h2>查看投稿进度</h2>
+      <p class="hint">在 GitHub 提交后，把生成的 Issue 链接或编号填到这里。刷新可查看最新审核与发布状态。</p>
+      <label>Issue 链接或编号<input id="issue-number" type="text" placeholder="例如：#123 或 GitHub Issue 链接" autocomplete="off" /></label>
+      <button id="check-progress" class="text-button" type="button">查询／刷新进度</button>
+      <p id="progress-status" class="status" role="status" aria-live="polite"></p>
+      <a id="progress-issue-link" target="_blank" rel="noopener noreferrer" hidden>在 GitHub 查看投稿 ↗</a>
+      <a id="published-place-link" hidden>在地图查看 ↗</a>
+    </section>
   </main>
   <script src="./site-config.js?v=3"></script>
   <script src="./data/catalog.js?v=14"></script>
-  <script src="./submit.js?v=11"></script>
+  <script src="./submission-core.js?v=1"></script>
+  <script src="./submit.js?v=12"></script>
 </body>
 </html>
