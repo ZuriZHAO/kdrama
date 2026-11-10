@@ -19,6 +19,7 @@ let map = null;
 let mapPin = null;
 let currentPin = null;
 let streetLayer = null;
+let issueLoading = false;
 
 function value(id) { return $(id).value.trim(); }
 function setValue(id, next) { $(id).value = next == null ? '' : String(next); }
@@ -264,6 +265,8 @@ function setSource(issue) {
   if (fetchedIssue) $('review-issue-link').href = fetchedIssue.url;
 }
 async function loadFromGitHub() {
+  if (issueLoading) return;
+  issueLoading = true;
   setBusy(true);
   invalidate();
   try {
@@ -276,7 +279,7 @@ async function loadFromGitHub() {
     setValue('review-input', issue.body);
     status('已读取 Issue #' + number + '。修改后生成正文，再回 GitHub 保存与批准。');
   } catch (error) { status('读取失败：' + error.message, true); }
-  finally { setBusy(false); }
+  finally { issueLoading = false; setBusy(false); }
 }
 function loadPasted() {
   try {
@@ -425,8 +428,5 @@ $('review-copy').addEventListener('click', async () => {
 });
 const query = new URLSearchParams(location.search);
 if (query.has('issue')) { setValue('review-issue', query.get('issue')); void loadFromGitHub(); }
-
-const initialReviewIssue = new URLSearchParams(location.search).get('issue');
-if (initialReviewIssue) { setValue('review-issue', initialReviewIssue); loadFromGitHub(); }
 
 document.addEventListener('review-scenes-change',invalidate);

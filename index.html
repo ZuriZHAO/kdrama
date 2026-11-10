@@ -8,13 +8,14 @@
   <title>剧场之外 · 韩国影视综艺取景地地图</title>
   <link rel="stylesheet" href="./vendor/leaflet.css" />
   <link rel="stylesheet" href="./vendor/maplibre-gl.css" />
-  <link rel="stylesheet" href="./styles.css?v=26" />
+  <link rel="stylesheet" href="./styles.css?v=27" />
 <script src="./image-fallback.js?v=1" defer></script></head>
 <body>
   <main id="explore" class="map-app">
     <section class="map-panel" aria-label="取景地地图">
       <div id="map" class="map" role="application" aria-label="韩国影视综艺取景地地图"></div>
       <div id="map-fallback" class="map-fallback" hidden>地图脚本未能加载，请查看地点列表。</div>
+      <section id="map-discovery" class="map-discovery" aria-label="当前地图视野内的作品"><div class="discovery-heading"><span id="discovery-summary">当前视野内的作品</span><button id="discovery-clear" type="button" hidden>清除选择</button><button id="discovery-toggle" type="button" aria-expanded="true" aria-controls="discovery-content">收起</button></div><div id="discovery-content"><div id="discovery-works" class="discovery-works"></div><p id="discovery-empty" hidden>这一带暂无符合条件的作品，试试移动或缩小地图。</p></div></section>
       <div class="map-status"><span class="live-dot"></span><span id="map-source">正在加载街道地图</span></div>
       <button id="reset-map" class="reset-map" type="button" title="返回全部作品和地点">全部作品</button>
       <button id="thumbnail-toggle" class="thumbnail-toggle" type="button" aria-pressed="false" disabled title="暂无获许可的场景图片">场景缩略图</button>
@@ -41,6 +42,6 @@
   <script src="./data/korea-map.js"></script>
   <script src="./data/catalog.js?v=14"></script>
   <script src="./site-config.js?v=3"></script>
-  <script src="./map-core.js?v=2"></script><script src="./boot.js?v=11"></script>
+  <script src="./discovery.js?v=1"></script><script src="./map-core.js?v=2"></script><script src="./boot.js?v=12"></script>
 </body>
 </html>

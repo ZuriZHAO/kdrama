@@ -61,3 +61,5 @@ node tools/build-site.cjs
 ```
 
 `dist/` 是构建结果，不提交。依赖许可文本在 `vendor/`。地图使用 OpenFreeMap、OpenStreetMap、Natural Earth 和 geoBoundaries 数据；界面参考 Anitabi 的公开资料组织方式。
+
+地图交互回归脚本为 `tools/test-map-browser.py` 和 `tools/test-scenes-discovery-browser.py`。需要 Python 的 `websocket-client`，以及开启远程调试端口的独立 Chrome；参数依次为站点地址和调试端口，例如 `python tools/test-scenes-discovery-browser.py http://127.0.0.1:8000/ 9248`。新脚本仅在测试浏览器中注入多集多图样例、模拟审核请求，不修改目录文件或创建真实投稿；覆盖场景切换、分享恢复、多作品视野筛选及重复请求。
