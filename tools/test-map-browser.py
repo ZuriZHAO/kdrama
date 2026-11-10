@@ -37,13 +37,31 @@ def wait(code):
 
 cmd('Emulation.setDeviceMetricsOverride', {'width': 1440, 'height': 1000, 'deviceScaleFactor': 1, 'mobile': False})
 cmd('Page.navigate', {'url': base})
-wait("typeof map !== 'undefined' && map && typeof clusterLayer !== 'undefined'")
+wait("typeof markers !== 'undefined' && markers.size > 0 && map")
+# Dense areas must keep one independent marker per landmark at every zoom.
+for zoom in [5, 10, 15]:
+    ev(f"map.setView([37.55,126.99],{zoom},{{animate:false}});renderMarkers()")
+    time.sleep(.3)
+    assert ev("document.querySelectorAll('.cluster-marker,.cluster-list').length===0")
+    assert ev("""visiblePlaces().filter(p=>map.getBounds().pad(.2).contains([p.lat,p.lng])).every(p=>{
+      const marker=markers.get(p.id), at=marker.getLatLng();
+      return map.hasLayer(marker) && at.lat===p.lat && at.lng===p.lng && marker.getElement().textContent==='';
+    })""")
+assert ev("[...document.querySelectorAll('.pin')].every(p=>p.getBoundingClientRect().width<=10)")
 # Use temporary browser-only group labels, never modify the published catalogue.
 ev("""window.fixtureWork=places.find(p=>places.filter(x=>x.workId===p.workId).length>=3).workId;
 window.fixturePlaces=places.filter(p=>p.workId===fixtureWork);
 window.originalGroups=fixturePlaces.map(p=>p.group);
 fixturePlaces.forEach((p,i)=>p.group=i%2?'测试组乙':'测试组甲');selectWork(fixtureWork);""")
 time.sleep(1)
+assert ev("thumbnailsOn && document.querySelectorAll('.scene-thumbnail-marker').length>0")
+ev("$('thumbnail-toggle').click()")
+time.sleep(.3)
+assert ev("!thumbnailsOn && !document.querySelector('.scene-thumbnail-marker') && !!document.querySelector('.pin')")
+cmd('Page.reload')
+wait("typeof markers !== 'undefined' && markers.size>0 && map")
+assert ev("!thumbnailsOn")
+ev("$('thumbnail-toggle').click();window.fixtureWork=selectedSeries;window.fixturePlaces=places.filter(p=>p.workId===fixtureWork);window.originalGroups=fixturePlaces.map(p=>p.group);fixturePlaces.forEach((p,i)=>p.group=i%2?'测试组乙':'测试组甲');renderList();")
 assert ev("document.querySelectorAll('[data-collapse]').length===2")
 assert ev("[...document.querySelectorAll('[data-collapse]')].every(b=>b.getAttribute('aria-expanded')==='true')")
 ev("window.beforeIds=visiblePlaces().map(p=>p.id).join();window.beforeView=JSON.stringify([map.getCenter(),map.getZoom()]);document.querySelector('[data-collapse]').click()")
@@ -93,5 +111,5 @@ assert ev("$('work-tabs').getBoundingClientRect().right<=390")
 ev("document.querySelector('[data-panel-mode=collapsed]').click()")
 time.sleep(.4)
 assert ev("document.querySelector('.map-panel').getBoundingClientRect().height>780")
-print('PASS: folds preserve map, bulk controls, restored state, tab/back navigation, episode screenshots, landmark popup, large lists and mobile layout.')
+print('PASS: independent small markers at all zooms, default screenshots and toggle persistence, folds preserve map, episode screenshots, popup and mobile layout.')
 ws.close()

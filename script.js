@@ -17,7 +17,6 @@ let groupViewInitialized = false;
 let panelMode = 'half';
 let detailMode = false;
 const collapsedGroups = new Set();
-let clusterLayer;
 let markerFrame = 0;
 let selectedSeries = 'all';
 let browseMode = 'popular';
@@ -25,7 +24,7 @@ let selectedRegion = null;
 let workTab = 'group';
 let selectedPlace = null;
 let favoritesOnly = false;
-let thumbnailsOn = false;
+let thumbnailsOn = true;
 const favoriteIds = new Set((() => {
   try { const saved = JSON.parse(localStorage.getItem('kdrama-favorites') || '[]'); return Array.isArray(saved) ? saved.filter(id => typeof id === 'string').map(id=>catalog.redirects?.[id]||id) : []; }
   catch { return []; }
@@ -352,50 +351,32 @@ function renderMarkers() {
 
 function updateMarkers() {
   markerFrame = 0;
-  clusterLayer.clearLayers();
   const bounds = map.getBounds().pad(.2);
   const points = visiblePlaces().filter(p => bounds.contains([p.lat, p.lng])).map(place => {
     const pixel = map.latLngToContainerPoint([place.lat, place.lng]);
     return { id: place.id, x: pixel.x, y: pixel.y, place };
   });
-  const groups = KdramaMapCore.cluster(points, map.getZoom() < 12 ? 38 : 18, selectedPlace);
-  const singles = groups.filter(g => g.items.length === 1).map(g => g.items[0]);
-  const thumbIds = thumbnailsOn && map.getZoom() >= 12
-    ? KdramaMapCore.thumbnails(singles.filter(p => (scenesByLandmark.get(p.id) || []).some(sceneImageUrl)), selectedPlace) : new Set();
+  // Every landmark keeps its own marker. Only screenshot cards avoid collisions;
+  // landmarks without room for a card remain small dots at their true coordinates.
+  const thumbIds = thumbnailsOn && (selectedSeries !== 'all' || map.getZoom() >= 12)
+    ? KdramaMapCore.thumbnails(points.filter(p => (scenesByLandmark.get(p.id) || []).some(scene => sceneImageUrl(scene))), selectedPlace) : new Set();
   const shown = new Set();
-  for (const group of groups) {
-    if (group.items.length === 1) {
-      const place = group.items[0].place, marker = markers.get(place.id);
-      const key = `${thumbIds.has(place.id)}:${selectedPlace === place.id}`;
-      if (marker._displayKey !== key) { marker.setIcon(iconFor(place, thumbIds.has(place.id))); marker._displayKey = key; }
-      if (!map.hasLayer(marker)) marker.addTo(map);
-      marker.setZIndexOffset(selectedPlace === place.id ? 1000 : 0);
-      shown.add(place.id);
-    } else {
-      const at = map.containerPointToLatLng([group.x, group.y]);
-      const marker = L.marker(at, { icon: L.divIcon({ className: 'cluster-marker', html: `<span>${group.items.length}</span>`, iconSize: [32,32], iconAnchor: [16,16] }), title: `${group.items.length} 个取景地，点击展开` });
-      marker.on('click', () => {
-        const box = document.createElement('div'); box.className = 'cluster-list';
-        const zoom = document.createElement('button'); zoom.textContent = '放大查看这一带';
-        zoom.disabled = map.getZoom() >= map.getMaxZoom();
-        zoom.onclick = () => map.fitBounds(L.latLngBounds(group.items.map(p => [p.place.lat,p.place.lng])), {maxZoom: Math.min(18,map.getZoom()+3),padding:[50,50]}); box.append(zoom);
-        for (const p of group.items) {
-          const button = document.createElement('button'); button.textContent = `${seriesById[p.place.workId].title} · ${p.place.name}`;
-          button.onclick = () => focusPlace(p.place.id); box.append(button);
-        }
-        L.popup({maxWidth:300}).setLatLng(at).setContent(box).openOn(map);
-      });
-      clusterLayer.addLayer(marker);
-    }
+  for (const point of points) {
+    const place = point.place, marker = markers.get(place.id);
+    const key = `${thumbIds.has(place.id)}:${selectedPlace === place.id}`;
+    if (marker._displayKey !== key) { marker.setIcon(iconFor(place, thumbIds.has(place.id))); marker._displayKey = key; }
+    if (!map.hasLayer(marker)) marker.addTo(map);
+    marker.setZIndexOffset(selectedPlace === place.id ? 1000 : thumbIds.has(place.id) ? 100 : 0);
+    shown.add(place.id);
   }
   markers.forEach((marker,id) => { if (!shown.has(id) && map.hasLayer(marker)) marker.remove(); });
 }
 
 function iconFor(place, thumbnail = false) {
-  const color = selectedPlace === place.id ? '#1d2a2a' : seriesById[place.workId].color;
+  const color = seriesById[place.workId].color;
   const imageScene = (scenesByLandmark.get(place.id) || []).find(scene => sceneImageUrl(scene));
   if (thumbnail && imageScene) {
-    return L.divIcon({className:'scene-thumbnail-marker',html:`<span class="thumbnail-frame" style="border-color:${safeColor(color)}"><img ${sceneImageAttrs(imageScene)} src="${escapeHtml(sceneImageUrl(imageScene))}" alt="" loading="lazy" referrerpolicy="no-referrer"></span>`,iconSize:[70,58],iconAnchor:[35,58]});
+    return L.divIcon({className:`scene-thumbnail-marker ${selectedPlace === place.id ? 'selected' : ''}`,html:`<span class="thumbnail-frame" style="border-color:${safeColor(color)}"><img ${sceneImageAttrs(imageScene)} src="${escapeHtml(sceneImageUrl(imageScene))}" alt="" loading="lazy" referrerpolicy="no-referrer"></span><span class="thumbnail-anchor" style="background:${safeColor(color)}"></span>`,iconSize:[70,50],iconAnchor:[35,50]});
   }
   return L.divIcon({className:'place-marker',html:`<span class="pin ${selectedPlace === place.id ? 'selected' : ''}" style="background:${safeColor(color)}"></span>`,iconSize:[24,24],iconAnchor:[12,12]});
 }
@@ -456,7 +437,7 @@ function syncControls() {
 function viewUrl() {
   const url = new URL(location.href), params = url.searchParams;
   params.delete('group'); // Older links used a group filter; folders now only organize the list.
-  for (const [key,value] of Object.entries({region:selectedRegion||'',browse:browseMode,tab:workTab,q:$('search').value,fav:favoritesOnly?'1':'',thumb:thumbnailsOn?'1':'',panel:panelMode,detail:detailMode?'1':'',collapsed:JSON.stringify([...collapsedGroups])})) {
+  for (const [key,value] of Object.entries({region:selectedRegion||'',browse:browseMode,tab:workTab,q:$('search').value,fav:favoritesOnly?'1':'',thumb:thumbnailsOn?'1':'0',panel:panelMode,detail:detailMode?'1':'',collapsed:JSON.stringify([...collapsedGroups])})) {
     if (value) params.set(key,value); else params.delete(key);
   }
   if (map) { const c=map.getCenter(); params.set('mLat',c.lat.toFixed(5));params.set('mLng',c.lng.toFixed(5));params.set('mZoom',String(map.getZoom())); }
@@ -480,7 +461,7 @@ function restoreView() {
   selectedRegion=Object.hasOwn(regionNames,p.get('region')) || p.get('region')==='overseas' ? p.get('region') : null;
   browseMode=['regions','recent','popular'].includes(p.get('browse'))?p.get('browse'):'popular';
   workTab=p.get('tab')==='episode'?'episode':'group'; groupViewInitialized=false;
-  favoritesOnly=p.get('fav')==='1';thumbnailsOn=p.get('thumb')==='1';
+  favoritesOnly=p.get('fav')==='1';thumbnailsOn=p.get('thumb')!=='0';
   panelMode=['collapsed','half','expanded'].includes(p.get('panel'))?p.get('panel'):'half';
   collapsedGroups.clear();try {const keys=JSON.parse(p.get('collapsed'));if(Array.isArray(keys)){groupViewInitialized=true;keys.filter(k=>typeof k==='string').slice(0,300).forEach(k=>collapsedGroups.add(k));}}catch{}
   $('search').value=p.get('q')||'';
@@ -704,7 +685,6 @@ function initMap() {
   if (!window.L || !window.KDRAMA_MAP_DATA) { $('map-fallback').hidden = false; return; }
   const geography = window.KDRAMA_MAP_DATA;
   map = L.map('map',{zoomControl:true,scrollWheelZoom:true,touchZoom:true,minZoom:2,maxZoom:18,attributionControl:false});
-  clusterLayer = L.layerGroup().addTo(map);
   map.createPane('fallbackPane').style.zIndex = 180;
   L.geoJSON(geography.neighbors,{pane:'fallbackPane',interactive:false,style:{color:'#bbc8c1',weight:1,fillColor:'#d9e0d9',fillOpacity:1}}).addTo(map);
   const regions = L.geoJSON(geography.regions,{pane:'fallbackPane',interactive:false,style:{color:'#aebfb3',weight:1.15,fillColor:'#f4f0e7',fillOpacity:1}}).addTo(map);
