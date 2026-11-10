@@ -26,6 +26,7 @@ function required(id, message) { const result = value(id); if (!result) throw ne
 function normalize(text) { return String(text || '').normalize('NFKC').toLocaleLowerCase().replace(/\s+/g, ''); }
 function optionalNumber(id, max) {
   const raw = value(id);
+  if (id === 'time-seconds') return KdramaTime.parse(raw);
   if (raw === '') return null;
   const n = Number(raw);
   if (!Number.isInteger(n) || n < (id === 'episode' ? 1 : 0) || n > max) throw new Error('集数或时间点格式不正确');
@@ -117,6 +118,7 @@ function resolveLandmark() {
   const exact = landmarkLabels.get(text);
   const matches = landmarks.filter(place => place.name === text || place.ko === text || place.id === text);
   const id = exact || (matches.length === 1 ? matches[0].id : '');
+  if (id !== $('landmark-id').value) ['correction-name','correction-group','correction-lat','correction-lng'].forEach(key => $(key).value = '');
   $('landmark-id').value = id;
   $('landmark-selection').textContent = id ? `已选择：${landmarks.find(place => place.id === id)?.name || text}` : '请从建议中选择一个已有地点。';
 }
@@ -139,6 +141,7 @@ function showStep(scroll = true) {
   $('send-button').hidden = step !== 2;
   $('form-status').textContent = '';
   updateSummary();
+  window.KdramaPickMap.sync();
   if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function updateSummary() {
@@ -173,6 +176,8 @@ function validateCurrentStep(atStep = step) {
   }
 }
 function collect() {
+  if (!KdramaImages.ready()) throw Error('图片草稿正在恢复，请稍后提交。');
+  if (KdramaImages.missing().length) throw Error('有图片草稿尚未恢复，请重新选择缺少的图片，或点击“移除草稿图片提醒”后继续。');
   if (value('website')) throw new Error('请刷新后重试。');
   validateCurrentStep(0); validateCurrentStep(1);
   const kind = value('kind');
@@ -230,6 +235,7 @@ function issueBody(payload) {
   return body;
 }
 function updateImageRights() {
+  if (KdramaImages.ready()) { restoredFiles.image = KdramaImages.missing().join('、'); updateFileNotice(); }
   const posterActive = value('kind') === 'place' && value('work-id') === 'new';
   $('image-rights').hidden = !KdramaImages.files().length && !(posterActive && $('poster').files[0]);
 }
@@ -238,9 +244,9 @@ function updateFileNotice() {
   $('draft-file-notice').hidden = pending.length === 0;
   $('draft-file-notice').replaceChildren();
   if (pending.length) {
-    $('draft-file-notice').append(document.createTextNode(`草稿已记录文件名，但图片没有上传或保存在草稿中，请重新选择。${pending.join('；')}。 `));
+    $('draft-file-notice').append(document.createTextNode(`草稿已记录文件名。图片副本正在恢复或未找到时，请检查图片列表并重新选择缺少的文件。${pending.join('；')}。 `));
     const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'text-button'; remove.textContent = '移除草稿图片提醒';
-    remove.addEventListener('click', () => { restoredFiles = {}; updateFileNotice(); saveDraft(); });
+    remove.addEventListener('click', () => { restoredFiles = {}; KdramaImages.discardMissing(); updateFileNotice(); saveDraft(); });
     $('draft-file-notice').append(remove);
   }
 }
@@ -251,7 +257,7 @@ function saveDraft() {
   const files = { image: KdramaImages.files().map(f=>f.name).join('、') || restoredFiles.image || '', poster: $('poster').files[0]?.name || restoredFiles.poster || '' };
   try {
     localStorage.setItem(draftKey, JSON.stringify({version:2, fields, files, scenes:KdramaImages.draft(), step, savedAt:Date.now()}));
-    $('draft-status').textContent = '文字草稿已保存在当前浏览器。';
+    $('draft-status').textContent = '草稿已保存在当前浏览器。';
     $('restore-draft').hidden = true;
   } catch { $('draft-status').textContent = '当前浏览器无法保存草稿，请保留此页面。'; }
 }
@@ -269,7 +275,7 @@ function restoreDraft(draft) {
   $('rights-confirmed').checked = false;
   step = Number.isInteger(draft.step) ? Math.max(0,Math.min(2,draft.step)) : 0;
   showKind(); showStep(false);
-  $('draft-status').textContent = '已恢复文字草稿；有图片时请重新选择。';
+  $('draft-status').textContent = '已恢复文字草稿，正在检查本机图片副本；作品海报需重新选择。';
   $('restore-draft').hidden = true;
   return true;
 }
@@ -353,7 +359,7 @@ function init() {
     $('lat').value = params.get('lat') ?? '';
     $('lng').value = params.get('lng') ?? '';
     showKind(); showStep(false);
-    $('draft-status').textContent = hasContext && savedDraft ? '已带入地图位置。当前浏览器还有一份草稿，恢复后会替换当前表单。' : '填写后会自动保存文字草稿，图片需重新选择。';
+    $('draft-status').textContent = hasContext && savedDraft ? '已带入地图位置。当前浏览器还有一份草稿，恢复后会替换当前表单。' : '填写后自动保存文字与场景图片草稿；作品海报下次打开需重新选择。';
     $('restore-draft').hidden = !savedDraft;
   }
   try { $('issue-number').value = localStorage.getItem(progressKey) || ''; } catch {}
@@ -382,7 +388,8 @@ $('kind').addEventListener('change', showKind);
 $('landmark-search').addEventListener('input', resolveLandmark);
 $('image').addEventListener('change', () => {
   try {KdramaImages.select([...$('image').files]);delete restoredFiles.image;$('form-status').textContent='';}
-  catch(error){$('form-status').textContent=error.message;$('image').value='';KdramaImages.clear();}
+  catch(error){$('form-status').textContent=error.message;}
+  $('image').value='';
   updateImageRights();updateFileNotice();saveDraft();
 });
 $('poster').addEventListener('change', () => { delete restoredFiles.poster; updateImageRights(); updateFileNotice(); saveDraft(); });
@@ -422,6 +429,7 @@ $('submission-form').addEventListener('submit', event => {
     $('success-panel').scrollIntoView({behavior:'smooth', block:'start'});
   } catch (error) { $('form-status').textContent = error.message; }
 });
+document.addEventListener('submission-images-restored',()=>{restoredFiles.image=KdramaImages.missing().join('、');updateFileNotice();updateImageRights();updateSummary();});
 init();
 $('submission-form').addEventListener('input', () => { $('success-panel').hidden = true; draftDirty = true; updateSummary(); clearTimeout(saveTimer); saveTimer = setTimeout(saveDraft, 350); });
 $('submission-form').addEventListener('change', () => { $('success-panel').hidden = true; updateSummary(); updateImageRights(); saveDraft(); });

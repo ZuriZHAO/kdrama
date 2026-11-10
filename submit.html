@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>投稿取景地 · 剧场之外</title>
-  <link rel="stylesheet" href="./submit.css?v=10" />
+  <link rel="stylesheet" href="./submit.css?v=11" />
+<link rel="stylesheet" href="vendor/leaflet.css"><link rel="stylesheet" href="vendor/maplibre-gl.css">
 <script src="./image-fallback.js?v=1" defer></script></head>
 <body>
   <main class="page">
@@ -51,7 +52,7 @@
         <div id="place-fields">
           <label>地点名称<input id="place-name" maxlength="120" placeholder="例如：绿莎坪人行天桥" /></label>
           <label>地点分组（可选）<input id="place-group" maxlength="100" placeholder="例如：南山塔；留空则归入未分组" /></label>
-          <p class="hint">先在<a href="./index.html">地图上点击位置</a>，坐标会自动填入；也可以在下面修改。暂不确定精确机位也可以投稿。</p>
+          <p class="hint">在下方地图点击选点或拖动蓝色标记，也可直接填写全球经纬度。</p>
           <div class="two"><label>纬度<input id="lat" type="number" step="any" inputmode="decimal" /></label><label>经度<input id="lng" type="number" step="any" inputmode="decimal" /></label></div>
         </div>
         <div id="scene-fields"><label><span id="scene-label">剧中的场景</span><textarea id="description" maxlength="800" rows="3" placeholder="谁在这里发生了什么？"></textarea></label></div>
@@ -61,18 +62,19 @@
           <label>地点分组更正（可选）<input id="correction-group" maxlength="100" placeholder="例如：南山塔" /></label>
           <div class="two"><label>纬度更正（可选）<input id="correction-lat" type="number" step="any" /></label><label>经度更正（可选）<input id="correction-lng" type="number" step="any" /></label></div>
         </div>
+        <div class="pick-map-panel"><p class="hint">点击地图或拖动蓝色标记调整位置；填写经纬度也会同步到地图。</p><div id="submission-map" aria-label="投稿选点地图"></div><div class="pick-legend"><span id="pick-original-label" hidden>灰色：原位置</span><span id="pick-proposed-label">蓝色：投稿位置</span></div><button id="pick-reset" class="text-button" type="button" hidden>撤销坐标更正</button><p id="pick-map-status" class="hint" role="status"></p></div>
       </section>
 
       <section class="step-panel" data-step="2" hidden>
         <div id="scene-details">
-          <div class="two"><label>集数（可选）<input id="episode" type="number" min="1" max="1000" /></label><label>播放时间，秒（可选）<input id="time-seconds" type="number" min="0" max="100000" /></label></div>
+          <div class="two"><label>集数（可选）<input id="episode" type="number" min="1" max="1000" /></label><label>播放时间（分:秒或秒数，可选）<input id="time-seconds" type="text" placeholder="12:34" /></label></div>
         </div>
         <label>资料来源链接（可选）<input id="source-url" type="url" maxlength="1000" placeholder="https://..." /></label>
         <label>来源名称（可选）<input id="source-title" maxlength="160" placeholder="例如：韩国观光公社" /></label>
         <p class="hint">不确定来源可以留空；审核时会按资料情况标注。</p>
         <div id="image-fields">
-          <label>场景图片（可选，最多 12 张）<input id="image" type="file" multiple accept="image/jpeg,image/png,image/webp" /></label>
-          <div id="multi-images"></div><figure id="image-preview" class="image-preview" hidden><div class="image-preview-frame"><img id="image-preview-img" alt="场景图片地图卡片裁剪预览" /></div><figcaption>地图地点卡片中的裁剪预览</figcaption></figure>
+          <div id="image-dropzone" class="image-dropzone"><label>追加场景图片（可选，最多 12 张）<input id="image" type="file" multiple accept="image/jpeg,image/png,image/webp" /></label>
+          <p class="hint">可连续选图、拖入文件，或在此步骤粘贴截图。支持 JPG / PNG / WebP，每张不超过 5 MB。文件名如 scene_00.12.34.jpg 会自动填入时间，可修改。上下移动可调整 GitHub 附图顺序。</p></div><p id="image-draft-status" class="hint">图片副本仅保存于当前浏览器，最终仍需在 GitHub 附图。</p><div id="multi-images"></div><figure id="image-preview" class="image-preview" hidden><div class="image-preview-frame"><img id="image-preview-img" alt="场景图片地图卡片裁剪预览" /></div><figcaption>地图地点卡片中的裁剪预览</figcaption></figure>
           <div id="image-rights" hidden>
             <label>图片署名（可选）<input id="image-credit" maxlength="160" placeholder="作者或授权方" /></label>
             <label class="check"><input id="rights-confirmed" type="checkbox" />我有权允许本站展示这些图片</label>
@@ -109,6 +111,7 @@
   <script src="./site-config.js?v=3"></script>
   <script src="./data/catalog.js?v=14"></script>
   <script src="./submission-core.js?v=3"></script>
-  <script src="./submission-images.js?v=1"></script><script src="./submit.js?v=13"></script>
+  <script src="vendor/leaflet.js"></script><script src="vendor/maplibre-gl.js"></script><script src="vendor/leaflet-maplibre-gl.js"></script><script src="data/korea-map.js"></script>
+  <script src="./submission-time.js?v=1"></script><script src="./submission-map.js?v=1"></script><script src="./submission-images.js?v=2"></script><script src="./submit.js?v=14"></script>
 </body>
 </html>

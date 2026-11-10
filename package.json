@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Static map and publication tools",
   "scripts": {
-    "test": "node tools/test-map-core.cjs && node tools/test-maintenance.cjs && node tools/test-flow.cjs && node tools/test-submission-core.cjs && node tools/test-publication-status.cjs && node tools/test-multi-scenes.cjs && node tools/test-media.cjs && node tools/test-personal.cjs",
+    "test": "node tools/test-map-core.cjs && node tools/test-maintenance.cjs && node tools/test-flow.cjs && node tools/test-submission-core.cjs && node tools/test-publication-status.cjs && node tools/test-multi-scenes.cjs && node tools/test-media.cjs && node tools/test-personal.cjs && node tools/test-submission-tools.cjs",
     "build": "node tools/build-site.cjs"
   },
   "dependencies": { "sharp": "0.35.4" }

@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict');
+const time=require('../submission-time.js');
+assert.equal(time.parse('12:34'),754);
+assert.equal(time.parse('01:12:34'),4354);
+assert.equal(time.parse('754'),754);
+assert.equal(time.parse(''),null);
+for(const invalid of ['12:60','1:99:00','-1','1.5','1:2','100001','abc'])assert.throws(()=>time.parse(invalid));
+assert.equal(time.filename('scene_00.12.34.jpg'),754);
+assert.equal(time.filename('shot_01-12-34.png'),4354);
+assert.equal(time.filename('shot_12:34.webp'),754);
+for(const name of ['poster.jpg','2026-11-10.png','episode_12_34.jpg','shot_00.99.10.jpg'])assert.equal(time.filename(name),null);
+console.log('Submission timestamp formats, filename detection and invalid inputs passed.');

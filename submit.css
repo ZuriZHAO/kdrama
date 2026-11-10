@@ -73,3 +73,10 @@ input:focus,select:focus,textarea:focus { outline:2px solid #315f7826; border-co
 #multi-images .image-preview-frame {aspect-ratio:125/64;width:100%;overflow:hidden;}
 #multi-images .image-preview-frame img {width:100%;height:100%;object-fit:cover;}
 .image-unavailable {background:#edf1f0;color:#78898e;min-height:45px;}
+
+/* Submission picking and attachment tools */
+#submission-map{height:340px;border-radius:12px;isolation:isolate;background:#e8eff0}
+.pick-map-panel{margin:18px 0}.pick-legend,.image-actions{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0;font-size:13px}.pick-legend span:first-child{color:#697680}.pick-legend span:last-child{color:#126ecb}
+.pick-marker span{display:block;width:100%;height:100%;border:3px solid #fff;border-radius:50%;box-shadow:0 1px 6px #0008;background:#1680df;box-sizing:border-box}.pick-marker.original span{background:#626b78;transform:scale(1.4)}
+.image-dropzone{border:2px dashed #bbc6d2;border-radius:12px;padding:14px;background:#fafcfe}.image-dropzone.dragover{border-color:#1680df;background:#eef7ff}.image-actions button{padding:6px 12px}.manage-order-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #eee}.manage-order-row span{flex:1}.manage-order-row button{padding:5px 9px}.manage-group-heading{display:flex;align-items:center;gap:8px;margin-top:18px}.manage-group-heading strong{flex:1}
+@media(max-width:600px){#submission-map{height:280px}.manage-order-row{flex-wrap:wrap}.manage-order-row span{flex-basis:100%}}
