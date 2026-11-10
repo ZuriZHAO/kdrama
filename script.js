@@ -13,7 +13,7 @@ const $ = (id) => document.getElementById(id);
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const safeColor = value => /^#[0-9a-f]{6}$/i.test(value || '') ? value : '#617d8d';
 let restoringView = false;
-let selectedGroup = '';
+let groupViewInitialized = false;
 let panelMode = 'half';
 let detailMode = false;
 const collapsedGroups = new Set();
@@ -80,9 +80,9 @@ function textMatches(place, term) {
   return [place.name,place.ko,place.city,place.address,work.title,work.original,work.year,...(work.aliases || []),...scenes.map(scene => scene.description)].join(' ').toLocaleLowerCase().includes(term);
 }
 
-function visiblePlaces(includeAllGroups = false) {
+function visiblePlaces() {
   const term = $('search').value.trim().toLocaleLowerCase();
-  return places.filter(p => (selectedSeries === 'all' || p.workId === selectedSeries) && (!selectedRegion || regionByPlace.get(p.id) === selectedRegion) && (!favoritesOnly || favoriteIds.has(p.id)) && (!term || textMatches(p,term)) && (includeAllGroups || !selectedGroup || KdramaMapCore.groupKeys(p, scenesByLandmark.get(p.id) || [], workTab).includes(selectedGroup)));
+  return places.filter(p => (selectedSeries === 'all' || p.workId === selectedSeries) && (!selectedRegion || regionByPlace.get(p.id) === selectedRegion) && (!favoritesOnly || favoriteIds.has(p.id)) && (!term || textMatches(p,term)));
 }
 
 function visibleWorks() {
@@ -250,7 +250,6 @@ const workType = (work) => ['movie', 'variety'].includes(work.type) ? work.type 
 
 function renderList() {
   const showingWorks = selectedSeries === 'all';
-  if (showingWorks) $('group-reset').hidden = true;
   $('result-count').hidden = showingWorks;
   $('back-to-works').hidden = showingWorks;
   $('browse-tabs').hidden = !showingWorks;
@@ -268,7 +267,7 @@ function renderList() {
         const count = places.filter(place => regionByPlace.get(place.id) === id).length;
         return `<button type="button" class="region-card" data-region="${escapeHtml(id)}"><span>${escapeHtml(regionNames[id] || '韩国境外')}</span><small>${count}取景地</small></button>`;
       }).join('');
-      $('place-list').querySelectorAll('[data-region]').forEach(button => button.addEventListener('click', () => { selectedRegion = button.dataset.region; selectedGroup = ''; render(); fitVisible(); saveView(true); }));
+      $('place-list').querySelectorAll('[data-region]').forEach(button => button.addEventListener('click', () => { selectedRegion = button.dataset.region; render(); fitVisible(); saveView(true); }));
       return;
     }
     let filtered = visibleWorks();
@@ -285,7 +284,7 @@ function renderList() {
     $('place-list').querySelectorAll('[data-work]').forEach(button => button.addEventListener('click', () => selectWork(button.dataset.work)));
     return;
   }
-  const filtered = visiblePlaces(true).sort((a,b)=>(a.order??100000)-(b.order??100000));
+  const filtered = visiblePlaces().sort((a,b)=>(a.order??100000)-(b.order??100000));
   $('result-count').textContent = `${filtered.length} 处`;
   const groups = new Map();
   for (const place of filtered) {
@@ -293,30 +292,44 @@ function renderList() {
     const keys = KdramaMapCore.groupKeys(place, scenes, workTab);
     for (const key of keys.length ? keys : ['未分组']) { if (!groups.has(key)) groups.set(key, []); groups.get(key).push(place); }
   }
-  if (selectedGroup && !groups.has(selectedGroup)) selectedGroup = '';
-  $('group-reset').hidden = !selectedGroup;
-  $('group-reset').textContent = selectedGroup ? `正在查看：${selectedGroup} · 显示全部` : '';
   const entries = [...groups].sort((a,b) => {
     if(a[0]==='未分组')return 1;
     if(b[0]==='未分组')return -1;
-    if(workTab==='episode')return Number(a[0].match(/\d+/)?.[0]||0)-Number(b[0].match(/\d+/)?.[0]||0);
-    return Math.min(...a[1].map(p=>p.order??100000))-Math.min(...b[1].map(p=>p.order??100000)) || a[0].localeCompare(b[0],'zh');
+    if(workTab==='episode') {
+      const aNumber=a[0].match(/^第 (\d+) 集$/), bNumber=b[0].match(/^第 (\d+) 集$/);
+      return aNumber && bNumber ? Number(aNumber[1])-Number(bNumber[1]) : aNumber ? -1 : bNumber ? 1 : a[0].localeCompare(b[0],'zh');
+    }
+    return Math.min(...a[1].map(p=>p.order??100000))-Math.min(...b[1].map(p=>p.order??100000));
   });
-  $('place-list').innerHTML = entries.length ? entries.map(([heading, items]) => `<section class="place-group"><div class="group-heading"><button type="button" data-collapse="${escapeHtml(heading)}" aria-expanded="${!collapsedGroups.has(heading)}" aria-label="折叠或展开${escapeHtml(heading)}">${collapsedGroups.has(heading) ? "▸" : "▾"}</button><button type="button" data-group="${escapeHtml(heading)}" aria-pressed="${selectedGroup === heading}">${escapeHtml(heading)} <small>${items.length}</small></button></div><div ${collapsedGroups.has(heading) ? "hidden" : ""}>${items.map(place => {
-    const firstScene = (scenesByLandmark.get(place.id) || []).find(scene=>sceneImageUrl(scene));
+  if (!groupViewInitialized) {
+    collapsedGroups.clear();
+    if (filtered.length >= 100) entries.slice(1).forEach(([key]) => collapsedGroups.add(key));
+    groupViewInitialized = true;
+  }
+  $('collapse-groups').disabled = !entries.some(([key]) => !collapsedGroups.has(key));
+  $('expand-groups').disabled = !entries.some(([key]) => collapsedGroups.has(key));
+  $('place-list').innerHTML = entries.length ? entries.map(([heading, items], index) => `<section class="place-group"><button class="group-heading" type="button" data-collapse="${escapeHtml(heading)}" aria-expanded="${!collapsedGroups.has(heading)}" aria-controls="place-group-${index}"><span class="group-chevron" aria-hidden="true">${collapsedGroups.has(heading) ? "▸" : "▾"}</span><span class="group-name">${escapeHtml(heading)}</span><small>${items.length}</small></button><div id="place-group-${index}" ${collapsedGroups.has(heading) ? "hidden" : ""}>${items.map(place => {
+    const firstScene = (scenesByLandmark.get(place.id) || []).find(scene=>sceneImageUrl(scene) && (workTab !== 'episode' || KdramaMapCore.groupKeys(place, [scene], 'episode').includes(heading)));
     const firstImage = firstScene && sceneImageUrl(firstScene);
     return `<button type="button" class="place-card ${selectedPlace === place.id ? 'active' : ''}" data-place="${escapeHtml(place.id)}" aria-label="查看${escapeHtml(place.name)}详情，${coordinateLabel(place)}">${firstImage ? `<img class="place-card-image" ${sceneImageAttrs(firstScene)} src="${escapeHtml(firstImage)}" alt="${escapeHtml(place.name)}场景截图" loading="lazy" referrerpolicy="no-referrer">` : ''}<span class="card-main">${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}<span class="card-title">${escapeHtml(place.name)}</span><span class="card-sub">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</span></span></button>`;
   }).join('')}</div></section>`).join('') : '<div class="empty-state">这部作品还没有地点，欢迎投稿。</div>';
-  $('place-list').querySelectorAll('[data-group]').forEach(button => button.addEventListener('click', () => { selectedGroup = selectedGroup === button.dataset.group ? '' : button.dataset.group; selectedPlace = null; map?.closePopup(); render(); fitVisible(); saveView(true); }));
-  $('place-list').querySelectorAll('[data-collapse]').forEach(button => button.addEventListener('click', () => { const key = button.dataset.collapse; if (collapsedGroups.has(key)) collapsedGroups.delete(key); else collapsedGroups.add(key); renderList(); saveView(); }));
-  $('place-list').querySelectorAll('[data-place]').forEach(button => button.addEventListener('click', () => openPlace(button.dataset.place)));
+  $('place-list').querySelectorAll('[data-collapse]').forEach(button => button.addEventListener('click', () => {
+    const key = button.dataset.collapse;
+    if (collapsedGroups.has(key)) collapsedGroups.delete(key); else collapsedGroups.add(key);
+    const scrollTop = $('place-list').scrollTop;
+    renderList();
+    [...$('place-list').querySelectorAll('[data-collapse]')].find(item => item.dataset.collapse === key)?.focus({preventScroll:true});
+    $('place-list').scrollTop = scrollTop;
+    saveView();
+  }));
+  $('place-list').querySelectorAll('[data-place]').forEach(button => button.addEventListener('click', () => focusPlace(button.dataset.place)));
 }
 
 function safePosterUrl(value) { return typeof value === 'string' && (/^https:\/\//.test(value) || /^\.\/assets\//.test(value)) ? value : ''; }
 
 function selectWork(id) {
   if (!seriesById[id]) return;
-  selectedSeries = id; selectedGroup = ''; selectedPlace = null; collapsedGroups.clear(); hideDetail(); map?.closePopup();
+  selectedSeries = id; groupViewInitialized = false; selectedPlace = null; collapsedGroups.clear(); hideDetail(); map?.closePopup();
   $('search').value = '';
   render();
   fitVisible();
@@ -324,7 +337,7 @@ function selectWork(id) {
 }
 
 function showAllWorks() {
-  selectedSeries = 'all'; selectedRegion = null; selectedGroup = ''; selectedPlace = null; collapsedGroups.clear(); hideDetail(); map?.closePopup();
+  selectedSeries = 'all'; selectedRegion = null; groupViewInitialized = false; selectedPlace = null; collapsedGroups.clear(); hideDetail(); map?.closePopup();
   $('search').value = '';
   render();
   fitVisible();
@@ -389,11 +402,11 @@ function iconFor(place, thumbnail = false) {
 
 function focusPlace(id, record = true) {
   const place = placesById[id]; if (!place) return;
-  if (selectedSeries !== place.workId) { selectedSeries = place.workId; selectedGroup = ''; collapsedGroups.clear(); }
+  if (selectedSeries !== place.workId) { selectedSeries = place.workId; groupViewInitialized = false; collapsedGroups.clear(); }
   if (selectedRegion && regionByPlace.get(id) !== selectedRegion) selectedRegion = null;
-  if (selectedGroup && !KdramaMapCore.groupKeys(place, scenesByLandmark.get(id)||[],workTab).includes(selectedGroup)) selectedGroup = '';
   if (favoritesOnly && !favoriteIds.has(id)) favoritesOnly = false;
   $('search').value = ''; selectedPlace = id;
+  renderList(); // Initialize default folds before revealing a selected landmark.
   for (const key of KdramaMapCore.groupKeys(place, scenesByLandmark.get(id)||[],workTab)) collapsedGroups.delete(key);
   hideDetail(); render(); syncControls();
   if (map) {
@@ -442,7 +455,8 @@ function syncControls() {
 }
 function viewUrl() {
   const url = new URL(location.href), params = url.searchParams;
-  for (const [key,value] of Object.entries({region:selectedRegion||'',browse:browseMode,tab:workTab,group:selectedGroup,q:$('search').value,fav:favoritesOnly?'1':'',thumb:thumbnailsOn?'1':'',panel:panelMode,detail:detailMode?'1':'',collapsed:JSON.stringify([...collapsedGroups])})) {
+  params.delete('group'); // Older links used a group filter; folders now only organize the list.
+  for (const [key,value] of Object.entries({region:selectedRegion||'',browse:browseMode,tab:workTab,q:$('search').value,fav:favoritesOnly?'1':'',thumb:thumbnailsOn?'1':'',panel:panelMode,detail:detailMode?'1':'',collapsed:JSON.stringify([...collapsedGroups])})) {
     if (value) params.set(key,value); else params.delete(key);
   }
   if (map) { const c=map.getCenter(); params.set('mLat',c.lat.toFixed(5));params.set('mLng',c.lng.toFixed(5));params.set('mZoom',String(map.getZoom())); }
@@ -465,10 +479,10 @@ function restoreView() {
   if (match?.[1]==='place' && placesById[match[2]]) {selectedPlace=match[2];selectedSeries=placesById[selectedPlace].workId;}
   selectedRegion=Object.hasOwn(regionNames,p.get('region')) || p.get('region')==='overseas' ? p.get('region') : null;
   browseMode=['regions','recent','popular'].includes(p.get('browse'))?p.get('browse'):'popular';
-  workTab=p.get('tab')==='episode'?'episode':'group'; selectedGroup=p.get('group')||'';
+  workTab=p.get('tab')==='episode'?'episode':'group'; groupViewInitialized=false;
   favoritesOnly=p.get('fav')==='1';thumbnailsOn=p.get('thumb')==='1';
   panelMode=['collapsed','half','expanded'].includes(p.get('panel'))?p.get('panel'):'half';
-  collapsedGroups.clear();try {const keys=JSON.parse(p.get('collapsed')||'[]');if(Array.isArray(keys))keys.filter(k=>typeof k==='string').slice(0,300).forEach(k=>collapsedGroups.add(k));}catch{}
+  collapsedGroups.clear();try {const keys=JSON.parse(p.get('collapsed'));if(Array.isArray(keys)){groupViewInitialized=true;keys.filter(k=>typeof k==='string').slice(0,300).forEach(k=>collapsedGroups.add(k));}}catch{}
   $('search').value=p.get('q')||'';
   syncControls();render();
   const lat=Number(p.get('mLat')),lng=Number(p.get('mLng')),zoom=Number(p.get('mZoom'));
@@ -559,7 +573,6 @@ function openPlace(id) {
     $('search').value = '';
   }
   if (selectedRegion && regionByPlace.get(id) !== selectedRegion) selectedRegion = null;
-  if (selectedGroup && !KdramaMapCore.groupKeys(place, scenesByLandmark.get(id)||[], workTab).includes(selectedGroup)) selectedGroup = '';
   if (favoritesOnly && !favoriteIds.has(id)) favoritesOnly = false;
   selectedPlace = id;
   detailMode = true;
@@ -725,9 +738,12 @@ function initMap() {
 
 let searchTimer;
 $('search').addEventListener('focus', () => { history.pushState(null,'',location.href); });
-$('search').addEventListener('input', () => {clearTimeout(searchTimer);searchTimer=setTimeout(() => {selectedGroup='';selectedPlace=null;render();fitVisible();saveView();},200);});
-document.querySelectorAll('[data-browse]').forEach(button => button.addEventListener('click', () => { browseMode = button.dataset.browse; selectedRegion = null; selectedSeries = 'all'; selectedPlace=null; selectedGroup='';hideDetail(); map?.closePopup();render();fitVisible();saveView(true); }));
-document.querySelectorAll('[data-work-tab]').forEach(button => button.addEventListener('click', () => { workTab = button.dataset.workTab; selectedGroup='';collapsedGroups.clear();render();fitVisible();saveView(true); }));
+$('search').addEventListener('input', () => {clearTimeout(searchTimer);searchTimer=setTimeout(() => {selectedPlace=null;render();fitVisible();saveView();},200);});
+document.querySelectorAll('[data-browse]').forEach(button => button.addEventListener('click', () => { browseMode = button.dataset.browse; selectedRegion = null; selectedSeries = 'all'; selectedPlace=null; groupViewInitialized=false;hideDetail(); map?.closePopup();render();fitVisible();saveView(true); }));
+document.querySelectorAll('[data-work-tab]').forEach(button => button.addEventListener('click', () => {
+  if (workTab === button.dataset.workTab) return;
+  workTab = button.dataset.workTab; groupViewInitialized=false; collapsedGroups.clear();renderList();saveView(true);
+}));
 $('favorites-filter').addEventListener('click', () => {
   favoritesOnly = !favoritesOnly;
   $('favorites-filter').setAttribute('aria-pressed', String(favoritesOnly));
@@ -756,7 +772,10 @@ $('next-image').addEventListener('click', () => { galleryIndex += 1; showGallery
 $('image-dialog').addEventListener('click', event => { if (event.target === $('image-dialog')) $('image-dialog').close(); });
 $('detail-overlay').addEventListener('click',e => {if(e.target.dataset.close) closePlace();});
 document.addEventListener('keydown',e => {if(e.key === 'Escape' && !$('image-dialog').open && !$('detail-overlay').hidden) closePlace();});
-$('group-reset').addEventListener('click',()=>{selectedGroup='';render();fitVisible();saveView(true);});
+for (const [id, collapse] of [['collapse-groups',true],['expand-groups',false]]) $(id).addEventListener('click',()=>{
+  $('place-list').querySelectorAll('[data-collapse]').forEach(button=>{if(collapse)collapsedGroups.add(button.dataset.collapse);else collapsedGroups.delete(button.dataset.collapse);});
+  renderList();saveView();
+});
 document.querySelectorAll('[data-panel-mode]').forEach(b=>b.addEventListener('click',()=>{panelMode=b.dataset.panelMode;syncControls();map?.invalidateSize({pan:false});renderMarkers();saveView(true);}));
 $('detail-collapse').addEventListener('click',closePlace);
 document.querySelector('.brand').addEventListener('click',event=>{event.preventDefault();showAllWorks();});

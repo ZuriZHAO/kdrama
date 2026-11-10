@@ -8,7 +8,7 @@
   <title>剧场之外 · 韩国影视综艺取景地地图</title>
   <link rel="stylesheet" href="./vendor/leaflet.css" />
   <link rel="stylesheet" href="./vendor/maplibre-gl.css" />
-  <link rel="stylesheet" href="./styles.css?v=24" />
+  <link rel="stylesheet" href="./styles.css?v=25" />
 <script src="./image-fallback.js?v=1" defer></script></head>
 <body>
   <main id="explore" class="map-app">
@@ -26,8 +26,8 @@
       <label class="searchbox"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 5 5"></path></svg><input id="search" type="search" placeholder="搜索作品、地点或城市" autocomplete="off" aria-label="搜索作品、地点或城市" /></label>
       <nav id="browse-tabs" class="sidebar-tabs" aria-label="浏览作品"><button type="button" data-browse="regions">地区</button><button type="button" data-browse="recent">近期更新</button><button type="button" data-browse="popular">热门作品</button></nav>
       <div class="list-heading"><button id="back-to-works" class="back-to-works" type="button" hidden>← 全部作品</button><span id="list-title">作品</span><button id="favorites-filter" class="favorites-filter" type="button" aria-pressed="false">☆ 收藏</button><span id="result-count" hidden></span></div>
-      <nav id="work-tabs" class="sidebar-tabs" aria-label="作品地点分类" hidden><button type="button" data-work-tab="group">分组</button><button type="button" data-work-tab="episode">集数</button></nav>
-      <button type="button" id="group-reset" class="group-reset" hidden></button><div id="place-list" class="place-list" aria-live="polite"></div>
+      <nav id="work-tabs" class="sidebar-tabs" aria-label="作品地点分类" hidden><button type="button" data-work-tab="group">分组</button><button type="button" data-work-tab="episode">集数</button><span class="group-actions"><button id="collapse-groups" type="button" aria-label="折叠所有分组">折叠</button><button id="expand-groups" type="button" aria-label="展开所有分组">展开</button></span></nav>
+      <div id="place-list" class="place-list" aria-live="polite"></div>
     </aside>
   </main>
 
@@ -41,6 +41,6 @@
   <script src="./data/korea-map.js"></script>
   <script src="./data/catalog.js?v=14"></script>
   <script src="./site-config.js?v=3"></script>
-  <script src="./map-core.js?v=1"></script><script src="./boot.js?v=9"></script>
+  <script src="./map-core.js?v=1"></script><script src="./boot.js?v=10"></script>
 </body>
 </html>
