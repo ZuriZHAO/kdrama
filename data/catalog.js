@@ -208,6 +208,7 @@ window.KDRAMA_CATALOG = {
     { id: 'osm-jeonggwan-deoksan', title: 'OpenStreetMap · 正官邑 정관덕산길', url: 'https://www.openstreetmap.org/way/777650261' },
     { id: 'osm-jayupyeonghwa', title: 'OpenStreetMap · 釜山镇区 자유평화로', url: 'https://www.openstreetmap.org/way/1355110407' },
     { id: 'osm-deungdae', title: 'OpenStreetMap · 西区 등대로', url: 'https://www.openstreetmap.org/way/561994975' },
+    { id: 'xhs-ctl', title: '小红书 · 《爱情怎么翻译？》三国取景地清单', url: 'https://www.xiaohongshu.com/explore/6978883c000000000b00bb79' },
   ],
 
   // coordinateStatus: approximate = 附近示意点；venue = 已核实景点点位；camera = 已核实拍摄机位。
@@ -1144,6 +1145,321 @@ window.KDRAMA_CATALOG = {
       address: '부산광역시 서구 등대로 27', query: '윈덤 그랜드 부산', kind: 'other', sourceId: 'xhs-lid',
       visit: '松岛海滨的五星级酒店；非住客请留在大堂等公共区域，拍摄前先询问前台。'
     },
+    {
+      id: 'ctl-gokurakuji', workId: 'can-this-love-be-translated', name: '极乐寺站', ko: '極楽寺駅', city: '镰仓 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.3093646, lng: 139.5287947, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「極楽寺」车站节点（N263260790）；站台与剧中机位未定位。',
+      address: '3-chōme-7 Gokurakuji, Kamakura, Kanagawa 248-0023', query: '極楽寺駅', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '江之电的无人小站，月台狭窄，拍照请让出通道。'
+    },
+    {
+      id: 'ctl-shichirigahama', workId: 'can-this-love-be-translated', name: '七里滨站', ko: '七里ヶ浜駅', city: '镰仓 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.3059998, lng: 139.5107967, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「七里ヶ浜駅」公交站节点（N9896132783），在车站西侧约 200 米；站台与餐厅入口未定位。',
+      address: '2 Chome-1-12 Shichirigahamahigashi, Kamakura, Kanagawa 248-0025', query: '七里ヶ浜駅', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '车站与海边步行可达；海岸风大，注意来往车辆。'
+    },
+    {
+      id: 'ctl-inamuragasaki', workId: 'can-this-love-be-translated', name: '稻村崎海岸 · 镰仓海滨公园', ko: '稲村ヶ崎', city: '镰仓 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.3042536, lng: 139.5221846, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「稲村ヶ崎」车站节点（N263260870）；海滨公园与电车窗景机位未定位。',
+      address: '1 Chome-19 Inamuragasaki, Kamakura, Kanagawa 248-0024', query: '稲村ヶ崎', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '海边与公园为开放空间，日落时段人多。'
+    },
+    {
+      id: 'ctl-goryo-shrine', workId: 'can-this-love-be-translated', name: '御灵神社', ko: '御霊神社', city: '镰仓 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.3109923, lng: 139.5327888, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「御霊神社」神社面要素代表点（W390566748）；参道与平交道机位未定位。',
+      address: '4-9 Sakanoshita, Kamakura, Kanagawa 248-0021', query: '御霊神社 鎌倉', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '神社为宗教场所，参道狭窄，请保持安静。'
+    },
+    {
+      id: 'ctl-tanaka-barber', workId: 'can-this-love-be-translated', name: 'Tanaka 理容店', ko: 'タナカ理容店', city: '镰仓 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.3086712, lng: 139.5331753, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '店面无独立坐标，取开放地图「坂ノ下」街区节点（N1800203464）；门牌 2-12 与店面入口待现场核对。',
+      address: '2-12 Sakanoshita, Kamakura, Kanagawa 248-0021', query: 'タナカ理容店 坂ノ下', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '现役理容店，勿进入店内或在门口久留。'
+    },
+    {
+      id: 'ctl-kamakurakokomae', workId: 'can-this-love-be-translated', name: '镰仓高校前站平交道口', ko: '鎌倉高校前駅', city: '镰仓 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.30672, lng: 139.50071, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「鎌倉高校前」车站节点（N8063964899）；道口机位在车站南侧，未精确定位。',
+      address: '1-chōme-1 Koshigoe, Kamakura, Kanagawa', query: '鎌倉高校前駅', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '道口是居民与通学路线，拍照请勿站到车道。'
+    },
+    {
+      id: 'ctl-tenzan-lab', workId: 'can-this-love-be-translated', name: 'tenzan lab.（江之岛）', ko: 'tenzan lab.', city: '藤泽 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.3000475, lng: 139.4822889, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '店面无独立坐标，取开放地图「江の島一丁目」街区节点（N8837263822）；门牌 1-6-30 与店面入口待现场核对。',
+      address: '1 Chome-6-30 Enoshima, Fujisawa, Kanagawa 251-0036', query: 'tenzan lab 江の島', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '餐厅营业时间内用餐；高峰需等位。'
+    },
+    {
+      id: 'ctl-benzaiten-street', workId: 'can-this-love-be-translated', name: '江之岛弁财天商店街', ko: '江の島弁財天商店街', city: '藤泽 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.3003396, lng: 139.4798445, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '商店街无独立坐标，取参道终点「江島神社」代表点（R7397603）；沿街店铺与机位未定位。',
+      address: '1 Chome-4-17 Enoshima, Fujisawa, Kanagawa 251-0036', query: '江の島弁財天商店街', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '商店街人多，边走边拍注意通行。'
+    },
+    {
+      id: 'ctl-nakamuraya', workId: 'can-this-love-be-translated', name: '中村屋（羊羹店）', ko: '中村屋羊羹店', city: '藤泽 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.2995083, lng: 139.4776898, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「中村屋羊羹店」节点（N5965729037）；茶房分店未单独定位。',
+      address: '2 Chome-5-25 Enoshima, Fujisawa, Kanagawa 251-0036', query: '中村屋羊羹店', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '老铺，营业时间以店家公告为准。'
+    },
+    {
+      id: 'ctl-asahi-honten', workId: 'can-this-love-be-translated', name: '江之岛二丁目（朝日本店／岛之茶屋）', ko: 'あさひ本店／島の茶屋', city: '藤泽 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.299951, lng: 139.477418, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '两家店都没有独立坐标，取开放地图「江の島二丁目」街区节点（N8837263821）；朝日本店门牌 2-4-12、岛之茶屋 2-5-8 在同一条参道，入口待现场核对。',
+      address: '2 Chome-4-12 Enoshima, Fujisawa, Kanagawa 251-0036', query: 'あさひ本店 江の島', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '两家都是餐饮店，营业时间内用餐；岛之茶屋营业时间不定，出发前先确认。'
+    },
+    {
+      id: 'ctl-miharashitei', workId: 'can-this-love-be-translated', name: '江之岛见晴亭', ko: '見晴亭', city: '藤泽 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.2991887, lng: 139.4748674, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「見晴亭」餐厅节点（N5965729005）；店内与机位未定位。',
+      address: '2 Chome-6-22 Enoshima, Fujisawa, Kanagawa 251-0036', query: '見晴亭 江の島', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '餐厅／休憩处，营业时间以现场为准。'
+    },
+    {
+      id: 'ctl-sea-candle', workId: 'can-this-love-be-translated', name: '江之岛 Sea Candle 展望台', ko: '江の島シーキャンドル', city: '藤泽 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.2996539, lng: 139.4785839, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「江の島展望灯台シーキャンドル」塔体（W191661884）；观景平台机位未定位。',
+      address: '2 Chome-3-28 Enoshima, Fujisawa, Kanagawa', query: '江の島シーキャンドル', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '收费展望台，按营业时间登塔。'
+    },
+    {
+      id: 'ctl-katase-fishery', workId: 'can-this-love-be-translated', name: '片濑渔港东步道', ko: '片瀬漁港', city: '藤泽 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.3107494, lng: 139.4818431, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '渔港在开放地图里没有独立面要素，取「片瀬海岸」街区节点（R18771671）；白灯塔与东步道入口待现场核对。',
+      address: '2 Chome Katasekaigan, Fujisawa, Kanagawa 251-0035', query: '片瀬漁港', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '渔港为作业区，拍摄前先询问；防波堤无护栏。'
+    },
+    {
+      id: 'ctl-enoshima-post', workId: 'can-this-love-be-translated', name: '江之岛邮局前', ko: '江ノ島郵便局', city: '藤泽 · 神奈川', group: '日本 · 镰仓／江之岛',
+      lat: 35.3015839, lng: 139.480828, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「江ノ島郵便局」节点（N1116888336）；门前机位未定位。',
+      address: '1 Chome-4-13 Enoshima, Fujisawa, Kanagawa 251-0036', query: '江ノ島郵便局', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '街边店面，注意通行。'
+    },
+    {
+      id: 'ctl-lougheed-house', workId: 'can-this-love-be-translated', name: '劳里德宅邸（含 Beaulieu 花园）', ko: 'Lougheed House', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 51.0405964, lng: -114.0771672, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Lougheed House」历史建筑（W169779670）；花园与剧中机位未单独定位。',
+      address: '707 13 Ave SW, Calgary, AB T2R 0K8', query: 'Lougheed House Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '博物馆按开放时间参观；花园为公共空间。'
+    },
+    {
+      id: 'ctl-heritage-park', workId: 'can-this-love-be-translated', name: '历史公园 Heritage Park', ko: 'Heritage Park', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 50.9851984, lng: -114.1071757, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Heritage Park」园区面要素代表点（R21031721）；园内机位未定位。',
+      address: '1900 Heritage Dr SW, Calgary, AB T2V 2X3', query: 'Heritage Park Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '收费景区，按开放时间入园。'
+    },
+    {
+      id: 'ctl-rotary-park', workId: 'can-this-love-be-translated', name: '扶轮公园', ko: 'Rotary Park', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 51.0568113, lng: -114.0611988, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Rotary Park」公园面要素代表点（W166134089）；园内机位未定位。',
+      address: '617 1 St NE, Calgary, AB T2E 6W4', query: 'Rotary Park Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '公园为开放空间，注意坡道。'
+    },
+    {
+      id: 'ctl-crescent-heights', workId: 'can-this-love-be-translated', name: '新月高地观景点', ko: 'Crescent Heights Lookout Point', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 51.0579004, lng: -114.0645936, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '观景点没有独立要素，取开放地图「Crescent Road NW」门牌 240 附近路段（W243023580）；观景台护栏位置待现场核对。',
+      address: '240 Crescent Rd NW, Calgary, AB T2M 1A3', query: 'Crescent Heights Lookout Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '观景台路边可停车，注意交通。'
+    },
+    {
+      id: 'ctl-galaxie-diner', workId: 'can-this-love-be-translated', name: '银河餐车餐厅', ko: 'Galaxie Diner', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 51.0396649, lng: -114.089265, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Galaxie Diner」餐厅节点（N6577748985）；店内机位未定位。',
+      address: '1413 11 St SW, Calgary, AB T2R 1G7', query: 'Galaxie Diner Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '营业时间内用餐，早午餐高峰需等位。'
+    },
+    {
+      id: 'ctl-crossroads-market', workId: 'can-this-love-be-translated', name: '十字路口农夫市集', ko: 'Crossroads Market', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 51.0299014, lng: -114.0351623, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Crossroads Market」建筑（W172469214）；市场内摊位与机位未定位。',
+      address: '1235 26 Ave SE, Calgary, AB T2G 1R7', query: 'Crossroads Market Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '市集营业日前往，先看公告。'
+    },
+    {
+      id: 'ctl-stephen-avenue', workId: 'can-this-love-be-translated', name: '史蒂芬步行街', ko: 'Stephen Avenue', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 51.0457842, lng: -114.0709673, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「8 Avenue SW」步行街段节点（W166789706）；门牌 803 号的具体店面未定位。',
+      address: '803 1 St SW, Calgary, AB T2P 1N1', query: 'Stephen Avenue Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '步行街人流大，注意街头艺人。'
+    },
+    {
+      id: 'ctl-olympic-plaza', workId: 'can-this-love-be-translated', name: '奥林匹克广场', ko: 'Olympic Plaza', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 51.0459295, lng: -114.0590933, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Olympic Plaza」面要素代表点（W127943987）；广场内机位未定位。',
+      address: '228 8 Ave SE, Calgary, AB T2P 2M5', query: 'Olympic Plaza Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '广场为开放空间，冬季地面结冰。'
+    },
+    {
+      id: 'ctl-next-page', workId: 'can-this-love-be-translated', name: 'The Next Page 书店', ko: 'The Next Page', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 51.0416528, lng: -114.035794, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「The Next Page」书店节点（N8241238303）；店内机位未定位。',
+      address: '1217A 9 Ave SE, Calgary, AB T2G 0S9', query: 'The Next Page Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '独立书店，营业时间内探店。'
+    },
+    {
+      id: 'ctl-baker-park', workId: 'can-this-love-be-translated', name: '贝克公园', ko: 'Baker Park', city: '卡尔加里 · 艾伯塔', group: '加拿大 · 卡尔加里',
+      lat: 51.1008513, lng: -114.220412, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Baker Park」公园面要素代表点（R6202720）；园内机位未定位。',
+      address: 'Calgary, AB T3L 1S5', query: 'Baker Park Calgary', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '河畔公园，注意坡道与结冰。'
+    },
+    {
+      id: 'ctl-caribou-street', workId: 'can-this-love-be-translated', name: '班夫 Caribou 街', ko: 'Caribou Street', city: '班夫 · 艾伯塔', group: '加拿大 · 班夫',
+      lat: 51.1766235, lng: -115.5713382, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Caribou Street」步行段节点（W1285779868）；具体机位未定位。',
+      address: 'Caribou St, Banff, AB T1L 1C8', query: 'Caribou Street Banff', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '镇中心街道，注意车辆。'
+    },
+    {
+      id: 'ctl-cascade-time-garden', workId: 'can-this-love-be-translated', name: '时光梯田花园', ko: 'Cascade of Time Garden', city: '班夫 · 艾伯塔', group: '加拿大 · 班夫',
+      lat: 51.1706847, lng: -115.5720811, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Cascade garden」花园面要素代表点（W584130515）；园内机位未定位。',
+      address: 'Cave Ave, Banff, AB T1L 1K2', query: 'Cascade Gardens Banff', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '花园为开放空间，冬季可能封闭。'
+    },
+    {
+      id: 'ctl-bow-river-bridge', workId: 'can-this-love-be-translated', name: '弓河桥', ko: 'Bow River Bridge', city: '班夫 · 艾伯塔', group: '加拿大 · 班夫',
+      lat: 51.1727997, lng: -115.5712056, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Bow River Bridge」桥体（W1125010763）；桥上机位未定位。',
+      address: '101 Mountain Ave, Banff, AB T1L 1A8', query: 'Bow River Bridge Banff', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '桥上风大，冬季注意结冰。'
+    },
+    {
+      id: 'ctl-bow-river-pedestrian-bridge', workId: 'can-this-love-be-translated', name: '弓河人行桥', ko: 'Bow River Pedestrian Bridge', city: '班夫 · 艾伯塔', group: '加拿大 · 班夫',
+      lat: 51.1727867, lng: -115.5682216, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Bow River Pedestrian Bridge」桥体（W1125010750）；桥上机位未定位。',
+      address: 'Banff, AB (Bow River)', query: 'Bow River Pedestrian Bridge Banff', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '桥面为行人与自行车共用，注意让行。'
+    },
+    {
+      id: 'ctl-nancy-pauw-bridge', workId: 'can-this-love-be-translated', name: '南希鲍桥', ko: 'Nancy Pauw Bridge', city: '班夫 · 艾伯塔', group: '加拿大 · 班夫',
+      lat: 51.1731691, lng: -115.5744119, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Nancy Pauw Bridge」桥体（W1169455750）；桥上机位未定位。',
+      address: '201 Buffalo St, Banff, AB', query: 'Nancy Pauw Bridge Banff', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '桥面为自行车与行人共用，注意让行。'
+    },
+    {
+      id: 'ctl-st-james-gate', workId: 'can-this-love-be-translated', name: '圣詹姆斯门爱尔兰酒吧', ko: 'St James\'s Gate Irish Pub', city: '班夫 · 艾伯塔', group: '加拿大 · 班夫',
+      lat: 51.178345, lng: -115.571681, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「St. James\'s Gate Olde Irish Pub」节点（N678980567）；店内机位未定位。',
+      address: '207 Wolf St, Banff, AB T1L 1C2', query: 'St James\'s Gate Irish Pub Banff', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '营业时间内消费；店内装修期可能停业。'
+    },
+    {
+      id: 'ctl-canmore-downtown', workId: 'can-this-love-be-translated', name: '坎莫尔市中心（蒸汽钟）', ko: 'Canmore Main Street', city: '坎莫尔 · 艾伯塔', group: '加拿大 · 坎莫尔／卡纳纳斯基斯',
+      lat: 51.0896032, lng: -115.3543897, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「8 Street (Main Street)」路段节点（W479234702）；钟的道具位置与机位未定位。',
+      address: '8 St, Canmore, AB T1W 1J5', query: 'Canmore Main Street', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '主街店铺集中，注意行人。'
+    },
+    {
+      id: 'ctl-quarry-lake', workId: 'can-this-love-be-translated', name: '采石场湖', ko: 'Quarry Lake', city: '坎莫尔 · 艾伯塔', group: '加拿大 · 坎莫尔／卡纳纳斯基斯',
+      lat: 51.0748113, lng: -115.3729198, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Quarry Lake」湖面代表点（W156123298）；湖岸机位未定位。',
+      address: 'Spray Lakes Rd, Canmore, AB T1W 2N9', query: 'Quarry Lake Canmore', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '湖岸为公园，夏季人多；注意熊出没提示。'
+    },
+    {
+      id: 'ctl-upper-kananaskis', workId: 'can-this-love-be-translated', name: '上卡纳纳斯基斯湖', ko: 'Upper Kananaskis Lake', city: '卡纳纳斯基斯 · 艾伯塔', group: '加拿大 · 坎莫尔／卡纳纳斯基斯',
+      lat: 50.6201576, lng: -115.1581268, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Upper Kananaskis Lake」湖面代表点（R4011900）；湖岸观景点未定位。',
+      address: 'Kananaskis, AB T0L 0K0', query: 'Upper Kananaskis Lake', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '湖区需自驾，冬季路况差；注意野生动物。'
+    },
+    {
+      id: 'ctl-civita', workId: 'can-this-love-be-translated', name: '白露里治奥（天空之城）', ko: 'Civita di Bagnoregio', city: '白露里治奥 · 拉齐奥', group: '意大利 · 白露里治奥／佩鲁贾',
+      lat: 42.6277081, lng: 12.113675, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Civita」村落节点（N1778014513）；笔记门牌写作「Piazza S. Pietro, 5I」，数字含义不清，按村镇中心记录。',
+      address: 'Piazza S. Pietro, 01022 Civita di Bagnoregio VT, Italy', query: 'Civita di Bagnoregio', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '过桥需购票进入老城；石板路陡，穿好走的鞋。'
+    },
+    {
+      id: 'ctl-fortezza-montalcino', workId: 'can-this-love-be-translated', name: '蒙塔尔奇诺要塞', ko: 'Fortezza di Montalcino', city: '蒙塔尔奇诺 · 托斯卡纳', group: '意大利 · 锡耶纳／蒙塔尔奇诺',
+      lat: 43.0560208, lng: 11.4893444, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Fortezza di Montalcino」城堡面要素代表点（R14227881）；城墙机位未定位。',
+      address: 'Piazzale Fortezza, 9, 53024 Montalcino SI, Italy', query: 'Fortezza di Montalcino', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '要塞可购票登城墙；傍晚关门较早。'
+    },
+    {
+      id: 'ctl-nonno-mede', workId: 'can-this-love-be-translated', name: 'Nonno Mede 披萨餐厅', ko: 'Pizzeria Ristorante di Nonno Mede', city: '锡耶纳 · 托斯卡纳', group: '意大利 · 锡耶纳／蒙塔尔奇诺',
+      lat: 43.3196612, lng: 11.3276092, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '店面无独立坐标，取开放地图「Via del Camporegio」台阶段节点（W27854808）；门牌 21 与露台机位待现场核对。',
+      address: 'Via Camporegio, 21, 53100 Siena SI, Italy', query: 'Pizzeria Ristorante di Nonno Mede Siena', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '营业时间内用餐；露台位需现场询问。'
+    },
+    {
+      id: 'ctl-piazza-del-campo', workId: 'can-this-love-be-translated', name: '田园广场', ko: 'Piazza del Campo', city: '锡耶纳 · 托斯卡纳', group: '意大利 · 锡耶纳／蒙塔尔奇诺',
+      lat: 43.3184391, lng: 11.3315583, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Il Campo」广场面要素代表点（R5965021）；广场内机位未定位。',
+      address: 'Il Campo, 53100 Siena SI, Italy', query: 'Piazza del Campo Siena', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '广场为公共空间，赛马节前后人流管制。'
+    },
+    {
+      id: 'ctl-duomo-siena', workId: 'can-this-love-be-translated', name: '锡耶纳主教座堂', ko: 'Duomo di Siena', city: '锡耶纳 · 托斯卡纳', group: '意大利 · 锡耶纳／蒙塔尔奇诺',
+      lat: 43.3177948, lng: 11.3290896, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Cattedrale di Santa Maria Assunta」教堂面要素代表点（W418912842）；门前机位未定位。',
+      address: 'Piazza del Duomo, 8, 53100 Siena SI, Italy', query: 'Duomo di Siena', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '教堂需购票入内，着装需遮肩膝。'
+    },
+    {
+      id: 'ctl-teatro-dei-rozzi', workId: 'can-this-love-be-translated', name: '罗齐剧院', ko: 'Teatro dei Rozzi', city: '锡耶纳 · 托斯卡纳', group: '意大利 · 锡耶纳／蒙塔尔奇诺',
+      lat: 43.3189684, lng: 11.3302334, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Teatro dell\'Accademia dei Rozzi」剧院节点（N2806773680）；观众厅机位未定位。',
+      address: 'Piazza Indipendenza, 17, 53100 Siena SI, Italy', query: 'Teatro dei Rozzi Siena', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '剧院按演出与开放时间入内。'
+    },
+    {
+      id: 'ctl-piazza-iv-novembre', workId: 'can-this-love-be-translated', name: '十一月四日广场', ko: 'Piazza IV Novembre', city: '佩鲁贾 · 翁布里亚', group: '意大利 · 白露里治奥／佩鲁贾',
+      lat: 43.1121386, lng: 12.3888141, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Fontana Maggiore」喷泉节点（W106360715），位于广场上；广场内机位未定位。',
+      address: 'Piazza IV Novembre, 06100 Perugia PG, Italy', query: 'Piazza IV Novembre Perugia', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '广场为公共空间，台阶与喷泉周边人多。'
+    },
+    {
+      id: 'ctl-perugia-steps', workId: 'can-this-love-be-translated', name: '佩鲁贾阶梯 · Bastik caffè', ko: 'Perugia Steps / Bastik caffè', city: '佩鲁贾 · 翁布里亚', group: '意大利 · 白露里治奥／佩鲁贾',
+      lat: 43.1129922, lng: 12.3883285, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Bastik Caffe」节点（N13701096289）；笔记门牌写作 Via Appia 3，台阶具体位置待现场核对。',
+      address: 'Via Appia, 3, 06123 Perugia PG, Italy', query: 'Bastik Caffe Perugia', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '咖啡店营业时间内消费；阶梯为通行道。'
+    },
+    {
+      id: 'ctl-acquedotto', workId: 'can-this-love-be-translated', name: '渡槽古道', ko: 'Via dell\'Acquedotto', city: '佩鲁贾 · 翁布里亚', group: '意大利 · 白露里治奥／佩鲁贾',
+      lat: 43.1146944, lng: 12.3883486, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Via Dell\'acquedotto」步行道节点（W23078527）；门牌 25 与机位未定位。',
+      address: 'Via dell\'Acquedotto, 25, 06123 Perugia PG, Italy', query: 'Via dell\'Acquedotto Perugia', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '古道为步行道，坡陡且路面湿滑。'
+    },
+    {
+      id: 'ctl-acqua-paola', workId: 'can-this-love-be-translated', name: '帕欧拉喷泉', ko: 'Fontana dell\'Acqua Paola', city: '罗马 · 拉齐奥', group: '意大利 · 罗马／佛罗伦萨',
+      lat: 41.8888068, lng: 12.4642949, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Fontana Dell\'Acqua Paola」喷泉（W203875169）；喷泉前机位未定位。',
+      address: 'Via Garibaldi, 00153 Roma RM, Italy', query: 'Fontana dell\'Acqua Paola Roma', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '喷泉在路边，注意车辆与台阶。'
+    },
+    {
+      id: 'ctl-caracalla', workId: 'can-this-love-be-translated', name: '卡拉卡拉浴场', ko: 'Terme di Caracalla', city: '罗马 · 拉齐奥', group: '意大利 · 罗马／佛罗伦萨',
+      lat: 41.8788285, lng: 12.4924737, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Terme di Caracalla」遗址面要素代表点（R13476232）；遗址内机位未定位。',
+      address: 'Viale delle Terme di Caracalla, 00153 Roma RM, Italy', query: 'Terme di Caracalla Roma', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '遗址需购票入内，按开放时间参观。'
+    },
+    {
+      id: 'ctl-giunti-odeon', workId: 'can-this-love-be-translated', name: 'Giunti Odeon 电影书店', ko: 'Giunti Odeon – Libreria e Cinema', city: '佛罗伦萨 · 托斯卡纳', group: '意大利 · 罗马／佛罗伦萨',
+      lat: 43.7709968, lng: 11.2525624, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: null, coordinateNote: '坐标取开放地图「Giunti Odeon」影院节点（N2953868598）；观众厅机位未定位。',
+      address: 'Piazza degli Strozzi, 50123 Firenze FI, Italy', query: 'Giunti Odeon Firenze', kind: 'other', sourceId: 'xhs-ctl',
+      visit: '书店营业时间内入内；放映活动需购票。'
+    },
   ],
 
   // 一处地标可以有多条场景记录；episode、timeSeconds、image 都需要独立核实。
@@ -1267,6 +1583,51 @@ window.KDRAMA_CATALOG = {
     { id: 'lid-jeonggwan-police-01', landmarkId: 'lid-jeonggwan-police', description: '派出所柜台前：两人隔着办公桌对视，身后是玻璃隔断与办公区。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-jeonggwan-police-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
     { id: 'lid-wyndham-busan-01', landmarkId: 'lid-wyndham-busan', description: '酒店车道夜景：环形灯桥下的入口，一个人躺在车道上。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-wyndham-busan-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
     { id: 'lid-wyndham-busan-02', landmarkId: 'lid-wyndham-busan', description: '酒店内景：宴会厅前厅，花卉画作前一名穿西装的人在奔跑，两侧是活动立牌。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-wyndham-busan-02-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
+    { id: 'ctl-gokurakuji-01', landmarkId: 'ctl-gokurakuji', description: '笔记称这里是剧中的开场车站：木造站台与江之电进站。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-shichirigahama-01', landmarkId: 'ctl-shichirigahama', description: '七里滨的海边散步与富士山远景，笔记也提到 Pacific DRIVE-IN 餐厅一带。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-inamuragasaki-01', landmarkId: 'ctl-inamuragasaki', description: '江之电沿海路段与镰仓海滨公园：电车窗景与海岸散步的镜头。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-goryo-shrine-01', landmarkId: 'ctl-goryo-shrine', description: '御灵神社前的江之电平交道与鸟居，剧中两人走过路口。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-tanaka-barber-01', landmarkId: 'ctl-tanaka-barber', description: '御灵神社前的理容店，江之电平交道场景的街景背景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-kamakurakokomae-01', landmarkId: 'ctl-kamakurakokomae', description: '镰仓高校前站的平交道口，江之电与相模湾同框。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-tenzan-lab-01', landmarkId: 'ctl-tenzan-lab', description: '江之岛上的餐厅，笔记称为剧中「拉面」场景的参考原型。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-benzaiten-street-01', landmarkId: 'ctl-benzaiten-street', description: '登江之岛的参道商店街，剧中逛街与过街的场面。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-nakamuraya-01', landmarkId: 'ctl-nakamuraya', description: '江之岛的老铺羊羹店；笔记另列「中村屋本店茶房」（2-3-15），两家门牌不同，这里按有照片的羊羹店记录。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-asahi-honten-01', landmarkId: 'ctl-asahi-honten', description: '江之岛二丁目的两处餐饮店：山顶的朝日本店（吃海鲜）与岛之茶屋（休憩用餐）；笔记各占一张卡片，因没有独立坐标合并为一个地标。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-miharashitei-01', landmarkId: 'ctl-miharashitei', description: '江之岛见晴亭，可眺望相模湾的休憩点。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-sea-candle-01', landmarkId: 'ctl-sea-candle', description: '江之岛灯塔展望台的夜景，剧中街灯与夜景镜头。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-katase-fishery-01', landmarkId: 'ctl-katase-fishery', description: '片濑渔港的白灯塔与东侧步道，剧中富士山日落镜头。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-enoshima-post-01', landmarkId: 'ctl-enoshima-post', description: '江之岛邮局所在的街角，剧中过街镜头。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-lougheed-house-01', landmarkId: 'ctl-lougheed-house', description: '卡尔加里的历史宅邸与 Beaulieu 花园（同一院落，笔记列了两个门牌），复古街道场景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-heritage-park-01', landmarkId: 'ctl-heritage-park', description: '历史公园的蒸汽火车与老街，剧中气球场景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-rotary-park-01', landmarkId: 'ctl-rotary-park', description: '可俯瞰市区与弓河的公园。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-crescent-heights-01', landmarkId: 'ctl-crescent-heights', description: '俯瞰卡尔加里天际线与河谷的观景点，夕阳夜景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-galaxie-diner-01', landmarkId: 'ctl-galaxie-diner', description: 'Beltline 街区的复古餐车餐厅。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-crossroads-market-01', landmarkId: 'ctl-crossroads-market', description: '农夫跳蚤市场，买菜与闲逛的场景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-stephen-avenue-01', landmarkId: 'ctl-stephen-avenue', description: '市中心的史蒂芬步行街，历史建筑街景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-olympic-plaza-01', landmarkId: 'ctl-olympic-plaza', description: '奥林匹克广场，剧中街景与电车画面。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-next-page-01', landmarkId: 'ctl-next-page', description: '独立书店，剧中翻书与选书的场景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-baker-park-01', landmarkId: 'ctl-baker-park', description: '弓河畔的公园，草地与秋色。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-caribou-street-01', landmarkId: 'ctl-caribou-street', description: '班夫镇 Caribou 街的雪山街景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-cascade-time-garden-01', landmarkId: 'ctl-cascade-time-garden', description: '梯田花园，可俯瞰班夫镇与瀑布山。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-bow-river-bridge-01', landmarkId: 'ctl-bow-river-bridge', description: '弓河上的公路桥，笔记把它与时光花园写在同一地址。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-bow-river-pedestrian-bridge-01', landmarkId: 'ctl-bow-river-pedestrian-bridge', description: '弓河上的人行桥，与公路桥相距约 200 米，笔记单列为一张卡片。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-nancy-pauw-bridge-01', landmarkId: 'ctl-nancy-pauw-bridge', description: '弓河上的南希鲍桥，笔记写「桥上极光」的夜景镜头。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-st-james-gate-01', landmarkId: 'ctl-st-james-gate', description: '爱尔兰酒吧，剧中的飞镖场景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-canmore-downtown-01', landmarkId: 'ctl-canmore-downtown', description: '坎莫尔主街与蒸汽钟；笔记注明钟是拍摄道具，实景并没有这座钟。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-quarry-lake-01', landmarkId: 'ctl-quarry-lake', description: '采石场湖，剧中的初吻场景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-upper-kananaskis-01', landmarkId: 'ctl-upper-kananaskis', description: '上卡纳纳斯基斯湖，极光与湖边对话的镜头。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-civita-01', landmarkId: 'ctl-civita', description: '「天空之城」白露里治奥，第一集的开场取景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-fortezza-montalcino-01', landmarkId: 'ctl-fortezza-montalcino', description: '蒙塔尔奇诺要塞，笔记写的告白与摸头场面。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-nonno-mede-01', landmarkId: 'ctl-nonno-mede', description: '锡耶纳的披萨餐厅，屋顶露台可俯瞰老城。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-piazza-del-campo-01', landmarkId: 'ctl-piazza-del-campo', description: '田园广场，笔记写的拥抱场面。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-duomo-siena-01', landmarkId: 'ctl-duomo-siena', description: '锡耶纳主教座堂与门前广场。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-teatro-dei-rozzi-01', landmarkId: 'ctl-teatro-dei-rozzi', description: '罗齐剧院内部，笔记写的找相机、看歌剧场景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-piazza-iv-novembre-01', landmarkId: 'ctl-piazza-iv-novembre', description: '佩鲁贾十一月四日广场与大喷泉，笔记写的台阶躲雪镜头。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-perugia-steps-01', landmarkId: 'ctl-perugia-steps', description: '佩鲁贾老城的台阶与 Bastik 咖啡店，笔记写的雪中台阶与喝到天亮的场面。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-acquedotto-01', landmarkId: 'ctl-acquedotto', description: '佩鲁贾的渡槽古道，沿城墙的步行段。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-acqua-paola-01', landmarkId: 'ctl-acqua-paola', description: '罗马帕欧拉喷泉，可俯瞰老城的观景点。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-caracalla-01', landmarkId: 'ctl-caracalla', description: '卡拉卡拉浴场遗址，笔记列为罗马的浴场遗迹取景。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
+    { id: 'ctl-giunti-odeon-01', landmarkId: 'ctl-giunti-odeon', description: '佛罗伦萨的电影院改成的书店与放映厅。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
   ],
   updates: [
     { landmarkId: 'jumunjin', reviewedAt: '2026-11-06T14:24:29.372Z' },
@@ -1275,6 +1636,51 @@ window.KDRAMA_CATALOG = {
     { landmarkId: 'lid-daebyeon-market', reviewedAt: '2026-11-16T05:40:00.000Z' },
     { landmarkId: 'lid-salloto-beomil', reviewedAt: '2026-11-16T05:40:00.000Z' },
     { landmarkId: 'lid-jeonggwan-police', reviewedAt: '2026-11-16T05:40:00.000Z' },
-    { landmarkId: 'lid-wyndham-busan', reviewedAt: '2026-11-16T05:40:00.000Z' }
+    { landmarkId: 'lid-wyndham-busan', reviewedAt: '2026-11-16T05:40:00.000Z' },
+    { landmarkId: 'ctl-gokurakuji', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-shichirigahama', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-inamuragasaki', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-goryo-shrine', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-tanaka-barber', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-kamakurakokomae', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-tenzan-lab', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-benzaiten-street', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-nakamuraya', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-asahi-honten', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-miharashitei', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-sea-candle', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-katase-fishery', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-enoshima-post', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-lougheed-house', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-heritage-park', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-rotary-park', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-crescent-heights', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-galaxie-diner', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-crossroads-market', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-stephen-avenue', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-olympic-plaza', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-next-page', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-baker-park', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-caribou-street', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-cascade-time-garden', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-bow-river-bridge', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-bow-river-pedestrian-bridge', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-nancy-pauw-bridge', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-st-james-gate', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-canmore-downtown', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-quarry-lake', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-upper-kananaskis', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-civita', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-fortezza-montalcino', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-nonno-mede', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-piazza-del-campo', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-duomo-siena', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-teatro-dei-rozzi', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-piazza-iv-novembre', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-perugia-steps', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-acquedotto', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-acqua-paola', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-caracalla', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'ctl-giunti-odeon', reviewedAt: '2026-11-16T06:55:00.000Z' },
   ]
 };
