@@ -199,6 +199,15 @@ window.KDRAMA_CATALOG = {
     { id: 'visitkorea-glory', title: 'VISITKOREA · 《黑暗荣耀》清州取景地', url: 'https://chinese.visitkorea.or.kr/svc/whereToGo/hdrdslt/hdrdsltView.do?crsSn=311530' },
     { id: 'visitseoul-one-spring', title: 'VISITSEOUL · 与《春夜》中的首尔坠入爱河', url: 'https://tchinese.visitseoul.net/hallyu/Falling-in-love-with-Seoul-from-the-TV-drama-One-Spring-Night-tch/TCN030949' },
     { id: 'visitkorea-descendants', title: 'VISITKOREA · 《太阳的后裔》拍摄场地', url: 'https://chinese.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=214590' },
+    { id: 'xhs-lid', title: '小红书 · 《我的有罪之人》釜山拍摄地与演员用餐的烤肉店', url: 'https://www.xiaohongshu.com/explore/6af1eefb000000002c033784' },
+    { id: 'kdramapins-lid', title: 'KDramaPins · 《我的有罪之人》取景地清单', url: 'https://kdramapins.com/dramas/love-in-disguise/' },
+    { id: 'visitkorea-domoheon', title: '韩国观光公社 · 都慕轩（旧釜山市长官舍）', url: 'https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=4012a580-3306-4927-9780-8f7db3590558' },
+    { id: 'visitkorea-daebyeon', title: '韩国观光公社 · 大边市场', url: 'https://access.visitkorea.or.kr/ms/detail.do?cotId=b8674420-a04b-4d09-9f1c-f8a46e48ee6e' },
+    { id: 'osm-domoheon', title: 'OpenStreetMap · 水营区 황령산로7번길', url: 'https://www.openstreetmap.org/way/795034166' },
+    { id: 'osm-chaseong418', title: 'OpenStreetMap · 机张邑 차성로418번길', url: 'https://www.openstreetmap.org/way/718305496' },
+    { id: 'osm-jeonggwan-deoksan', title: 'OpenStreetMap · 正官邑 정관덕산길', url: 'https://www.openstreetmap.org/way/777650261' },
+    { id: 'osm-jayupyeonghwa', title: 'OpenStreetMap · 釜山镇区 자유평화로', url: 'https://www.openstreetmap.org/way/1355110407' },
+    { id: 'osm-deungdae', title: 'OpenStreetMap · 西区 등대로', url: 'https://www.openstreetmap.org/way/561994975' },
   ],
 
   // coordinateStatus: approximate = 附近示意点；venue = 已核实景点点位；camera = 已核实拍摄机位。
@@ -1093,6 +1102,48 @@ window.KDRAMA_CATALOG = {
       address: '강원특별자치도 태백시 통골길 116-52', query: '통리탄탄파크', kind: 'other', sourceId: 'visitkorea-descendants',
       visit: '收费景区，按营业时间前往（周一休）。'
     },
+    {
+      id: 'lid-domoheon', workId: 'love-in-disguise', name: '都慕轩 · 旧釜山市长官舍', ko: '도모헌', city: '釜山 · 水营区', group: '釜山',
+      lat: 35.14622, lng: 129.10731, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: 'osm-domoheon', coordinateNote: '坐标取开放地图“황령산로7번길”支路路段（way 795034166）；观光公社与釜山市给出的门牌是 황령산로7번길 60，园区出入口和剧中机位未定位。',
+      address: '부산광역시 수영구 황령산로7번길 60 (남천동)', query: '도모헌', kind: 'other', sourceId: 'kdramapins-lid',
+      visit: '旧市长官舍改建的复合文化空间，周一休馆；庭园与建筑内部按现场指引参观。'
+    },
+    {
+      id: 'lid-beijing-jjajang', workId: 'love-in-disguise', name: '北京大盘炸酱面 · 机张店', ko: '베이징쟁반짜장 기장점', city: '釜山 · 机张郡', group: '釜山',
+      lat: 35.25128, lng: 129.21542, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: 'osm-chaseong418', coordinateNote: '坐标取开放地图“차성로418번길”路段（way 718305496）；门牌 39 号与店面入口未单独定位。',
+      address: '부산광역시 기장군 기장읍 차성로418번길 39 (교리 345-1)', query: '베이징쟁반짜장 기장점', kind: 'other', sourceId: 'kdramapins-lid',
+      visit: '中式餐馆，约 11:00–21:00 营业；店旁有停车场，用餐高峰可能等位。'
+    },
+    {
+      id: 'lid-daebyeon-market', workId: 'love-in-disguise', name: '大边水产活鱼市场', ko: '대변농수산활어시장', city: '釜山 · 机张郡', group: '釜山',
+      lat: 35.224086, lng: 129.230617, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: 'visitkorea-daebyeon', coordinateNote: '坐标取观光公社“大边市场”页面给出的代表点；活鱼市场与大边港摊位相连，具体店铺与机位未定位。',
+      address: '부산광역시 기장군 기장읍 대변리 444-72 (대변항)', query: '대변농수산활어시장', kind: 'other', sourceId: 'kdramapins-lid',
+      visit: '大边港的水产市场，清晨至上午最热闹；摊位多为作业区，拍照前先询问摊主。'
+    },
+    {
+      id: 'lid-salloto-beomil', workId: 'love-in-disguise', name: 'Salloto 定制西装 · 凡一店', ko: '살로토 범일점', city: '釜山 · 釜山镇区', group: '釜山',
+      lat: 35.14139, lng: 129.05994, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: 'osm-jayupyeonghwa', coordinateNote: '坐标取开放地图“자유평화로”路段（way 1355110407）；门牌 11（범천동 누리엔 地下 1 层）的店铺入口未单独定位，店名写作“범일점”但地址在凡川洞一侧。',
+      address: '부산광역시 부산진구 자유평화로 11 지하1층 (범천동, 누리엔)', query: '살로토 범일점', kind: 'other', sourceId: 'xhs-lid',
+      visit: '定制西装与礼服店，位于商场地下层，通常需要预约；营业时间以店家公告为准。'
+    },
+    {
+      id: 'lid-jeonggwan-police', workId: 'love-in-disguise', name: '正官派出所', ko: '정관파출소', city: '釜山 · 机张郡', group: '釜山',
+      lat: 35.32270, lng: 129.18307, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: 'osm-jeonggwan-deoksan', coordinateNote: '坐标取开放地图“정관덕산길”路段（way 777650261）；门牌 27（방곡리 274-4）的院区与出入口未单独定位。',
+      address: '부산광역시 기장군 정관읍 정관덕산길 27 (방곡리 274-4)', query: '정관파출소', kind: 'other', sourceId: 'xhs-lid',
+      visit: '现役派出所，只在外围道路拍照，不要进入办公区域或拍摄执勤人员。'
+    },
+    {
+      id: 'lid-wyndham-busan', workId: 'love-in-disguise', name: '釜山温德姆至尊酒店', ko: '윈덤 그랜드 부산', city: '釜山 · 西区', group: '釜山',
+      lat: 35.08064, lng: 129.02456, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
+      coordinateSourceId: 'osm-deungdae', coordinateNote: '坐标取开放地图“등대로”路段（way 561994975）；门牌 27 号的酒店主楼与剧中取景楼层未定位。',
+      address: '부산광역시 서구 등대로 27', query: '윈덤 그랜드 부산', kind: 'other', sourceId: 'xhs-lid',
+      visit: '松岛海滨的五星级酒店；非住客请留在大堂等公共区域，拍摄前先询问前台。'
+    },
   ],
 
   // 一处地标可以有多条场景记录；episode、timeSeconds、image 都需要独立核实。
@@ -1209,8 +1260,21 @@ window.KDRAMA_CATALOG = {
     { id: 'osn-pharmacy-01', landmarkId: 'osn-pharmacy', description: '静仁宿醉跑进药店买药，与智昊初次相遇。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitseoul-one-spring', episodeSourceId: null },
     { id: 'itaewon-angel-01', landmarkId: 'itaewon-angel', description: '世路与伊瑞约会拍照的阶前涂鸦。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitkorea-itaewon', episodeSourceId: null },
     { id: 'dots-taebaek-01', landmarkId: 'dots-taebaek', description: '剧中“乌鲁克太白”拍摄场地，再现 Medicube、急救室等摄影棚。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'visitkorea-descendants', episodeSourceId: null },
+    { id: 'lid-domoheon-01', landmarkId: 'lid-domoheon', description: '都慕轩庭园外景：两人在枯草与花丛间对视。剧照为 tvN 播出画面截图，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-domoheon-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
+    { id: 'lid-beijing-jjajang-01', landmarkId: 'lid-beijing-jjajang', description: '店内：两人在餐桌对话，背景是菜单灯箱、青花瓷与红墙。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-beijing-jjajang-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
+    { id: 'lid-daebyeon-market-01', landmarkId: 'lid-daebyeon-market', description: '市场摊棚内：两人在通道里对话，字幕为“这样会受伤，你去那边找个地方假装自己是条鱼好吗”。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-daebyeon-market-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
+    { id: 'lid-salloto-beomil-01', landmarkId: 'lid-salloto-beomil', description: '西装店店内：成排西装、镜面墙与吊灯，两人在门口相对。剧照为 tvN 播出画面截图，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-salloto-beomil-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
+    { id: 'lid-jeonggwan-police-01', landmarkId: 'lid-jeonggwan-police', description: '派出所柜台前：两人隔着办公桌对视，身后是玻璃隔断与办公区。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-jeonggwan-police-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
+    { id: 'lid-wyndham-busan-01', landmarkId: 'lid-wyndham-busan', description: '酒店车道夜景：环形灯桥下的入口，一个人躺在车道上。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-wyndham-busan-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
+    { id: 'lid-wyndham-busan-02', landmarkId: 'lid-wyndham-busan', description: '酒店内景：宴会厅前厅，花卉画作前一名穿西装的人在奔跑，两侧是活动立牌。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-wyndham-busan-02-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
   ],
   updates: [
-    { landmarkId: 'jumunjin', reviewedAt: '2026-11-06T14:24:29.372Z' }
+    { landmarkId: 'jumunjin', reviewedAt: '2026-11-06T14:24:29.372Z' },
+    { landmarkId: 'lid-domoheon', reviewedAt: '2026-11-16T05:40:00.000Z' },
+    { landmarkId: 'lid-beijing-jjajang', reviewedAt: '2026-11-16T05:40:00.000Z' },
+    { landmarkId: 'lid-daebyeon-market', reviewedAt: '2026-11-16T05:40:00.000Z' },
+    { landmarkId: 'lid-salloto-beomil', reviewedAt: '2026-11-16T05:40:00.000Z' },
+    { landmarkId: 'lid-jeonggwan-police', reviewedAt: '2026-11-16T05:40:00.000Z' },
+    { landmarkId: 'lid-wyndham-busan', reviewedAt: '2026-11-16T05:40:00.000Z' }
   ]
 };
