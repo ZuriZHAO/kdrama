@@ -390,7 +390,7 @@ function iconFor(place, thumbnail = false) {
   const color = seriesById[place.workId].color;
   const imageScene = sceneForPlace(place);
   if (thumbnail && imageScene && sceneImageUrl(imageScene)) {
-    return L.divIcon({className:`scene-thumbnail-marker ${selectedPlace === place.id ? 'selected' : ''}`,html:`<span class="thumbnail-frame" style="border-color:${safeColor(color)}"><img ${sceneImageAttrs(imageScene)} src="${escapeHtml(sceneImageUrl(imageScene))}" alt="" loading="lazy" referrerpolicy="no-referrer"></span><span class="thumbnail-anchor" style="background:${safeColor(color)}"></span>`,iconSize:[70,50],iconAnchor:[35,50]});
+    return L.divIcon({className:`scene-thumbnail-marker ${selectedPlace === place.id ? 'selected' : ''}`,html:`<span class="thumbnail-frame" style="border-color:${safeColor(color)}"><img ${sceneImageAttrs(imageScene,'thumb',true)} src="${escapeHtml(sceneImageUrl(imageScene))}" alt="" loading="lazy" referrerpolicy="no-referrer"></span><span class="thumbnail-anchor" style="background:${safeColor(color)}"></span>`,iconSize:[70,50],iconAnchor:[35,50]});
   }
   return L.divIcon({className:'place-marker',html:`<span class="pin ${selectedPlace === place.id ? 'selected' : ''}" style="background:${safeColor(color)}"></span>`,iconSize:[24,24],iconAnchor:[12,12]});
 }
@@ -553,11 +553,12 @@ function sceneImageUrl(scene, size = 'thumb') {
   try { const parsed = new URL(url); return parsed.protocol === 'https:' && !parsed.username && !parsed.password ? parsed.href : ''; }
   catch { return ''; }
 }
-function sceneImageAttrs(scene,size='thumb') {
+function sceneImageAttrs(scene,size='thumb',fill=false) {
   const derived=size==='thumb'?scene.thumbnail:scene.mediumImage;
   const crop=derived?{x:50,y:50}:(scene.crop||{x:50,y:50});
   const x=Number.isFinite(crop.x)?Math.max(0,Math.min(100,crop.x)):50,y=Number.isFinite(crop.y)?Math.max(0,Math.min(100,crop.y)):50;
-  return `data-fallback="${escapeHtml(sceneImageUrl(scene,'original'))}" style="object-position:${x}% ${y}%"`;
+  const position=`object-position:${x}% ${fill?0:y}%`;
+  return `data-fallback="${escapeHtml(sceneImageUrl(scene,'original'))}" style="${fill?'width:100%;height:100%;object-fit:cover;':''}${position}"`;
 }
 
 function showGalleryImage() {
