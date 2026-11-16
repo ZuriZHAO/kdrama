@@ -37,12 +37,12 @@
 
 ## 使用提醒
 
-目前是试运行版本，已有地点中包含**示意点**，不能据此认定精确拍摄机位。新增地点的逐条核验情况见[核验记录](data/verification-2026-11-07.md)与[2026-11-16 补充核验](data/verification-2026-11-16.md)。现场可能因营业、施工或私人区域限制而无法进入；请遵守当地规定。
+目前是试运行版本，已有地点中包含**示意点**，不能据此认定精确拍摄机位。新增地点的逐条核验情况见[取景地核验记录](docs/verification-log.md)。现场可能因营业、施工或私人区域限制而无法进入；请遵守当地规定。
 
 街道底图由 [OpenFreeMap](https://openfreemap.org/) 提供，使用 OpenStreetMap 数据；地图服务不可用时会显示韩国轮廓图。本站参考 [Anitabi](https://navi.anitabi.cn/docs/) 的作品、地标与场景组织方式，不使用其地点数据或截图。
 
 ## 站点维护
 
-投稿集中在仓库的 [GitHub Issues](https://github.com/ZuriZHAO/kdrama/issues)。打开[可视化审核页](https://zurizhao.github.io/kdrama/review.html)，输入 Issue 链接或编号，用表单、地图拖点和图片预览修订，生成正文后回原 Issue 保存。维护者确认后添加 `publish-approved` 标签，工作流会自动导入并发布，成功或失败都会回写处理结果。审核页本身不会授予仓库写入权限。操作细节见[维护者说明](docs/MAINTAINER.md)；手工添加作品或修改海报见[预置作品与海报说明](docs/works.md)。
+投稿集中在仓库的 [GitHub Issues](https://github.com/ZuriZHAO/kdrama/issues)。打开[可视化审核页](https://zurizhao.github.io/kdrama/review.html)，输入 Issue 链接或编号，用表单、地图拖点和图片预览修订，生成正文后回原 Issue 保存。维护者确认后添加 `publish-approved` 标签，工作流会自动导入并发布，成功或失败都会回写处理结果。审核页本身不会授予仓库写入权限。操作细节见[维护者说明](docs/MAINTAINER.md)；手工添加作品或修改海报见[预置作品与海报说明](docs/works.md)；其余说明见[文档索引](docs/README.md)。
 
 审核页的“投稿队列”可按待审核、待补充、发布失败和已发布标签浏览。[维护已发布内容](https://zurizhao.github.io/kdrama/manage.html)可修改作品设置、地点分组与排序、指定场景，或合并重复地点。待发布清单与未加入清单的表单编辑自动保存在当前浏览器，刷新可恢复。地点与分组页支持整组改名、勾选地点移动分组，以及分组／组内地点上移下移；未分组固定显示在最后。所有变更先生成清单，再通过 GitHub 审核发布；自动保存草稿不代表发布。

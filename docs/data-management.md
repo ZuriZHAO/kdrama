@@ -481,7 +481,7 @@ node tools/media/ingest.cjs .\media-src\goblin\anguk.jpg `
 
 ```text
 node tools/build-catalog.cjs   # works/*.json → data/catalog.js
-node data/check-catalog.cjs    # 校验引用、坐标、集数
+node tools/check-catalog.cjs    # 校验引用、坐标、集数
 node tools/check-media.cjs     # 校验 key/清单/授权字段
 node tools/build-site.cjs      # 只复制 HTML/JS/CSS/vendor/data，不再复制 assets
 ```
@@ -560,7 +560,7 @@ node tools/build-site.cjs      # 只复制 HTML/JS/CSS/vendor/data，不再复�
 
 如果海报只做 480 px（q78），还能再降到约 11 MB；当前 600 px 已足够卡片展示。
 
-**验收已通过：** `node data/check-catalog.cjs`、`node tools/check-assets.cjs`、`node tools/build-site.cjs` 均通过；`assets/` 为 12.7 MB，低于 15 MB 目标。
+**验收已通过：** `node tools/check-catalog.cjs`、`node tools/check-assets.cjs`、`node tools/build-site.cjs` 均通过；`assets/` 为 12.7 MB，低于 15 MB 目标。
 
 **注意：** 阶段 0 只是把「变大」的速度降下来，并没有满足「图片完全不经过 GitHub」。它的价值是：即使后面暂时不搭图床，也能多撑很久；新增图片仍必须走 Issue 附件，不要 commit 进 `assets/`。
 
@@ -728,7 +728,7 @@ node tools/media/ingest.cjs --from-catalog --dry-run
 node tools/media/ingest.cjs --from-catalog
 
 # 校验
-node data/check-catalog.cjs
+node tools/check-catalog.cjs
 node tools/check-assets.cjs
 node tools/build-site.cjs
 

@@ -5,3 +5,11 @@ media-src/
 .env
 .env.*
 node_modules/
+
+# 一次性推送克隆目录（sites 发布用），不属于源码
+.push-clone/
+
+# 系统与日志
+.DS_Store
+Thumbs.db
+*.log

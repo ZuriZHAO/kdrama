@@ -51,7 +51,7 @@ jobs:
           node --check review.js
           node --check submission-core.js
           node --check tools/submission-status.cjs
-          node data/check-catalog.cjs
+          node tools/check-catalog.cjs
           node tools/check-assets.cjs
           node tools/test-flow.cjs
           node tools/test-submission-core.cjs
@@ -113,7 +113,7 @@ jobs:
           node --check submit.js
           node --check review.js
           node --check submission-core.js
-          node data/check-catalog.cjs
+          node tools/check-catalog.cjs
           node tools/check-assets.cjs
       - name: Build static site
         run: node tools/build-site.cjs

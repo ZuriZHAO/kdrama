@@ -145,5 +145,5 @@ function uniqueOutput(dir, base, width, source) {
 
   const remaining = unique.filter(ref => fs.existsSync(path.join(root, ref.old)) && !conversions.some(item => item.old === ref.old));
   console.log(`\n已更新 data/catalog.js，并删除 ${conversions.length} 张旧图。剩余未替换 ${remaining.length} 张。`);
-  console.log('接下来运行：node data/check-catalog.cjs && node tools/check-assets.cjs && node tools/build-site.cjs');
+  console.log('接下来运行：node tools/check-catalog.cjs && node tools/check-assets.cjs && node tools/build-site.cjs');
 })();

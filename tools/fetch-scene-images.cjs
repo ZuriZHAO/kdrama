@@ -185,7 +185,7 @@ async function main() {
   console.log(`\n已写入 ${written.length} 张 webp 到 ${relativeDir}/，并更新 data/catalog.js。`);
   if (skipped.length) console.log('\n已有图片、未覆盖：\n- ' + skipped.join('\n- '));
   if (failures.length) console.log('\n跳过：\n- ' + failures.join('\n- '));
-  console.log('接下来运行：node data/check-catalog.cjs && node tools/check-assets.cjs && node tools/build-site.cjs');
+  console.log('接下来运行：node tools/check-catalog.cjs && node tools/check-assets.cjs && node tools/build-site.cjs');
   console.log('（不要对全仓库跑 tools/optimize-assets.cjs：现有图片已是 webp，会重复压缩并改写全部引用。）');
 }
 

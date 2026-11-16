@@ -48,12 +48,12 @@
 
 本地运行 `npm ci` 安装锁定的图片处理依赖，再执行 `npm test`。普通静态构建不需要在线下载图片。图片检查的 150 MB 总量限制属于项目的资源预算，不是平台服务额度。
 
-目录由 `works`、`landmarks`、`scenes`、`sources` 和可选 `revisions`、`updates` 构成。新增或更正坐标先标为示意点；集数与时间点无法核实时留空。图片需展示许可，署名可选。演示数据的核验记录见 [核验记录](../data/verification-2026-11-06.md)。
+目录由 `works`、`landmarks`、`scenes`、`sources` 和可选 `revisions`、`updates` 构成。新增或更正坐标先标为示意点；集数与时间点无法核实时留空。图片需展示许可，署名可选。演示数据的核验记录见 [核验记录](verification-log.md)。
 
 修改后运行：
 
 ```powershell
-node data/check-catalog.cjs
+node tools/check-catalog.cjs
 node tools/check-assets.cjs
 node tools/test-flow.cjs
 node tools/test-submission-core.cjs

@@ -3,7 +3,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const context = {window: {}};
-vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'catalog.js'), 'utf8'), context);
+vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', 'data', 'catalog.js'), 'utf8'), context);
 const catalog = context.window.KDRAMA_CATALOG;
 const errors = [];
 
