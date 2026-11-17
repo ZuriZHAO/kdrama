@@ -281,8 +281,3 @@ p, h1, h2 { margin-top: 0; }
 @media(max-width:740px){.route-map-notice{left:10px;max-width:calc(100% - 20px);bottom:50px;}}
 
 /* Work discovery is separate from the independent landmark dots. */
-.map-work-anchor{display:flex;flex-direction:column;align-items:center;cursor:pointer;background:transparent;border:0}
-.map-work-avatar{width:34px;height:34px;border:2px solid;border-radius:50%;background:#fff;overflow:hidden;display:grid;place-items:center;font-size:11px;box-shadow:0 1px 4px #0004;flex:none}
-.map-work-avatar img{width:100%;height:100%;object-fit:cover}
-.map-work-label{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;font-weight:700;line-height:18px;text-shadow:-1px -1px 0 white,1px -1px 0 white,-1px 1px 0 white,1px 1px 0 white}
-.map-work-anchor:focus-visible{outline:2px solid #176eaf;outline-offset:3px;border-radius:6px}

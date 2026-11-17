@@ -19,6 +19,13 @@ cmd('Page.addScriptToEvaluateOnNewDocument',{'source':fixture})
 cmd('Emulation.setDeviceMetricsOverride',{'width':1440,'height':1000,'deviceScaleFactor':1,'mobile':False})
 cmd('Page.navigate',{'url':base})
 wait("typeof qa!=='undefined' && typeof selectedSceneId!=='undefined' && typeof window.renderMapDiscovery==='function'")
+# Overview keeps only the original small landmark dots, with no work avatars or clusters.
+ev("showAllWorks();void 0")
+time.sleep(.7)
+for zoom in [5,10,13]:
+    ev(f"map.setView([37.55,126.99],{zoom},{{animate:false}});renderMarkers();renderMapDiscovery();void 0")
+    assert ev("!document.querySelector('.map-work-anchor,.cluster-marker')")
+    assert ev("[...document.querySelectorAll('.pin')].every(p=>p.getBoundingClientRect().width<=10)")
 ev("selectWork(qa.workId);document.querySelector('[data-work-tab=episode]').click()")
 wait("document.querySelector('[data-scene=qa-scene-2]')")
 assert ev("[...document.querySelectorAll('[data-collapse]')].find(b=>b.dataset.collapse==='第 5 集').nextElementSibling.querySelectorAll('[data-scene^=qa-scene]').length===2")
