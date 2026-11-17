@@ -316,7 +316,11 @@ function renderList() {
     return (scenes.length ? scenes : [null]).map(scene => {
       const image = scene && sceneImageUrl(scene);
       const active = selectedPlace === place.id && (!scene || selectedSceneId === scene.id);
-      return `<button type="button" class="place-card ${active ? 'active' : ''}" data-place="${escapeHtml(place.id)}" data-scene="${escapeHtml(scene?.id || '')}" aria-label="查看${escapeHtml(place.name)}${scene ? ' · '+escapeHtml(sceneMeta(scene)) : ''}">${image ? `<img class="place-card-image" ${sceneImageAttrs(scene)} src="${escapeHtml(image)}" alt="${escapeHtml(scene.description || place.name)}" loading="lazy" referrerpolicy="no-referrer">` : ''}<span class="card-main">${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}<span class="card-title">${escapeHtml(place.name)}</span><span class="card-sub">${scene ? escapeHtml(sceneMeta(scene)) : escapeHtml(place.ko)+' · '+escapeHtml(place.city)}</span>${scene?.description ? `<span class="card-scene-description">${escapeHtml(scene.description)}</span>` : ''}</span></button>`;
+      const meta = scene ? sceneMeta(scene) : [place.ko, place.city].filter(Boolean).join(' · ');
+      const episode = scene?.episode != null && scene.episode !== '' ? (typeof scene.episode === 'number' ? `EP${scene.episode}` : scene.episode) : '';
+      const time = Number.isFinite(scene?.timeSeconds) ? `${Math.floor(scene.timeSeconds/60)}:${String(scene.timeSeconds%60).padStart(2,'0')}` : '';
+      const picture = image ? `<span class="place-card-picture"><img class="place-card-image" ${sceneImageAttrs(scene)} src="${escapeHtml(image)}" alt="${escapeHtml(scene.description || place.name)}" loading="lazy" referrerpolicy="no-referrer">${episode || time ? `<span class="place-card-stamp" aria-hidden="true"><span>${escapeHtml(episode)}</span><span>${escapeHtml(time)}</span></span>` : ''}</span>` : '<span class="place-card-dot" aria-hidden="true"></span>';
+      return `<button type="button" class="place-card ${image ? 'has-image' : ''} ${active ? 'active' : ''}" style="--work-color:${safeColor(seriesById[place.workId]?.color)}" data-place="${escapeHtml(place.id)}" data-scene="${escapeHtml(scene?.id || '')}" aria-label="查看${escapeHtml(place.name)}${meta ? ' · '+escapeHtml(meta) : ''}">${picture}<span class="card-main"><span class="card-title">${escapeHtml(place.name)}</span>${!image && meta ? `<span class="card-sub">${escapeHtml(meta)}</span>` : ''}${scene?.description ? `<span class="card-scene-description">${escapeHtml(scene.description)}</span>` : ''}${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}</span></button>`;
     }).join('');
   }).join('')}</div></section>`).join('') : '<div class="empty-state">这部作品还没有地点，欢迎投稿。</div>';
   $('place-list').querySelectorAll('[data-collapse]').forEach(button => button.addEventListener('click', () => {
@@ -449,7 +453,7 @@ function placePopup(place) {
     ${scene ? `<small class="popup-scene-meta">${escapeHtml(sceneMeta(scene))}</small>` : ''}
     <p>${escapeHtml(scene?.description || place.coordinateNote || '查看地点资料与导航信息')}</p>
     ${scenes.length > 1 ? `<div class="popup-scene-controls"><button type="button" data-scene-step="-1" ${scenes.indexOf(scene) <= 0 ? 'disabled' : ''}>← 上一场景</button><span>${scenes.indexOf(scene)+1} / ${scenes.length}</span><button type="button" data-scene-step="1" ${scenes.indexOf(scene) >= scenes.length-1 ? 'disabled' : ''}>下一场景 →</button></div>` : ''}
-    <div class="place-popup-actions"><button type="button" data-popup-detail>查看详情</button><button type="button" data-popup-share>复制${scene ? '场景' : '地点'}链接</button><a href="https://map.naver.com/p/search/${encodeURIComponent(place.query || place.ko || place.name)}" target="_blank" rel="noopener noreferrer">NAVER 地图 ↗</a></div></div>`;
+    <div class="place-popup-actions">${imageUrl ? `<a href="./compare.html?scene=${encodeURIComponent(scene.id)}">制作对比图</a>` : ''}<button type="button" data-popup-detail>查看详情</button><button type="button" data-popup-share>复制${scene ? '场景' : '地点'}链接</button><a href="https://map.naver.com/p/search/${encodeURIComponent(place.query || place.ko || place.name)}" target="_blank" rel="noopener noreferrer">NAVER 地图 ↗</a></div></div>`;
   card.querySelector('[data-popup-detail]').addEventListener('click', () => { map.closePopup(); openPlace(place.id); });
   card.querySelector('.popup-image-open')?.addEventListener('click', () => openGallery(place, scene.id));
   card.querySelectorAll('[data-scene-step]').forEach(button => button.addEventListener('click', () => {
@@ -466,12 +470,20 @@ function placePopup(place) {
 
 function render() { renderList(); renderMarkers(); }
 
+function mapViewPadding() {
+  const rect=$('map').getBoundingClientRect();let left=28,top=28;
+  const sidebar=document.querySelector('.sidebar').getBoundingClientRect();
+  if(sidebar.top<rect.bottom&&sidebar.bottom>rect.top&&sidebar.right<rect.right-100)left=Math.max(left,sidebar.right-rect.left+18);
+  const discovery=$('map-discovery').getBoundingClientRect();
+  if(!$('map-discovery').hidden&&discovery.width&&discovery.top<rect.bottom&&discovery.bottom>rect.top)top=Math.max(top,discovery.bottom-rect.top+18);
+  return {paddingTopLeft:[Math.min(left,rect.width-100),Math.min(top,rect.height-100)],paddingBottomRight:[28,28]};
+}
 function fitVisible() {
   if (!map) return;
-  const filtered = visiblePlaces();
-  if (selectedSeries === 'all' && !selectedWorkIds.size && !selectedRegion && !$('search').value.trim() && fullMapBounds) map.fitBounds(fullMapBounds,{padding:[28,28],animate:true});
-  else if (filtered.length === 1) map.setView([filtered[0].lat,filtered[0].lng],streetMapReady ? 15 : 9,{animate:true});
-  else if (filtered.length > 1) map.fitBounds(L.latLngBounds(filtered.map(p => [p.lat,p.lng])).pad(.25),{animate:true,maxZoom:selectedSeries === 'all' ? 9 : 14});
+  const filtered=visiblePlaces(),options={...mapViewPadding(),animate:true};
+  if(selectedSeries==='all'&&!selectedWorkIds.size&&!selectedRegion&&!$('search').value.trim()&&fullMapBounds)map.fitBounds(fullMapBounds,options);
+  else if(filtered.length===1)map.fitBounds(L.latLngBounds([[filtered[0].lat,filtered[0].lng]]),{...options,maxZoom:streetMapReady?15:9});
+  else if(filtered.length>1)map.fitBounds(L.latLngBounds(filtered.map(p=>[p.lat,p.lng])).pad(.15),{...options,maxZoom:selectedSeries==='all'?9:14});
 }
 
 function syncControls() {
@@ -776,7 +788,7 @@ function initMap() {
 
 let searchTimer;
 $('search').addEventListener('focus', () => { history.pushState(null,'',location.href); });
-$('search').addEventListener('input', () => {clearTimeout(searchTimer);searchTimer=setTimeout(() => {selectedPlace=null;render();fitVisible();saveView();},200);});
+$('search').addEventListener('input', () => {clearTimeout(searchTimer);searchTimer=setTimeout(() => {selectedSeries='all';selectedWorkIds.clear();selectedRegion=null;selectedPlace=null;selectedSceneId=null;groupViewInitialized=false;hideDetail();map?.closePopup();render();fitVisible();saveView();},200);});
 document.querySelectorAll('[data-browse]').forEach(button => button.addEventListener('click', () => { browseMode = button.dataset.browse; selectedWorkIds.clear(); selectedRegion = null; selectedSeries = 'all'; selectedPlace=null; selectedSceneId=null; groupViewInitialized=false;hideDetail(); map?.closePopup();render();fitVisible();saveView(true); }));
 document.querySelectorAll('[data-work-tab]').forEach(button => button.addEventListener('click', () => {
   if (workTab === button.dataset.workTab) return;

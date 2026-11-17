@@ -79,8 +79,20 @@ p, h1, h2 { margin-top: 0; }
 .work-type-variety { border-color: #bed2aa; background: #f3f8eb; color: #648443; }
 .work-arrow { color: #96a8ad; font-size: 22px; line-height: 1; }
 .card-main { min-width: 0; flex: 1; }
-.place-card { gap:11px; }
-.place-card-image { width:72px; height:48px; flex:none; object-fit:cover; border-radius:4px; background:#eef2f0; }
+.place-card { gap:10px; padding:8px 12px; align-items:flex-start; }
+.place-card.has-image { padding:0; gap:0; min-height:73px; }
+.place-card.has-image .card-main { padding:7px 10px; }
+.place-card.active { box-shadow:inset -3px 0 var(--work-color,var(--accent)); }
+.place-card:focus-visible { outline:2px solid var(--accent); outline-offset:-2px; }
+.place-card-picture { position:relative; display:block; width:142px; max-width:43%; flex:none; overflow:hidden; background:#eef2f0; }
+.place-card-stamp { position:absolute; inset:auto 0 0; display:flex; justify-content:space-between; gap:4px; padding:12px 5px 4px; background:linear-gradient(transparent,#000b); color:white; font-size:11px; line-height:1.2; text-shadow:0 1px 2px #000; pointer-events:none; }
+.place-card-stamp span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.place-card-stamp span:last-child { flex:none; }
+.place-card-dot { width:8px; height:8px; margin-top:7px; border-radius:50%; background:var(--work-color,var(--accent)); flex:none; }
+.place-card .card-title { margin:0; font-size:13px; overflow-wrap:anywhere; }
+.place-card .card-status { display:inline-block; margin-top:4px; padding:0 3px; font-weight:400; line-height:1.5; }
+.place-card .card-scene-description { line-height:1.4; }
+.place-card-image { display:block; width:100%; aspect-ratio:125/64; object-fit:cover; background:#eef2f0; }
 .card-status { padding: 2px 5px; border: 1px solid #dbe6e6; border-radius: 4px; color: #698087; font-size: 10px; white-space: nowrap; }
 .card-title { display: block; margin: 4px 0 3px; font-size: 14px; font-weight: 700; line-height: 1.4; }
 .card-sub { display: block; overflow: hidden; color: #88969b; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
@@ -231,7 +243,7 @@ p, h1, h2 { margin-top: 0; }
   .brand-mark { width: 30px; height: 30px; }
   .searchbox { margin: 0 13px 10px; height: 39px; }
   .list-heading { padding-top: 9px; padding-bottom: 8px; }
-  .work-card, .place-card { padding: 10px 14px; }
+  .work-card { padding: 10px 14px; }
   .map-status { left: 12px; bottom: 12px; max-width: calc(100% - 96px); font-size: 10px; }
   .reset-map { top: 12px; right: 12px; }
   .thumbnail-toggle { top: 52px; right: 12px; font-size: 10px; }
@@ -250,7 +262,7 @@ p, h1, h2 { margin-top: 0; }
   .sidebar-head { flex-wrap:wrap; gap:7px; }
 }
 
-.place-card-image {height:auto;aspect-ratio:125/64;}
+
 .scene-image img {aspect-ratio:125/64;}
 .image-unavailable {background:#edf1f0;color:#78898e;text-align:center;min-height:45px;}
 
@@ -267,3 +279,10 @@ p, h1, h2 { margin-top: 0; }
 .route-map-notice {position:absolute;bottom:55px;left:385px;z-index:500;background:#fff;padding:9px;border-radius:6px;font-size:11px;max-width:calc(100% - 400px);}
 .route-map-notice button {border:0;background:transparent;color:var(--accent);}
 @media(max-width:740px){.route-map-notice{left:10px;max-width:calc(100% - 20px);bottom:50px;}}
+
+/* Work discovery is separate from the independent landmark dots. */
+.map-work-anchor{display:flex;flex-direction:column;align-items:center;cursor:pointer;background:transparent;border:0}
+.map-work-avatar{width:34px;height:34px;border:2px solid;border-radius:50%;background:#fff;overflow:hidden;display:grid;place-items:center;font-size:11px;box-shadow:0 1px 4px #0004;flex:none}
+.map-work-avatar img{width:100%;height:100%;object-fit:cover}
+.map-work-label{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;font-weight:700;line-height:18px;text-shadow:-1px -1px 0 white,1px -1px 0 white,-1px 1px 0 white,1px 1px 0 white}
+.map-work-anchor:focus-visible{outline:2px solid #176eaf;outline-offset:3px;border-radius:6px}
