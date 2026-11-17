@@ -19,6 +19,22 @@ let draftDirty = false;
 let progressRequest = 0;
 let restoredFiles = {};
 let savedDraft = null;
+const submissionHistory = KdramaSubmissionHistory({
+  repo, host: $('submission-history'),
+  onSelect(number) {
+    $('issue-number').value = String(number);
+    checkProgress();
+    $('progress-status').scrollIntoView({block:'nearest'});
+  },
+  onRemove(number) {
+    try { if (core.parseIssueNumber(value('issue-number'), repo) !== number) return; }
+    catch { return; }
+    progressRequest++; $('check-progress').disabled = false;
+    $('issue-number').value = ''; $('progress-status').textContent = '';
+    $('progress-issue-link').hidden = true; $('published-place-link').hidden = true;
+    try { localStorage.removeItem(progressKey); } catch {}
+  }
+});
 const landmarkLabels = new Map();
 
 function value(id) { return $(id).value.trim(); }
@@ -342,6 +358,9 @@ async function checkProgress() {
     $('progress-issue-link').href = `https://github.com/${repo}/issues/${number}`;
     $('progress-issue-link').hidden = false;
     try { localStorage.setItem(progressKey, String(number)); } catch {}
+    submissionHistory.remember({number: Number(number),
+      title: issueResult.status === 'fulfilled' ? String(issueResult.value.title || '地点投稿') : '已发布的地点投稿',
+      status: $('progress-status').textContent, checkedAt: Date.now()});
   } catch (error) {
     if (request === progressRequest) $('progress-status').textContent = `无法确认进度：${error.name === 'AbortError' ? '网络请求超时，请稍后重试' : error.message}。`;
   } finally { if (request === progressRequest) button.disabled = false; }

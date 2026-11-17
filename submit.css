@@ -80,3 +80,9 @@ input:focus,select:focus,textarea:focus { outline:2px solid #315f7826; border-co
 .pick-marker span{display:block;width:100%;height:100%;border:3px solid #fff;border-radius:50%;box-shadow:0 1px 6px #0008;background:#1680df;box-sizing:border-box}.pick-marker.original span{background:#626b78;transform:scale(1.4)}
 .image-dropzone{border:2px dashed #bbc6d2;border-radius:12px;padding:14px;background:#fafcfe}.image-dropzone.dragover{border-color:#1680df;background:#eef7ff}.image-actions button{padding:6px 12px}.manage-order-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #eee}.manage-order-row span{flex:1}.manage-order-row button{padding:5px 9px}.manage-group-heading{display:flex;align-items:center;gap:8px;margin-top:18px}.manage-group-heading strong{flex:1}
 @media(max-width:600px){#submission-map{height:280px}.manage-order-row{flex-wrap:wrap}.manage-order-row span{flex-basis:100%}}
+
+.submission-history{margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
+.submission-history h3{font-size:15px;margin:0 0 8px}.submission-history-list{padding:0;list-style:none;margin:0}
+.submission-history-list li{padding:14px 0;border-top:1px solid var(--line);overflow-wrap:anywhere}
+.submission-history-list a{font-size:13px;font-weight:600}.history-status{font-size:12px;line-height:1.7;margin:8px 0}
+.submission-history-list small{color:var(--muted);font-size:11px}.history-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
