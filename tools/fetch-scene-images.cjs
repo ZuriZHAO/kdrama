@@ -29,11 +29,7 @@ const EXTENSIONS = [
 ];
 
 function loadSharp() {
-  try {
-    return require('sharp');
-  } catch {
-    return require('../api-site/node_modules/sharp');
-  }
+  return require('sharp');
 }
 
 function imageExtension(bytes) {

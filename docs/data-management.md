@@ -514,17 +514,9 @@ node tools/build-site.cjs      # 只复制 HTML/JS/CSS/vendor/data，不再复�
 - `pending/` 前缀设 30 天生命周期自动删除；
 - 公开桶只放已审核图片；待审图片放私有桶或不可猜的 UUID 路径。
 
-### 6.6 现有 `api-site/` 能复用什么
+### 6.6 旧投稿服务参考
 
-仓库里已经有一套旧的 Sites 投稿服务，里面有不少可直接参考的代码：
-
-- `api-site/app/api/submissions/route.ts`：把图片写入 `env.BUCKET.put('pending/{uuid}')`，限制 5 MB，校验 JPG/PNG/WebP；
-- `api-site/app/api/images/[id]/route.ts`：只服务 `approved` 记录的 R2 对象；
-- `api-site/db/schema.ts`：`submissions` 表保存 `imageKey` / `posterKey`。
-
-它的问题：依赖 ChatGPT Sites 的 D1/R2 绑定、登录和部署，公开地图已经不再读取它；为图片单独维护整套 Next.js 不划算。
-
-建议：**复用它的 R2 put/get 和大小/MIME 校验思路，不复用整个应用**。先用本地 `ingest.cjs` 跑通；将来需要投稿人自助上传，再抽一个 100 行左右的 Worker。旧项目保留做历史数据核对，不要作为新图床的依赖。
+旧 Sites 后端已从当前版本移除，历史源码入口见 [托管说明](hosting.md)。将来若设计独立上传服务，可参考其对象存储、图片大小和 MIME 校验思路；现有网站及图片工具不再依赖它。
 
 ---
 

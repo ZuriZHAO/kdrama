@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
-const sharp = require('../api-site/node_modules/sharp');
+const sharp = require('sharp');
 
 const root = path.resolve(__dirname, '..');
 const catalogPath = path.join(root, 'data', 'catalog.js');

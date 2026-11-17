@@ -4,7 +4,7 @@
 | --- | --- |
 | [MAINTAINER.md](MAINTAINER.md) | 投稿收录、审核发布、图片处理与本地校验的维护流程 |
 | [works.md](works.md) | 手工添加作品、海报与场景的规范 |
-| [hosting.md](hosting.md) | 主站发布方式、`dist/` 与旧投稿服务的现状 |
+| [hosting.md](hosting.md) | 当前发布方式、生成目录与旧服务历史入口 |
 | [verification-log.md](verification-log.md) | 按日期汇总的逐条核验记录（示范点、坐标层级与待核项） |
 | [data-management.md](data-management.md) | 数据与图片的长期方案：现状体检、结构设想与迁移阶段，属规划记录，部分内容已执行 |
 
@@ -19,7 +19,7 @@ node tools/build-site.cjs      # 生成 dist/
 
 ## 手工浏览器回归（可选）
 
-`tools/` 下有三个不走 CI 的脚本，用于改动地图与投稿界面后做人工回归。它们通过 Chrome DevTools Protocol 直接驱动浏览器，需要先本地起站（例如 `node tools/build-site.cjs` 后把 `dist/` 用静态服务器打开），再启动带远程调试端口的 Chrome，并安装 Python 的 `websocket-client`。
+`tools/` 下有不走 CI 的浏览器测试脚本，用于改动地图与投稿界面后做人工回归。它们通过 Chrome DevTools Protocol 直接驱动浏览器，需要先本地起站（例如 `node tools/build-site.cjs` 后把 `dist/` 用静态服务器打开），再启动带远程调试端口的 Chrome，并安装 Python 的 `websocket-client`。
 
 | 脚本 | 用途 | 参数 |
 | --- | --- | --- |
