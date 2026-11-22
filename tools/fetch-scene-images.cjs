@@ -2,7 +2,7 @@
 // 用法：node tools/fetch-scene-images.cjs [清单路径] [--dry-run] [--skip-download]
 // 清单格式见 data/scene-sources/*.json：{ workId, scenes: [{ sceneId, source, url }] }。
 //
-// 注意：这里刻意不调用 tools/optimize-assets.cjs。那个脚本会把 catalog 里所有图片重新压一遍，
+// 这里只处理新增图片。对 catalog 里所有图片重新压缩，
 // 仓库里现有图片已经是 webp，再跑一次会生成 *-600w-600w.webp 之类的重复文件并改写全部引用。
 // 本脚本只处理清单里的新图：写 assets/scenes/<workId>/<sceneId>-1280w.webp，再改这一条场景。
 
@@ -182,7 +182,7 @@ async function main() {
   if (skipped.length) console.log('\n已有图片、未覆盖：\n- ' + skipped.join('\n- '));
   if (failures.length) console.log('\n跳过：\n- ' + failures.join('\n- '));
   console.log('接下来运行：node tools/check-catalog.cjs && node tools/check-assets.cjs && node tools/build-site.cjs');
-  console.log('（不要对全仓库跑 tools/optimize-assets.cjs：现有图片已是 webp，会重复压缩并改写全部引用。）');
+  console.log('（不要重复压缩全仓库图片：现有图片已是 webp，会重复压缩并改写全部引用。）');
 }
 
 module.exports = { wireScene, imageExtension, allowed, toWebp };

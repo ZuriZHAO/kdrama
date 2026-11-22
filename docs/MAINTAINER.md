@@ -46,7 +46,7 @@
 
 图片下载、格式或生成失败会中止该次发布并保留失败回执，不会发布缺少新图片的半成品。按编号图片区块上传，一块仅一图；多图不能混放在海报区。投稿页会在 IndexedDB 保存场景原图副本，文字、逐图说明和裁剪参数保存在本机草稿中，恢复后可继续预览。若浏览器不允许保存、清除了数据或换设备，则需要重新选图；作品海报仍需重选。副本不会自动上传，GitHub 附图步骤仍需完成。
 
-来自笔记或攻略的截图不属于 GitHub 投稿，按 `data/scene-sources/<workId>.json` 登记（`sceneId` ↔ 来源图号 ↔ 图片链接），确认展示许可后运行 `node tools/fetch-scene-images.cjs`：下载、压成 1280 像素宽的 webp（单张不超过 400 KB）、写入 `assets/scenes/<workId>/` 并把 `image` 写回场景，源图不进仓库。链接过期时，把原图另存为 `assets/scenes/<workId>/<sceneId>.jpg` 后跑 `node tools/fetch-scene-images.cjs --skip-download`。**不要**对全仓库运行 `tools/optimize-assets.cjs`：现有图片已经是 webp，它会再压一遍并改写全部引用。
+来自笔记或攻略的截图不属于 GitHub 投稿，按 `data/scene-sources/<workId>.json` 登记（`sceneId` ↔ 来源图号 ↔ 图片链接），确认展示许可后运行 `node tools/fetch-scene-images.cjs`：下载、压成 1280 像素宽的 webp（单张不超过 400 KB）、写入 `assets/scenes/<workId>/` 并把 `image` 写回场景，源图不进仓库。链接过期时，把原图另存为 `assets/scenes/<workId>/<sceneId>.jpg` 后跑 `node tools/fetch-scene-images.cjs --skip-download`。旧的全目录压缩工具已移除。现有图片已压缩，只处理新增图片，避免重复编码和改写无关引用。
 
 本地运行 `npm ci` 安装锁定的图片处理依赖，再执行 `npm test`。普通静态构建不需要在线下载图片。图片检查的 150 MB 总量限制属于项目的资源预算，不是平台服务额度。
 

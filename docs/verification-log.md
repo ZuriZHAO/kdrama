@@ -142,7 +142,7 @@ node tools/check-catalog.cjs; node tools/check-assets.cjs; node tools/build-site
 
 脚本只处理清单里 `image` 仍为空的场景（已有图片会跳过），压到 1280 px webp、单张不超过 400 KB。笔记链接过期时，先把原图另存为 `assets/scenes/love-in-disguise/<sceneId>.jpg`，再跑 `node tools/fetch-scene-images.cjs --skip-download`（转换完成后会删除原图）。
 
-**不要对全仓库运行 `tools/optimize-assets.cjs`**：仓库里现有图片已经是 webp，它会把每张图再压一次、生成 `*-600w-600w.webp` 这类重复文件并改写全部引用（2026-11-16 实测会改动 200 多张）。
+**旧全目录压缩工具已移除**：仓库里现有图片已经是 webp，它会把每张图再压一次、生成 `*-600w-600w.webp` 这类重复文件并改写全部引用（2026-11-16 实测会改动 200 多张）。
 
 ### 未加入的内容
 

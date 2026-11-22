@@ -7,7 +7,6 @@
 | [data-format.md](data-format.md) | 数据交换与备份格式：v1 单文件、v2 按作品拆分 |
 | [hosting.md](hosting.md) | 当前发布方式、生成目录与旧服务历史入口 |
 | [verification-log.md](verification-log.md) | 按日期汇总的逐条核验记录（示意点、坐标层级与待核项） |
-| [archive/data-management.md](archive/data-management.md) | 早期数据与图片方案：现状体检、结构设想与迁移阶段。属历史规划记录，仅作追溯用，当前做法以 data-format.md 和 MAINTAINER.md 为准 |
 
 ## 常用校验
 
