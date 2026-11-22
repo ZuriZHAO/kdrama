@@ -1,7 +1,13 @@
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.KdramaCompare=api;})(typeof globalThis!=='undefined'?globalThis:this,()=>{
-  const defaults={mode:'side',gap:12,background:'#eeeeee',size:1600,divider:50,sceneX:50,sceneY:50,photoX:50,photoY:50,credit:'',caption:true,swap:false,format:'png',opacity:50,sceneZoom:100,photoZoom:100};
-  function normalize(value={}){const out={...defaults};for(const key of ['mode','format'])if(({mode:['side','vertical','overlay','blend'],format:['png','jpeg']})[key].includes(value[key]))out[key]=value[key];for(const key of ['gap','size','divider','sceneX','sceneY','photoX','photoY','opacity','sceneZoom','photoZoom']){const n=Number(value[key]);if(value[key]!=null&&Number.isFinite(n))out[key]=Math.round(Math.max(key==='size'?800:key.endsWith('Zoom')?100:0,Math.min(key==='size'?2400:key==='gap'?60:key.endsWith('Zoom')?300:100,n)));}if(/^#[0-9a-f]{6}$/i.test(value.background||''))out.background=value.background;for(const k of ['caption','swap'])if(typeof value[k]==='boolean')out[k]=value[k];if(typeof value.credit==='string')out.credit=value.credit.slice(0,80);return out;}
-  function layout(value){const o=normalize(value),gap=['overlay','blend'].includes(o.mode)?0:o.gap,w=o.mode==='side'?Math.floor((o.size-3*gap)/2):o.size-2*gap,h=Math.round(w*64/125);return {width:o.size,height:o.mode==='vertical'?2*h+3*gap+(o.caption?90:0):h+2*gap+(o.caption?90:0),boxes:o.mode==='side'?[[gap,gap,w,h],[2*gap+w,gap,w,h]]:o.mode==='vertical'?[[gap,gap,w,h],[gap,2*gap+h,w,h]]:[[0,0,o.size,h],[0,0,o.size,h]],captionY:o.mode==='vertical'?2*h+3*gap:h+2*gap};}
-  function crop(iw,ih,w,h,x=50,y=50,zoom=100){const sw=Math.min(iw,ih*w/h)/(Math.max(100,Math.min(300,Number(zoom)||100))/100),sh=sw*h/w;return [(iw-sw)*x/100,(ih-sh)*y/100,sw,sh];}
-  return {defaults,normalize,layout,crop};
+  const defaults={mode:'vertical',gap:0,background:'#eeeeee',size:1600};
+  function normalize(value={}){return {mode:value.mode==='side'?'side':'vertical',gap:Number.isFinite(Number(value.gap))?Math.round(Math.max(0,Math.min(60,Number(value.gap)))):0,background:/^#[0-9a-f]{6}$/i.test(value.background||'')?value.background:defaults.background,size:1600};}
+  function layout(value,ratios=[16/9,16/9]){
+    const o=normalize(value),r=ratios.map(n=>Number.isFinite(n)&&n>0?n:16/9),g=o.gap;
+    let boxes,height;
+    if(o.mode==='side'){const h=(o.size-3*g)/(r[0]+r[1]);height=h+2*g;boxes=[[g,g,h*r[0],h],[2*g+h*r[0],g,h*r[1],h]];}
+    else{const w=o.size-2*g,h1=w/r[0],h2=w/r[1];height=h1+h2+3*g;boxes=[[g,g,w,h1],[g,2*g+h1,w,h2]];}
+    // Keep unusually tall/skinny photos within a safe canvas size without cropping.
+    const scale=Math.min(1,8000/height);return {width:Math.max(1,Math.round(o.size*scale)),height:Math.max(1,Math.round(height*scale)),boxes:boxes.map(b=>b.map(n=>n*scale))};
+  }
+  return {defaults,normalize,layout};
 });

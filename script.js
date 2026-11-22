@@ -313,15 +313,13 @@ function renderList() {
   $('expand-groups').disabled = !entries.some(([key]) => collapsedGroups.has(key));
   $('place-list').innerHTML = entries.length ? entries.map(([heading, items], index) => `<section class="place-group"><button class="group-heading" type="button" data-collapse="${escapeHtml(heading)}" aria-expanded="${!collapsedGroups.has(heading)}" aria-controls="place-group-${index}"><span class="group-chevron" aria-hidden="true">${collapsedGroups.has(heading) ? "▸" : "▾"}</span><span class="group-name">${escapeHtml(heading)}</span><small>${items.length}</small></button><div id="place-group-${index}" ${collapsedGroups.has(heading) ? "hidden" : ""}>${items.map(place => {
     const scenes = (scenesByLandmark.get(place.id) || []).filter(scene => workTab !== 'episode' || KdramaMapCore.groupKeys(place, [scene], 'episode').includes(heading));
-    return (scenes.length ? scenes : [null]).map(scene => {
-      const image = scene && sceneImageUrl(scene);
-      const active = selectedPlace === place.id && (!scene || selectedSceneId === scene.id);
-      const meta = scene ? sceneMeta(scene) : [place.ko, place.city].filter(Boolean).join(' · ');
-      const episode = scene?.episode != null && scene.episode !== '' ? (typeof scene.episode === 'number' ? `EP${scene.episode}` : scene.episode) : '';
-      const time = Number.isFinite(scene?.timeSeconds) ? `${Math.floor(scene.timeSeconds/60)}:${String(scene.timeSeconds%60).padStart(2,'0')}` : '';
-      const picture = image ? `<span class="place-card-picture"><img class="place-card-image" ${sceneImageAttrs(scene)} src="${escapeHtml(image)}" alt="${escapeHtml(scene.description || place.name)}" loading="lazy" referrerpolicy="no-referrer">${episode || time ? `<span class="place-card-stamp" aria-hidden="true"><span>${escapeHtml(episode)}</span><span>${escapeHtml(time)}</span></span>` : ''}</span>` : '<span class="place-card-dot" aria-hidden="true"></span>';
-      return `<button type="button" class="place-card ${image ? 'has-image' : ''} ${active ? 'active' : ''}" style="--work-color:${safeColor(seriesById[place.workId]?.color)}" data-place="${escapeHtml(place.id)}" data-scene="${escapeHtml(scene?.id || '')}" aria-label="查看${escapeHtml(place.name)}${meta ? ' · '+escapeHtml(meta) : ''}">${picture}<span class="card-main"><span class="card-title">${escapeHtml(place.name)}</span>${!image && meta ? `<span class="card-sub">${escapeHtml(meta)}</span>` : ''}${scene?.description ? `<span class="card-scene-description">${escapeHtml(scene.description)}</span>` : ''}${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}</span></button>`;
-    }).join('');
+    const scene = scenes.find(item => sceneImageUrl(item)) || scenes[0] || null;
+    const image = scene && sceneImageUrl(scene);
+    const allScenes = scenesByLandmark.get(place.id) || [];
+    const count = allScenes.filter(item => sceneImageUrl(item)).length;
+    const picture = image ? `<span class="place-card-picture"><img class="place-card-image" ${sceneImageAttrs(scene)} src="${escapeHtml(image)}" alt="${escapeHtml(place.name)}" loading="lazy" referrerpolicy="no-referrer"></span>` : '<span class="place-card-dot" aria-hidden="true"></span>';
+    return `<button type="button" class="place-card ${image ? 'has-image' : ''} ${selectedPlace === place.id ? 'active' : ''}" style="--work-color:${safeColor(seriesById[place.workId]?.color)}" data-place="${escapeHtml(place.id)}" data-scene="${escapeHtml(scene?.id || '')}" aria-label="查看${escapeHtml(place.name)}">${picture}<span class="card-main"><span class="card-title">${escapeHtml(place.name)}</span><span class="card-sub">${count} 张截图 · 查看详情</span>${place.coordinateStatus === 'approximate' ? '<span class="card-status">示意点</span>' : ''}</span></button>`;
+
   }).join('')}</div></section>`).join('') : '<div class="empty-state">这部作品还没有地点，欢迎投稿。</div>';
   $('place-list').querySelectorAll('[data-collapse]').forEach(button => button.addEventListener('click', () => {
     const key = button.dataset.collapse;
@@ -412,7 +410,6 @@ function selectScene(place, sceneId, record = true) {
   const marker = markers.get(place.id);
   if (marker?.isPopupOpen()) marker.setPopupContent(() => placePopup(place));
   $('detail-content').querySelectorAll('[data-scene-record]').forEach(row => row.classList.toggle('active', row.dataset.sceneRecord === selectedSceneId));
-  if ($('share-place')) $('share-place').textContent = selectedSceneId ? '复制场景链接' : '复制地点链接';
   if (record) saveView(true);
 }
 
@@ -453,18 +450,13 @@ function placePopup(place) {
     ${scene ? `<small class="popup-scene-meta">${escapeHtml(sceneMeta(scene))}</small>` : ''}
     <p>${escapeHtml(scene?.description || place.coordinateNote || '查看地点资料与导航信息')}</p>
     ${scenes.length > 1 ? `<div class="popup-scene-controls"><button type="button" data-scene-step="-1" ${scenes.indexOf(scene) <= 0 ? 'disabled' : ''}>← 上一场景</button><span>${scenes.indexOf(scene)+1} / ${scenes.length}</span><button type="button" data-scene-step="1" ${scenes.indexOf(scene) >= scenes.length-1 ? 'disabled' : ''}>下一场景 →</button></div>` : ''}
-    <div class="place-popup-actions">${imageUrl ? `<a href="./compare.html?scene=${encodeURIComponent(scene.id)}">制作对比图</a>` : ''}<button type="button" data-popup-detail>查看详情</button><button type="button" data-popup-share>复制${scene ? '场景' : '地点'}链接</button><a href="https://map.naver.com/p/search/${encodeURIComponent(place.query || place.ko || place.name)}" target="_blank" rel="noopener noreferrer">NAVER 地图 ↗</a></div></div>`;
+    <div class="place-popup-actions">${imageUrl ? `<a href="./compare.html?scene=${encodeURIComponent(scene.id)}">制作对比图</a>` : ''}<button type="button" data-popup-detail>查看详情</button><a href="https://map.naver.com/p/search/${encodeURIComponent(place.query || place.ko || place.name)}" target="_blank" rel="noopener noreferrer">NAVER 地图 ↗</a></div></div>`;
   card.querySelector('[data-popup-detail]').addEventListener('click', () => { map.closePopup(); openPlace(place.id); });
   card.querySelector('.popup-image-open')?.addEventListener('click', () => openGallery(place, scene.id));
   card.querySelectorAll('[data-scene-step]').forEach(button => button.addEventListener('click', () => {
     const next = scenes[scenes.indexOf(scene) + Number(button.dataset.sceneStep)];
     if (next) selectScene(place, next.id);
   }));
-  card.querySelector('[data-popup-share]').addEventListener('click', async event => {
-    saveView();
-    try { await navigator.clipboard.writeText(location.href); event.target.textContent = '已复制'; }
-    catch { event.target.textContent = '请复制浏览器地址'; }
-  });
   return card;
 }
 
@@ -643,7 +635,7 @@ function openPlace(id) {
   const sourceEvidence = source
     ? `<a class="source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.title)} ↗</a>`
     : '暂无来源，待核实';
-  $('detail-content').innerHTML = `<p class="detail-overline">${escapeHtml(work.year)} · ${escapeHtml(work.title)}</p><h2 id="detail-title">${escapeHtml(place.name)}</h2><p class="detail-hangul">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</p><div class="detail-actions"><button id="favorite-place" type="button" aria-pressed="${favoriteIds.has(place.id)}">${favoriteIds.has(place.id) ? '★ 已收藏' : '☆ 收藏地点'}</button><button id="visit-place" type="button" aria-pressed="${!!visitDates[place.id]}">${visitDates[place.id] ? `✓ 已到访 ${escapeHtml(visitDates[place.id])}` : '记录到访'}</button><button id="share-place" type="button">复制地点链接</button><a href="${escapeHtml(updateLink)}">补充／更正</a></div>${renderScenes(place)}<div class="detail-grid"><div class="detail-row"><b>韩文地址</b><span>${escapeHtml(place.address)}</span></div><div class="detail-row"><b>到访提示</b><span>${escapeHtml(place.visit)}</span></div></div>${navLinks(place)}<details class="detail-evidence"><summary>资料来源与点位核验</summary><div class="detail-grid"><div class="detail-row"><b>点位状态</b><span>${coordinateLabel(place)}</span></div><div class="detail-row"><b>取景来源</b><span>${sourceEvidence}</span></div><div class="detail-row"><b>坐标依据</b><span>${coordinateEvidence}</span></div><div class="detail-row"><b>核验日期</b><span>${escapeHtml(place.verifiedAt || '待核实')}</span></div>${revisionEvidence}</div><p class="detail-note">${escapeHtml(place.coordinateNote || coordinateNote)}</p></details>`;
+  $('detail-content').innerHTML = `<p class="detail-overline">${escapeHtml(work.year)} · ${escapeHtml(work.title)}</p><h2 id="detail-title">${escapeHtml(place.name)}</h2><p class="detail-hangul">${escapeHtml(place.ko)} · ${escapeHtml(place.city)}</p><div class="detail-actions"><button id="favorite-place" type="button" aria-pressed="${favoriteIds.has(place.id)}">${favoriteIds.has(place.id) ? '★ 已收藏' : '☆ 收藏地点'}</button><button id="visit-place" type="button" aria-pressed="${!!visitDates[place.id]}">${visitDates[place.id] ? `✓ 已到访 ${escapeHtml(visitDates[place.id])}` : '记录到访'}</button><a href="${escapeHtml(updateLink)}">补充／更正</a></div>${renderScenes(place)}<div class="detail-grid"><div class="detail-row"><b>韩文地址</b><span>${escapeHtml(place.address)}</span></div><div class="detail-row"><b>到访提示</b><span>${escapeHtml(place.visit)}</span></div></div>${navLinks(place)}<details class="detail-evidence"><summary>资料来源与点位核验</summary><div class="detail-grid"><div class="detail-row"><b>点位状态</b><span>${coordinateLabel(place)}</span></div><div class="detail-row"><b>取景来源</b><span>${sourceEvidence}</span></div><div class="detail-row"><b>坐标依据</b><span>${coordinateEvidence}</span></div><div class="detail-row"><b>核验日期</b><span>${escapeHtml(place.verifiedAt || '待核实')}</span></div>${revisionEvidence}</div><p class="detail-note">${escapeHtml(place.coordinateNote || coordinateNote)}</p></details>`;
   $('favorite-place').addEventListener('click', () => toggleFavorite(place.id));
   $('visit-place').addEventListener('click', () => toggleVisit(place.id));
   $('visit-place').disabled = !!checkinDates[place.id];
@@ -660,15 +652,6 @@ function openPlace(id) {
   $('detail-content').querySelector('.detail-actions').after(checkinStatus);
   checkinButton.addEventListener('click', () => checkInPlace(place));
   $('detail-content').querySelectorAll('[data-scene-image]').forEach(button => button.addEventListener('click', () => openGallery(place, button.dataset.sceneImage)));
-  $('share-place').textContent = selectedSceneId ? '复制场景链接' : '复制地点链接';
-  $('share-place').addEventListener('click', async () => {
-    try {
-      saveView(); await navigator.clipboard.writeText(location.href);
-      $('share-place').textContent = '链接已复制';
-    } catch {
-      $('share-place').textContent = '请复制浏览器地址';
-    }
-  });
   $('detail-overlay').hidden = false;
   document.body.style.overflow = 'hidden';
   if (map) { map.setView([place.lat,place.lng],streetMapReady ? 15 : 9,{animate:true}); renderMarkers(); }
