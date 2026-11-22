@@ -200,6 +200,8 @@ window.KDRAMA_CATALOG = {
     { id: 'visitseoul-one-spring', title: 'VISITSEOUL · 与《春夜》中的首尔坠入爱河', url: 'https://tchinese.visitseoul.net/hallyu/Falling-in-love-with-Seoul-from-the-TV-drama-One-Spring-Night-tch/TCN030949' },
     { id: 'visitkorea-descendants', title: 'VISITKOREA · 《太阳的后裔》拍摄场地', url: 'https://chinese.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=214590' },
     { id: 'xhs-lid', title: '小红书 · 《我的有罪之人》釜山拍摄地与演员用餐的烤肉店', url: 'https://www.xiaohongshu.com/explore/6af1eefb000000002c033784' },
+    { id: 'xhs-lid-seoul', title: '小红书 · 快乐打卡《我的有罪之人》首尔取景地', url: 'https://www.xiaohongshu.com/explore/6b02a80f000000002303e0a5' },
+    { id: 'xhs-lid-20', title: '小红书 · 《我的有罪之人》20 处拍摄地整合', url: 'https://www.xiaohongshu.com/explore/6b02f85c000000002b034330' },
     { id: 'kdramapins-lid', title: 'KDramaPins · 《我的有罪之人》取景地清单', url: 'https://kdramapins.com/dramas/love-in-disguise/' },
     { id: 'visitkorea-domoheon', title: '韩国观光公社 · 都慕轩（旧釜山市长官舍）', url: 'https://korean.visitkorea.or.kr/detail/ms_detail.do?cotid=4012a580-3306-4927-9780-8f7db3590558' },
     { id: 'visitkorea-daebyeon', title: '韩国观光公社 · 大边市场', url: 'https://access.visitkorea.or.kr/ms/detail.do?cotId=b8674420-a04b-4d09-9f1c-f8a46e48ee6e' },
@@ -209,6 +211,31 @@ window.KDRAMA_CATALOG = {
     { id: 'osm-jayupyeonghwa', title: 'OpenStreetMap · 釜山镇区 자유평화로', url: 'https://www.openstreetmap.org/way/1355110407' },
     { id: 'osm-deungdae', title: 'OpenStreetMap · 西区 등대로', url: 'https://www.openstreetmap.org/way/561994975' },
     { id: 'xhs-ctl', title: '小红书 · 《爱情怎么翻译？》三国取景地清单', url: 'https://www.xiaohongshu.com/explore/6978883c000000000b00bb79' },
+    { id: 'kakao-lid-kimsukseong', title: 'Kakao 地图 · 김숙성（大兴本店）', url: 'https://place.map.kakao.com/227760533' },
+    { id: 'kakao-lid-darakjeong', title: 'Kakao 地图 · 다락정', url: 'https://place.map.kakao.com/25732519' },
+    { id: 'kakao-lid-nb2', title: 'Kakao 地图 · 클럽 NB2', url: 'https://place.map.kakao.com/1600511760' },
+    { id: 'kakao-lid-supgil', title: 'Kakao 地图 · 숲길해장', url: 'https://place.map.kakao.com/1604893518' },
+    { id: 'kakao-lid-monobloc', title: 'Kakao 地图 · 카페모노블럭', url: 'https://place.map.kakao.com/18758379' },
+    { id: 'kakao-lid-gamgodang', title: 'Kakao 地图 · 감고당길', url: 'https://place.map.kakao.com/24406421' },
+    { id: 'kakao-lid-peace-park', title: 'Kakao 地图 · 평화의공원', url: 'https://place.map.kakao.com/8130030' },
+    { id: 'kakao-lid-eenk', title: 'Kakao 地图 · EENK 플래그십 스토어', url: 'https://place.map.kakao.com/574746674' },
+    { id: 'kakao-lid-yeouido', title: 'Kakao 地图 · 여의도한강공원', url: 'https://place.map.kakao.com/10952963' },
+    { id: 'kakao-lid-jeongdok-bus', title: 'Kakao 地图 · 정독도서관 버스정류장', url: 'https://map.kakao.com/?q=%EC%A0%95%EB%8F%85%EB%8F%84%EC%84%9C%EA%B4%80%20%EB%B2%84%EC%8A%A4%EC%A0%95%EB%A5%98%EC%9E%A5' },
+    { id: 'kakao-lid-everland', title: 'Kakao 地图 · 에버랜드 장미원', url: 'https://place.map.kakao.com/17574815' },
+    { id: 'kakao-lid-haneul', title: 'Kakao 地图 · 하늘공원', url: 'https://place.map.kakao.com/8128910' },
+    { id: 'kakao-lid-boxing', title: 'Kakao 地图 · 국가대표 복싱센터 에스파이브점', url: 'https://place.map.kakao.com/1739508842' },
+    { id: 'osm-mirinae', title: 'OpenStreetMap · 미리내성지', url: 'https://www.openstreetmap.org/way/988839840' },
+    { id: 'kakao-lid-pungsanirang', title: 'Kakao 地图 · 풍사니랑', url: 'https://place.map.kakao.com/498385747' },
+    { id: 'kakao-lid-quiznos', title: 'Kakao 地图 · 퀴즈노스 랩 판교테크노밸리점', url: 'https://place.map.kakao.com/1004302804' },
+    { id: 'kakao-lid-parisbaguette', title: 'Kakao 地图 · 파리바게뜨 서강신수점', url: 'https://place.map.kakao.com/12344279' },
+    { id: 'kakao-lid-cu-mapo', title: 'Kakao 地图 · CU 마포성제점', url: 'https://place.map.kakao.com/2000891383' },
+    { id: 'kakao-lid-mimesis', title: 'Kakao 地图 · 미메시스 아트 뮤지엄', url: 'https://place.map.kakao.com/13272490' },
+    { id: 'kakao-lid-washzone', title: 'Kakao 地图 · 워시존개러지 상암수색점', url: 'https://place.map.kakao.com/2036166985' },
+    { id: 'kakao-lid-police', title: 'Kakao 地图 · 서울경찰청', url: 'https://place.map.kakao.com/10499532' },
+    { id: 'kakao-lid-lotte-osan', title: 'Kakao 地图 · 롯데인재개발원 오산캠퍼스', url: 'https://place.map.kakao.com/11541341' },
+    { id: 'kakao-lid-lapiena', title: 'Kakao 地图 · 라피에나', url: 'https://place.map.kakao.com/1842154592' },
+    { id: 'kakao-lid-gimpo-airpark', title: 'Kakao 地图 · 김포항공일반산업단지', url: 'https://place.map.kakao.com/10203411' },
+    { id: 'kakao-lid-seongnam-airport', title: 'Kakao 地图 · 서울공항정문사거리', url: 'https://place.map.kakao.com/15140898' },
   ],
 
   // coordinateStatus: approximate = 附近示意点；venue = 已核实景点点位；camera = 已核实拍摄机位。
@@ -1146,6 +1173,181 @@ window.KDRAMA_CATALOG = {
       visit: '松岛海滨的五星级酒店；非住客请留在大堂等公共区域，拍摄前先询问前台。'
     },
     {
+      id: 'lid-seoul-kimsukseong', workId: 'love-in-disguise', name: '金锡成烤肉店 · 大兴本店', ko: '김숙성 대흥본점', city: '首尔 · 麻浦区', group: '首尔',
+      lat: 37.54918833, lng: 126.93834831, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-kimsukseong', coordinateNote: '坐标取 Kakao 地图商户点（place 227760533），与 OpenStreetMap 同名节点一致；代表店面位置，剧中机位与入口未单独定位。',
+      address: '서울 마포구 광성로6길 14', query: '김숙성 대흥본점', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '烤肉店，营业时间内用餐；店内座位有限，拍摄前先询问店家。'
+    },
+    {
+      id: 'lid-seoul-darakjeong', workId: 'love-in-disguise', name: 'Darakjeong · 在熙父母家', ko: '다락정', city: '首尔 · 钟路区', group: '首尔',
+      lat: 37.58724572, lng: 126.98152565, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-darakjeong', coordinateNote: '坐标取 Kakao 地图商户点（place 25732519），与 OpenStreetMap 同名建筑一致；代表建筑位置，剧中机位与入口未单独定位。',
+      address: '서울 종로구 삼청로 131-1', query: '다락정 삼청동', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '韩式餐厅，营业时间内用餐；红砖拱顶建筑外观可从巷口拍摄，请勿影响周边住户。'
+    },
+    {
+      id: 'lid-seoul-nb2', workId: 'love-in-disguise', name: 'Club NB2', ko: '클럽 NB2', city: '首尔 · 麻浦区', group: '首尔',
+      lat: 37.55087346, lng: 126.92340669, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-nb2', coordinateNote: '坐标取 Kakao 地图商户点（place 1600511760），与 OpenStreetMap「클럽 NB」节点同址；代表夜店入口所在商业楼，剧中舞池机位未定位。',
+      address: '서울 마포구 와우산로 72', query: '클럽 NB2', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '夜店，夜间营业；入口在商业楼地下一层，入场与拍摄请遵守店家规定。'
+    },
+    {
+      id: 'lid-seoul-supgil', workId: 'love-in-disguise', name: '森林路醒酒汤', ko: '숲길해장', city: '首尔 · 麻浦区', group: '首尔',
+      lat: 37.54688981, lng: 126.94174728, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-supgil', coordinateNote: '坐标取 Kakao 地图商户点（place 1604893518），新地址为大兴路80-14，笔记所写大兴洞248-13为旧地号；代表店面位置，机位未定位。',
+      address: '서울 마포구 대흥로 80-14', query: '숲길해장', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '醒酒汤店，营业时间内用餐；店内座位不多，避开用餐高峰。'
+    },
+    {
+      id: 'lid-seoul-monobloc', workId: 'love-in-disguise', name: 'Cafe Monobloc', ko: '카페 모노블럭', city: '首尔 · 麻浦区', group: '首尔',
+      lat: 37.55367813, lng: 126.92458306, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-monobloc', coordinateNote: '坐标取 Kakao 地图商户点（place 18758379），与 OpenStreetMap「Monobloc」咖啡店节点一致；代表店面位置，窗边机位未定位。',
+      address: '서울 마포구 와우산로23길 14', query: '카페 모노블럭', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '咖啡店，营业时间内消费；窗边座位朝向剧中镜头方向，高峰时请让座给用餐客人。'
+    },
+    {
+      id: 'lid-seoul-gamgodang', workId: 'love-in-disguise', name: '感古堂路', ko: '감고당길', city: '首尔 · 钟路区', group: '首尔',
+      lat: 37.57798093, lng: 126.982317, coordinateStatus: 'approximate', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-gamgodang', coordinateNote: '坐标取 Kakao 地图「감고당길」道路点（율곡로3길，安国站—正读图书馆巷路中段）；笔记门牌 안국동 175-91 与剧中机位未单独定位。',
+      address: '서울 종로구 안국동 175-91 (감고당길)', query: '감고당길', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '公共巷路，全天可走；两侧是学校和居民区，拍照请勿堵路、喧哗或打扰住户。'
+    },
+    {
+      id: 'lid-seoul-peace-park', workId: 'love-in-disguise', name: '和平公园', ko: '평화의공원', city: '首尔 · 麻浦区', group: '首尔',
+      lat: 37.56247083, lng: 126.89494717, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-peace-park', coordinateNote: '坐标取 Kakao 地图公园点（place 8130030）与 OpenStreetMap 公园面要素代表点；代表公园范围，剧中步道机位未定位。',
+      address: '서울 마포구 월드컵로 243-60 (평화의공원)', query: '평화의공원', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '开放公园，免费；剧中步道与草坪范围较大，按现场指引游览。'
+    },
+    {
+      id: 'lid-seoul-eenk', workId: 'love-in-disguise', name: 'EENK 旗舰店', ko: 'EENK 플래그십 스토어', city: '首尔 · 龙山区', group: '首尔',
+      lat: 37.52757312, lng: 126.99518513, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-eenk', coordinateNote: '坐标取 Kakao 地图商户点（place 574746674），地址为长文路43号；Kakao 登记为3层，笔记写4楼3室，楼层以现场为准。',
+      address: '서울 용산구 장문로 43 3층', query: 'EENK 플래그십 스토어', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '服装旗舰店，营业时间内参观；试衣与拍摄请先询问店员。'
+    },
+    {
+      id: 'lid-seoul-yeouido', workId: 'love-in-disguise', name: '汝矣岛汉江公园', ko: '여의도한강공원', city: '首尔 · 永登浦区', group: '首尔',
+      lat: 37.5263886, lng: 126.93512932, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-yeouido', coordinateNote: '坐标取 Kakao 地图公园点（place 10952963）与 OpenStreetMap 公园面要素代表点；代表公园范围，剧中路边停车机位未定位。',
+      address: '서울 영등포구 여의동로 330', query: '여의도한강공원', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '开放公园，24 小时；夜间江边风大，注意车辆与骑行道。'
+    },
+    {
+      id: 'lid-seoul-jeongdok-bus', workId: 'love-in-disguise', name: '正读图书馆公交站', ko: '정독도서관 버스정류장', city: '首尔 · 钟路区', group: '首尔',
+      lat: 37.58027676, lng: 126.98011945, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-jeongdok-bus', coordinateNote: '坐标取 Kakao 地图公交站「정독도서관」（01-728）位置，在 삼청로 与 북촌로5길 交叉口西侧约 130 米；笔记写作「정동도서관」，按正读图书馆站定位，具体候车点与机位待核实。',
+      address: '서울 종로구 삼청로 (북촌로5길 교차로)', query: '정독도서관 버스정류장', kind: 'seoul', sourceId: 'xhs-lid-seoul',
+      visit: '公交站与人行道，全天可用；请让出候车与通行空间。'
+    },
+    {
+      id: 'lid-everland-rose', workId: 'love-in-disguise', name: '爱宝乐园玫瑰园', ko: '에버랜드 장미원', city: '龙仁 · 京畿道', group: '京畿道',
+      lat: 37.29099373, lng: 127.19838648, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-everland', coordinateNote: '坐标取 Kakao 地图「에버랜드 장미원」点（place 17574815），代表玫瑰园范围；剧中玫瑰拱门机位未单独定位。',
+      address: '경기 용인시 처인구 포곡읍 에버랜드로 199', query: '에버랜드 장미원', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '主题公园需购票入场；玫瑰展每年 5–6 月，花况与展区布置以当年公告为准。'
+    },
+    {
+      id: 'lid-seoul-haneul', workId: 'love-in-disguise', name: '天空公园', ko: '하늘공원', city: '首尔 · 麻浦区', group: '首尔',
+      lat: 37.5685397, lng: 126.88688383, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-haneul', coordinateNote: '坐标取 Kakao 地图「하늘공원」点（place 8128910），代表公园范围；剧中水边步道与自行车机位未定位。',
+      address: '서울 마포구 하늘공원로 86', query: '하늘공원', kind: 'seoul', sourceId: 'xhs-lid-20',
+      visit: '世界杯公园内的天空公园，需步行或乘接驳车上山；秋季芒草季人多。'
+    },
+    {
+      id: 'lid-incheon-boxing', workId: 'love-in-disguise', name: '国家代表拳击中心 · S5店', ko: '국가대표 복싱센터 에스파이브점', city: '仁川 · 延寿区', group: '仁川',
+      lat: 37.3700259, lng: 126.65035472, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-boxing', coordinateNote: '坐标取 Kakao 地图「국가대표 복싱센터 에스파이브점」商户点（place 1739508842），代表场馆位置；馆内机位未定位。',
+      address: '인천 연수구 첨단대로 40 7층 A705호', query: '국가대표 복싱센터 에스파이브', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '拳击馆，营业时间内体验或参观需预约；拍摄前先询问场馆。'
+    },
+    {
+      id: 'lid-anseong-mirinae', workId: 'love-in-disguise', name: '弥来内圣地', ko: '천주교 미리내성지', city: '安城 · 京畿道', group: '京畿道',
+      lat: 37.1451759, lng: 127.2595948, coordinateStatus: 'approximate', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'osm-mirinae', coordinateNote: '坐标取 OpenStreetMap「미리내성지」宗教用地代表点（way 988839840）；圣地范围较大，教堂与剧中机位未单独定位。',
+      address: '경기 안성시 양성면 미리내성지로 420', query: '미리내성지', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '天主教圣地，免费开放；弥撒与活动期间请保持安静，拍照先询问。'
+    },
+    {
+      id: 'lid-anseong-pungsanirang', workId: 'love-in-disguise', name: '풍사니랑', ko: '풍사니랑', city: '安城 · 京畿道', group: '京畿道',
+      lat: 37.08820405, lng: 127.379242, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-pungsanirang', coordinateNote: '坐标取 Kakao 地图「풍사니랑」商户点（place 498385747），代表园区位置；林荫小路机位未定位。',
+      address: '경기 안성시 삼죽면 삼백로 134-43', query: '풍사니랑', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '咖啡馆／庭园，营业时间内消费；林荫小路在园区内，按现场指引参观。'
+    },
+    {
+      id: 'lid-pangyo-quiznos', workId: 'love-in-disguise', name: 'Quiznos · 板桥科技谷店', ko: '퀴즈노스 랩 판교테크노밸리점', city: '城南 · 京畿道', group: '京畿道',
+      lat: 37.40104594, lng: 127.1062953, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-quiznos', coordinateNote: '坐标取 Kakao 地图商户点（place 1004302804），代表店面位置；剧中座位区机位未定位。',
+      address: '경기 성남시 분당구 대왕판교로 660 111호/112호', query: '퀴즈노스 판교테크노밸리', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '三明治快餐店，营业时间内用餐；办公园区高峰时段人多。'
+    },
+    {
+      id: 'lid-seoul-paris-baguette', workId: 'love-in-disguise', name: '巴黎贝甜 · 西江新水店', ko: '파리바게뜨 서강신수점', city: '首尔 · 麻浦区', group: '首尔',
+      lat: 37.54956291, lng: 126.93788629, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-parisbaguette', coordinateNote: '坐标取 Kakao 地图商户点（place 12344279），代表店面位置；与金锡成烤肉店相距约 50 米，是两家不同店铺。',
+      address: '서울 마포구 광성로 44', query: '파리바게뜨 서강신수점', kind: 'seoul', sourceId: 'xhs-lid-20',
+      visit: '面包店，营业时间内消费；店前是人行道与车道，拍照请勿堵门。'
+    },
+    {
+      id: 'lid-seoul-cu-mapo', workId: 'love-in-disguise', name: 'CU 麻浦圣济店', ko: 'CU 마포성제점', city: '首尔 · 麻浦区', group: '首尔',
+      lat: 37.55509188, lng: 126.91540106, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-cu-mapo', coordinateNote: '坐标取 Kakao 地图商户点（place 2000891383），代表店面位置；门外座位与剧中机位未定位。',
+      address: '서울 마포구 잔다리로 89', query: 'CU 마포성제점', kind: 'seoul', sourceId: 'xhs-lid-20',
+      visit: '便利店，24 小时营业；店门口通道狭窄，拍照请让出通行空间。'
+    },
+    {
+      id: 'lid-paju-mimesis', workId: 'love-in-disguise', name: 'Mimesis 美术馆', ko: '미메시스 아트 뮤지엄', city: '坡州 · 京畿道', group: '京畿道',
+      lat: 37.71679273, lng: 126.68891883, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-mimesis', coordinateNote: '坐标取 Kakao 地图「미메시스 아트 뮤지엄」点（place 13272490），代表馆舍位置；展厅内机位未定位。',
+      address: '경기 파주시 문발로 253', query: '미메시스 아트 뮤지엄', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '美术馆，周一休馆；展厅内拍摄需遵守馆方规定，部分展览禁止摄影。'
+    },
+    {
+      id: 'lid-goyang-washzone', workId: 'love-in-disguise', name: 'Wash Zone Garage · 上岩水色店', ko: '워시존개러지 상암수색점', city: '高阳 · 京畿道', group: '京畿道',
+      lat: 37.60398014, lng: 126.8685295, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-washzone', coordinateNote: '坐标取 Kakao 地图商户点（place 2036166985），代表洗车场位置；霓虹灯通道机位未定位。',
+      address: '경기 고양시 덕양구 화랑로 57-16', query: '워시존 개러지 상암수색점', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '自助洗车场，营业时间内使用；夜间灯光是剧中场景的一部分，拍摄前先询问店家。'
+    },
+    {
+      id: 'lid-seoul-police', workId: 'love-in-disguise', name: '首尔警察厅', ko: '서울경찰청', city: '首尔 · 钟路区', group: '首尔',
+      lat: 37.57481465, lng: 126.97206158, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-police', coordinateNote: '坐标取 Kakao 地图「서울경찰청」点（place 10499532），代表机关主楼；正门机位未定位。',
+      address: '서울 종로구 사직로8길 31', query: '서울경찰청', kind: 'seoul', sourceId: 'xhs-lid-20',
+      visit: '现役警察机关，只在外围人行道拍照，不要进入办公区域或拍摄执勤人员。'
+    },
+    {
+      id: 'lid-osan-lotte', workId: 'love-in-disguise', name: '乐天人才培养院 · 乌山校区', ko: '롯데인재개발원 오산캠퍼스', city: '乌山 · 京畿道', group: '京畿道',
+      lat: 37.15688696, lng: 127.09089316, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-lotte-osan', coordinateNote: '坐标取 Kakao 地图「롯데인재개발원 오산캠퍼스」点（place 11541341），代表园区位置；中庭机位未定位。',
+      address: '경기 오산시 경기동로186번길 8', query: '롯데인재개발원 오산', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '企业培训院，非公开园区；只能在外围道路拍摄，进入需事先联系。'
+    },
+    {
+      id: 'lid-suwon-lapiena', workId: 'love-in-disguise', name: 'La Piena（라피에나）', ko: '라피에나', city: '水原 · 京畿道', group: '水原',
+      lat: 37.28525405, lng: 127.02349623, coordinateStatus: 'venue', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-lapiena', coordinateNote: '坐标取 Kakao 地图「라피에나」商户点（place 1842154592），代表店面位置；剧中“狗狗家”外观机位未定位。',
+      address: '경기 수원시 팔달구 창룡대로80번길 10-6', query: '라피에나', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '甜品咖啡店，营业时间内消费；白色小楼外观是剧中“狗狗家”，请勿影响住户与客人。'
+    },
+    {
+      id: 'lid-gimpo-airpark', workId: 'love-in-disguise', name: '金浦航空一般产业园区', ko: '김포항공일반산업단지', city: '金浦 · 京畿道', group: '京畿道',
+      lat: 37.61739018, lng: 126.57596492, coordinateStatus: 'approximate', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-gimpo-airpark', coordinateNote: '坐标取 Kakao 地图「김포항공일반산업단지」点（place 10203411），代表园区范围；剧中跑道／专机机位未定位。',
+      address: '경기 김포시 대곶면 천호로 210', query: '김포항공일반산업단지', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '产业园区，非旅游区；道路与厂区通行需遵守现场管理，不要进入作业区域。'
+    },
+    {
+      id: 'lid-seongnam-airport', workId: 'love-in-disguise', name: '首尔机场正门（城南）', ko: '서울공항 정문', city: '城南 · 京畿道', group: '京畿道',
+      lat: 37.44857305, lng: 127.10499732, coordinateStatus: 'approximate', verifiedAt: '2026-11-22', entrance: null,
+      coordinateSourceId: 'kakao-lid-seongnam-airport', coordinateNote: '坐标取 Kakao 地图「서울공항정문사거리」点（place 15140898），代表正门外路口；军事禁区，门内与剧中机位未定位。',
+      address: '경기 성남시 수정구 심곡동 (서울공항 정문)', query: '서울공항 정문', kind: 'other', sourceId: 'xhs-lid-20',
+      visit: '空军基地正门，军事禁区；只能在门外公共道路远拍，严禁进入或拍摄军事设施。'
+    },
+    {
       id: 'ctl-gokurakuji', workId: 'can-this-love-be-translated', name: '极乐寺站', ko: '極楽寺駅', city: '镰仓 · 神奈川', group: '日本 · 镰仓／江之岛',
       lat: 35.3093646, lng: 139.5287947, coordinateStatus: 'approximate', verifiedAt: '2026-11-16', entrance: null,
       coordinateSourceId: null, coordinateNote: '坐标取开放地图「極楽寺」车站节点（N263260790）；站台与剧中机位未定位。',
@@ -1583,6 +1785,44 @@ window.KDRAMA_CATALOG = {
     { id: 'lid-jeonggwan-police-01', landmarkId: 'lid-jeonggwan-police', description: '派出所柜台前：两人隔着办公桌对视，身后是玻璃隔断与办公区。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-jeonggwan-police-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
     { id: 'lid-wyndham-busan-01', landmarkId: 'lid-wyndham-busan', description: '酒店车道夜景：环形灯桥下的入口，一个人躺在车道上。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-wyndham-busan-01-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
     { id: 'lid-wyndham-busan-02', landmarkId: 'lid-wyndham-busan', description: '酒店内景：宴会厅前厅，花卉画作前一名穿西装的人在奔跑，两侧是活动立牌。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-wyndham-busan-02-1280w.webp', imageCredit: '', sourceId: 'xhs-lid', episodeSourceId: null },
+    { id: 'lid-wyndham-busan-03', landmarkId: 'lid-wyndham-busan', description: '酒店 27 层餐厅 On the Cloud：两人隔着餐桌对视，落地窗外是釜山夜海与广安大桥灯光。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-wyndham-busan-03-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-seoul-kimsukseong-01', landmarkId: 'lid-seoul-kimsukseong', description: '刑警组围坐在烤肉店内的圆桌旁，绿色窗框与旧式店面陈设，桌上摆着烤盘与酒瓶。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-kimsukseong-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-kimsukseong-02', landmarkId: 'lid-seoul-kimsukseong', description: '夜间店外：透明塑料棚与灯串亮起，一辆送货摩托车从巷口驶过，两人沿街走来。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-kimsukseong-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-kimsukseong-03', landmarkId: 'lid-seoul-kimsukseong', description: '刑警组围桌聚餐的另一角度：有人俯身交谈，绿色窗框与旧式店内陈设。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-kimsukseong-03-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-seoul-darakjeong-01', landmarkId: 'lid-seoul-darakjeong', description: 'Darakjeong 红砖拱顶建筑外景，爬藤与松树掩映入口，巷口能看到店招。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-darakjeong-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-darakjeong-02', landmarkId: 'lid-seoul-darakjeong', description: '店内木桌旁，在熙父母与家人用餐，墙上挂着菜单与书法。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-darakjeong-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-nb2-01', landmarkId: 'lid-seoul-nb2', description: '夜店舞池：蓝紫色灯光与人群剪影，上方是“noise basement”霓虹招牌。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-nb2-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-nb2-02', landmarkId: 'lid-seoul-nb2', description: '卡座里的金施贤、李慧贞一行，桌上摆着酒瓶与酒杯，背景是舞池灯光。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-nb2-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-supgil-01', landmarkId: 'lid-seoul-supgil', description: '隔着玻璃窗看店内：金施贤与李慧贞在桌边对坐，窗上贴着白色字样。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-supgil-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-supgil-02', landmarkId: 'lid-seoul-supgil', description: '店内近景：金施贤为李慧贞倒酒，桌上是醒酒汤与餐具。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-supgil-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-monobloc-01', landmarkId: 'lid-seoul-monobloc', description: 'Cafe Monobloc 窗边：两名男子隔桌对坐交谈，窗外是麻浦街景。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-monobloc-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-monobloc-02', landmarkId: 'lid-seoul-monobloc', description: '咖啡店内木桌旁，两人相对而坐，身后是书架、绿植与吧台。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-monobloc-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-gamgodang-01', landmarkId: 'lid-seoul-gamgodang', description: '雨夜，两名男子共撑一把透明伞走在感古堂路的石墙巷里。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-gamgodang-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-gamgodang-02', landmarkId: 'lid-seoul-gamgodang', description: '雨中的感古堂路：撑伞的人沿石墙走向巷子深处，路灯映着湿漉漉的路面。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-gamgodang-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-peace-park-01', landmarkId: 'lid-seoul-peace-park', description: '和平公园的林荫步道：在熙与尹伊俊并肩走在绿树间。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-peace-park-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-peace-park-02', landmarkId: 'lid-seoul-peace-park', description: '公园小径上两人相拥，旁边有骑自行车的孩子经过。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-peace-park-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-eenk-01', landmarkId: 'lid-seoul-eenk', description: 'EENK 旗舰店内：一名穿黑色西装的男子与一名黑色套装的女子走过陈列架，模特穿着深色套装。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-eenk-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-eenk-02', landmarkId: 'lid-seoul-eenk', description: '店内试衣区：李施雅穿婚纱、尹伊俊穿黑色礼服，两人并肩站在陈列架前。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-eenk-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-yeouido-01', landmarkId: 'lid-seoul-yeouido', description: '夜里的汝矣岛汉江公园路边：一辆黑色轿车停在护栏旁，远处是汉江大桥的灯光。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-yeouido-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-yeouido-02', landmarkId: 'lid-seoul-yeouido', description: '车内：两人坐在前排交谈，挡风玻璃外是汉江夜景。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-yeouido-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-jeongdok-bus-01', landmarkId: 'lid-seoul-jeongdok-bus', description: '夜里的公交站：两名男子并排坐在长椅上，身后是行道树与站牌。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-jeongdok-bus-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-seoul-jeongdok-bus-02', landmarkId: 'lid-seoul-jeongdok-bus', description: '公交站旁的长椅上，两人相对而坐聊天，暖黄路灯照着砖墙。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-jeongdok-bus-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-seoul', episodeSourceId: null },
+    { id: 'lid-everland-rose-01', landmarkId: 'lid-everland-rose', description: '爱宝乐园玫瑰园：两人在玫瑰花拱门下接吻，前景是盛开的玫瑰。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-everland-rose-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-seoul-haneul-01', landmarkId: 'lid-seoul-haneul', description: '天空公园水边步道：在熙与尹伊俊骑着双人自行车经过，前景是杜鹃花丛。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-haneul-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-incheon-boxing-01', landmarkId: 'lid-incheon-boxing', description: '拳击馆内：两人隔着玻璃隔断对峙，墙上印着 Muhammad Ali 的语录。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-incheon-boxing-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-anseong-mirinae-01', landmarkId: 'lid-anseong-mirinae', description: '弥来内圣地教堂：两名穿西装的男子坐在前排长椅，阳光从侧窗照进。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-anseong-mirinae-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-anseong-pungsanirang-01', landmarkId: 'lid-anseong-pungsanirang', description: '풍사니랑 的林荫小路：两名穿黑西装的男子站在树影里对视。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-anseong-pungsanirang-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-pangyo-quiznos-01', landmarkId: 'lid-pangyo-quiznos', description: 'Quiznos 店内：三人围坐吃三明治，背景是绿色 Quiznos 标志与菜单灯箱。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-pangyo-quiznos-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-seoul-paris-baguette-01', landmarkId: 'lid-seoul-paris-baguette', description: '夜晚的巴黎贝甜门前：两名男子在店外相对而立，蓝色招牌亮着。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-paris-baguette-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-seoul-cu-mapo-01', landmarkId: 'lid-seoul-cu-mapo', description: 'CU 便利店门外：男子蹲在玻璃门前打电话，店内货架与冷柜亮着灯。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-cu-mapo-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-paju-mimesis-01', landmarkId: 'lid-paju-mimesis', description: 'Mimesis 美术馆展厅：两名男子站在画作前交谈，白色墙面与反光地板。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-paju-mimesis-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-goyang-washzone-01', landmarkId: 'lid-goyang-washzone', description: 'Wash Zone 洗车房：男子背对镜头站在霓虹灯下，车灯照亮湿漉漉的地面。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-goyang-washzone-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-seoul-police-01', landmarkId: 'lid-seoul-police', description: '首尔警察厅正门：男子走过门廊，门上写着“SEOUL METROPOLITAN POLICE”。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seoul-police-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-osan-lotte-01', landmarkId: 'lid-osan-lotte', description: '乐天人才培养院中庭：人群在餐桌旁用餐，落地窗外是庭院与水景。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-osan-lotte-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-suwon-lapiena-01', landmarkId: 'lid-suwon-lapiena', description: '剧中“狗狗家”的外观：白色两层小楼，一层是 Patisserie & Cafe & Bistro。该页为地点实景拼图，无剧照；集数待核实。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-gimpo-airpark-01', landmarkId: 'lid-gimpo-airpark', description: '黄昏的机场跑道：一架大韩民国政府专机（B747）正在起飞。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-gimpo-airpark-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-gimpo-airpark-02', landmarkId: 'lid-gimpo-airpark', description: '专机舷梯与红毯：机身上写着“대한민국 KOREA”。集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-gimpo-airpark-02-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
+    { id: 'lid-seongnam-airport-01', landmarkId: 'lid-seongnam-airport', description: '黄昏时分，首尔机场正门的传统门楼与车道。剧照截自小红书笔记，集数待核实。', episode: null, timeSeconds: null, image: './assets/scenes/love-in-disguise/lid-seongnam-airport-01-1080w.webp', imageCredit: '', sourceId: 'xhs-lid-20', episodeSourceId: null },
     { id: 'ctl-gokurakuji-01', landmarkId: 'ctl-gokurakuji', description: '笔记称这里是剧中的开场车站：木造站台与江之电进站。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
     { id: 'ctl-shichirigahama-01', landmarkId: 'ctl-shichirigahama', description: '七里滨的海边散步与富士山远景，笔记也提到 Pacific DRIVE-IN 餐厅一带。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
     { id: 'ctl-inamuragasaki-01', landmarkId: 'ctl-inamuragasaki', description: '江之电沿海路段与镰仓海滨公园：电车窗景与海岸散步的镜头。', episode: null, timeSeconds: null, image: null, imageCredit: '', sourceId: 'xhs-ctl', episodeSourceId: null },
@@ -1636,7 +1876,7 @@ window.KDRAMA_CATALOG = {
     { landmarkId: 'lid-daebyeon-market', reviewedAt: '2026-11-16T05:40:00.000Z' },
     { landmarkId: 'lid-salloto-beomil', reviewedAt: '2026-11-16T05:40:00.000Z' },
     { landmarkId: 'lid-jeonggwan-police', reviewedAt: '2026-11-16T05:40:00.000Z' },
-    { landmarkId: 'lid-wyndham-busan', reviewedAt: '2026-11-16T05:40:00.000Z' },
+    { landmarkId: 'lid-wyndham-busan', reviewedAt: '2026-11-22T15:50:00.000Z' },
     { landmarkId: 'ctl-gokurakuji', reviewedAt: '2026-11-16T06:55:00.000Z' },
     { landmarkId: 'ctl-shichirigahama', reviewedAt: '2026-11-16T06:55:00.000Z' },
     { landmarkId: 'ctl-inamuragasaki', reviewedAt: '2026-11-16T06:55:00.000Z' },
@@ -1682,5 +1922,30 @@ window.KDRAMA_CATALOG = {
     { landmarkId: 'ctl-acqua-paola', reviewedAt: '2026-11-16T06:55:00.000Z' },
     { landmarkId: 'ctl-caracalla', reviewedAt: '2026-11-16T06:55:00.000Z' },
     { landmarkId: 'ctl-giunti-odeon', reviewedAt: '2026-11-16T06:55:00.000Z' },
+    { landmarkId: 'lid-seoul-kimsukseong', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-seoul-darakjeong', reviewedAt: '2026-11-22T15:20:00.000Z' },
+    { landmarkId: 'lid-seoul-nb2', reviewedAt: '2026-11-22T15:20:00.000Z' },
+    { landmarkId: 'lid-seoul-supgil', reviewedAt: '2026-11-22T15:20:00.000Z' },
+    { landmarkId: 'lid-seoul-monobloc', reviewedAt: '2026-11-22T15:20:00.000Z' },
+    { landmarkId: 'lid-seoul-gamgodang', reviewedAt: '2026-11-22T15:20:00.000Z' },
+    { landmarkId: 'lid-seoul-peace-park', reviewedAt: '2026-11-22T15:20:00.000Z' },
+    { landmarkId: 'lid-seoul-eenk', reviewedAt: '2026-11-22T15:20:00.000Z' },
+    { landmarkId: 'lid-seoul-yeouido', reviewedAt: '2026-11-22T15:20:00.000Z' },
+    { landmarkId: 'lid-seoul-jeongdok-bus', reviewedAt: '2026-11-22T15:20:00.000Z' },
+    { landmarkId: 'lid-everland-rose', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-seoul-haneul', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-incheon-boxing', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-anseong-mirinae', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-anseong-pungsanirang', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-pangyo-quiznos', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-seoul-paris-baguette', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-seoul-cu-mapo', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-paju-mimesis', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-goyang-washzone', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-seoul-police', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-osan-lotte', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-suwon-lapiena', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-gimpo-airpark', reviewedAt: '2026-11-22T15:50:00.000Z' },
+    { landmarkId: 'lid-seongnam-airport', reviewedAt: '2026-11-22T15:50:00.000Z' },
   ]
 };

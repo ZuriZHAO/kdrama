@@ -57,20 +57,15 @@
 ```powershell
 node tools/check-catalog.cjs
 node tools/check-assets.cjs
-node tools/test-flow.cjs
-node tools/test-submission-core.cjs
-node tools/test-publication-status.cjs
-node tools/test-map-core.cjs
-node tools/test-maintenance.cjs
-node tools/test-multi-scenes.cjs
-node tools/test-media.cjs
-node tools/test-personal.cjs
+npm test
 node tools/build-site.cjs
 ```
 
+`npm test` 覆盖 `tools/` 下的全部 Node 测试（地图核心、维护、投稿流程、投稿校验、发布状态、多场景、图片、个人记录、投稿时间格式、对比工具、目录交换格式与分作品存储）。
+
 `dist/` 是构建结果，不提交。依赖许可文本在 `vendor/`。地图使用 OpenFreeMap、OpenStreetMap、Natural Earth 和 geoBoundaries 数据；界面参考 Anitabi 的公开资料组织方式。
 
-地图交互回归脚本为 `tools/test-map-browser.py` 和 `tools/test-scenes-discovery-browser.py`。需要 Python 的 `websocket-client`，以及开启远程调试端口的独立 Chrome；参数依次为站点地址和调试端口，例如 `python tools/test-scenes-discovery-browser.py http://127.0.0.1:8000/ 9248`。新脚本仅在测试浏览器中注入多集多图样例、模拟审核请求，不修改目录文件或创建真实投稿；覆盖场景切换、分享恢复、多作品视野筛选及重复请求。
+地图与投稿界面的手工回归脚本位于 `tools/test-*-browser.py`，完整清单、各自用途和参数见 [文档索引](README.md#手工浏览器回归可选)。这些脚本需要 Python 的 `websocket-client`，以及开启远程调试端口的独立 Chrome；参数依次为站点地址和调试端口，例如 `python tools/test-scenes-discovery-browser.py http://127.0.0.1:8000/ 9248`。脚本仅在测试浏览器中注入样例数据、模拟审核请求，不修改目录文件或创建真实投稿。
 
 投稿和维护交互回归：`python tools/test-submission-browser.py http://127.0.0.1:8044/ 9250`（使用独立 Chrome 调试端口与测试用户目录；脚本会清空该测试浏览器的本地草稿）。覆盖点击／拖动／坐标同步、全球坐标、更正原位置、图片追加／拖入／粘贴／排序、时间解析、离页与刷新恢复、分组改名移动排序及手机宽度。不会创建真实 Issue 或修改目录。
 

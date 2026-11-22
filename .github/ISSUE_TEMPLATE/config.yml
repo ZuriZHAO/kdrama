@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 投稿取景地
+    url: https://zurizhao.github.io/kdrama/
+    about: 在地图上点击位置或点「投稿地点」，由网站生成预填正文和图片区块，再回到 GitHub 提交。不要手写投稿正文。
+  - name: 维护者审核页
+    url: https://zurizhao.github.io/kdrama/review.html
+    about: 维护者用 Issue 链接或编号修订投稿、生成清单，再在原 Issue 保存。
+  - name: 使用与维护说明
+    url: https://github.com/ZuriZHAO/kdrama/blob/main/docs/README.md
+    about: 投稿格式、数据规范、本地校验和发布流程的文档索引。

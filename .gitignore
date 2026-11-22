@@ -16,3 +16,13 @@ Thumbs.db
 
 # Retired backend: local leftovers are not part of the current site.
 /api-site/
+
+# 收录取景地时的一次性脚本与抓取产物，不进仓库
+tmp_*.py
+tmp2_*.py
+tmp_*.cjs
+tmp2_*.cjs
+xhs*_*.html
+xhs*_*.json
+*_results.json
+/work/
