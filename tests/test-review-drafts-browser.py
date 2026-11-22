@@ -2,7 +2,7 @@
 Arguments: local site URL, Chrome debug port. Only the qa/review-drafts namespace is cleared.
 """
 from pathlib import Path
-exec(Path('tools/test-map-browser.py').read_text(encoding='utf8').split("cmd('Emulation.setDeviceMetricsOverride'")[0])
+exec(Path('tests/test-map-browser.py').read_text(encoding='utf8').split("cmd('Emulation.setDeviceMetricsOverride'")[0])
 mock = r"""
 Object.defineProperty(window,'KDRAMA_REPO',{get:()=> 'qa/review-drafts',set:()=>{}});
 window.qaRequests=0;

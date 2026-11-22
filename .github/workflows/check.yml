@@ -17,13 +17,13 @@ jobs:
           node-version: '22'
       - name: Check scripts and catalog
         run: |
-          node --check script.js
-          node --check submit.js
-          node --check review.js
+          node --check js/script.js
+          node --check js/submit.js
+          node --check js/review.js
           node --check tools/import-issue.cjs
           node --check tools/check-assets.cjs
           node tools/check-catalog.cjs
           node tools/check-assets.cjs
-          node tools/test-flow.cjs
+          node tests/test-flow.cjs
       - name: Build site
         run: node tools/build-site.cjs

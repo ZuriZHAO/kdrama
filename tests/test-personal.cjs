@@ -1,4 +1,4 @@
-const assert=require('node:assert/strict'),core=require('../personal-core');
+const assert=require('node:assert/strict'),core=require('../js/personal-core.js');
 const places=[{id:'a'},{id:'b'}],base={format:'kdrama-personal',version:1,favorites:['old','a','b','gone'],visits:{a:'2026-11-10'},checkins:{}};
 const normalized=core.normalize(base,places,{old:'a'});assert.deepEqual(normalized.favorites,['a','b']);assert.deepEqual(normalized.missing,['gone']);
 const shared=core.readShare(core.share(['a','b']),places);assert.deepEqual(shared.favorites,['a','b']);assert.deepEqual(shared.visits,{});

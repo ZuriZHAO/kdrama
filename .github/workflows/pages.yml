@@ -44,25 +44,25 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Check scripts and catalog
         run: |
-          node --check script.js
-          node --check discovery.js
-          node --check submit.js
-          node --check review.js
-          node --check submission-core.js
+          node --check js/script.js
+          node --check js/discovery.js
+          node --check js/submit.js
+          node --check js/review.js
+          node --check js/submission-core.js
           node --check tools/submission-status.cjs
           node tools/check-catalog.cjs
           node tools/check-assets.cjs
-          node tools/test-flow.cjs
-          node tools/test-submission-core.cjs
-          node tools/test-publication-status.cjs
-          node tools/test-map-core.cjs
-          node tools/test-maintenance.cjs
-          node tools/test-multi-scenes.cjs
-          node tools/test-media.cjs
-          node tools/test-personal.cjs
-          node --check manage.js
-          node --check personal-tools.js
-          node --check compare.js
+          node tests/test-flow.cjs
+          node tests/test-submission-core.cjs
+          node tests/test-publication-status.cjs
+          node tests/test-map-core.cjs
+          node tests/test-maintenance.cjs
+          node tests/test-multi-scenes.cjs
+          node tests/test-media.cjs
+          node tests/test-personal.cjs
+          node --check js/manage.js
+          node --check js/personal-tools.js
+          node --check js/compare.js
 
   publish:
     needs: validate
@@ -107,10 +107,10 @@ jobs:
           node tools/prepare-media.cjs "$ISSUE_NUMBER"
       - name: Validate catalog and scripts
         run: |
-          node --check script.js
-          node --check submit.js
-          node --check review.js
-          node --check submission-core.js
+          node --check js/script.js
+          node --check js/submit.js
+          node --check js/review.js
+          node --check js/submission-core.js
           node tools/check-catalog.cjs
           node tools/check-assets.cjs
       - name: Build static site

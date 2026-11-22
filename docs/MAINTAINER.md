@@ -18,7 +18,7 @@
 
 状态标签：`needs-info` 由维护者标记需要补充；`publish-approved` 启动发布；`published` 由部署成功后的工作流添加；`publish-failed` 表示发布未完成。成功回执含地图直达链接与运行记录，随后关闭 Issue；失败时保持打开，修正后重新加批准标签。Issue 关闭或存在批准标签本身都不能证明上线，投稿页以随网站部署的 `data/publication-status.json` 为准。批准版本已发布后又修改正文，会提示后来修改尚未发布，后续应另建补充／更正投稿。
 
-来源链接可以留空；新地点和更正坐标仍按示意点导入。图片需要投稿者确认展示许可，署名可选。自动导入与审核页共用 `submission-core.js` 校验规则。已导入的投稿记录原始正文 SHA256，只有相同正文可幂等重试；早期无哈希记录的投稿如需更改，请另建补充／更正 Issue。
+来源链接可以留空；新地点和更正坐标仍按示意点导入。图片需要投稿者确认展示许可，署名可选。自动导入与审核页共用 `js/submission-core.js` 校验规则。已导入的投稿记录原始正文 SHA256，只有相同正文可幂等重试；早期无哈希记录的投稿如需更改，请另建补充／更正 Issue。
 
 旧 ChatGPT Sites 投稿后端已从当前版本移除，不属于现有部署依赖。历史源码与项目记录见 [托管说明](hosting.md)。
 
@@ -65,8 +65,8 @@ node tools/build-site.cjs
 
 `dist/` 是构建结果，不提交。依赖许可文本在 `vendor/`。地图使用 OpenFreeMap、OpenStreetMap、Natural Earth 和 geoBoundaries 数据；界面参考 Anitabi 的公开资料组织方式。
 
-地图与投稿界面的手工回归脚本位于 `tools/test-*-browser.py`，完整清单、各自用途和参数见 [文档索引](README.md#手工浏览器回归可选)。这些脚本需要 Python 的 `websocket-client`，以及开启远程调试端口的独立 Chrome；参数依次为站点地址和调试端口，例如 `python tools/test-scenes-discovery-browser.py http://127.0.0.1:8000/ 9248`。脚本仅在测试浏览器中注入样例数据、模拟审核请求，不修改目录文件或创建真实投稿。
+地图与投稿界面的手工回归脚本位于 `tests/test-*-browser.py`，完整清单、各自用途和参数见 [文档索引](README.md#手工浏览器回归可选)。这些脚本需要 Python 的 `websocket-client`，以及开启远程调试端口的独立 Chrome；参数依次为站点地址和调试端口，例如 `python tests/test-scenes-discovery-browser.py http://127.0.0.1:8000/ 9248`。脚本仅在测试浏览器中注入样例数据、模拟审核请求，不修改目录文件或创建真实投稿。
 
-投稿和维护交互回归：`python tools/test-submission-browser.py http://127.0.0.1:8044/ 9250`（使用独立 Chrome 调试端口与测试用户目录；脚本会清空该测试浏览器的本地草稿）。覆盖点击／拖动／坐标同步、全球坐标、更正原位置、图片追加／拖入／粘贴／排序、时间解析、离页与刷新恢复、分组改名移动排序及手机宽度。不会创建真实 Issue 或修改目录。
+投稿和维护交互回归：`python tests/test-submission-browser.py http://127.0.0.1:8044/ 9250`（使用独立 Chrome 调试端口与测试用户目录；脚本会清空该测试浏览器的本地草稿）。覆盖点击／拖动／坐标同步、全球坐标、更正原位置、图片追加／拖入／粘贴／排序、时间解析、离页与刷新恢复、分组改名移动排序及手机宽度。不会创建真实 Issue 或修改目录。
 
-审核草稿回归：`python tools/test-review-drafts-browser.py http://127.0.0.1:8000/ 9254`。使用独立 Chrome 调试用户目录；测试仅清理 `qa/review-drafts` 命名空间，模拟 GitHub 读取，覆盖逐投稿恢复、多图裁剪、未完成输入、原文冲突归档、离线与存储失败，不创建真实 Issue。
+审核草稿回归：`python tests/test-review-drafts-browser.py http://127.0.0.1:8000/ 9254`。使用独立 Chrome 调试用户目录；测试仅清理 `qa/review-drafts` 命名空间，模拟 GitHub 读取，覆盖逐投稿恢复、多图裁剪、未完成输入、原文冲突归档、离线与存储失败，不创建真实 Issue。

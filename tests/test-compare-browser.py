@@ -1,5 +1,5 @@
 from pathlib import Path
-exec(Path('tools/test-map-browser.py').read_text(encoding='utf8').split("cmd('Emulation.setDeviceMetricsOverride'")[0])
+exec(Path('tests/test-map-browser.py').read_text(encoding='utf8').split("cmd('Emulation.setDeviceMetricsOverride'")[0])
 cmd('Page.enable');cmd('Network.enable');cmd('Network.setCacheDisabled',{'cacheDisabled':True})
 cmd('Page.addScriptToEvaluateOnNewDocument',{'source':'window.errors=[];window.addEventListener("error",e=>errors.push(e.message));'})
 cmd('Emulation.setDeviceMetricsOverride',{'width':1280,'height':900,'deviceScaleFactor':1,'mobile':False})

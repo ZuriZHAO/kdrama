@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const {thumbnails,groupKeys}=require('../map-core');
+const {thumbnails,groupKeys}=require('../js/map-core.js');
 const points=[{id:'a',x:37,y:0},{id:'b',x:39,y:0},{id:'c',x:500,y:0},{id:'d',x:37,y:0}];
 assert.deepEqual([...thumbnails(points,'d')],['d','c']);
 assert.deepEqual([...thumbnails(points)],['a','c']);

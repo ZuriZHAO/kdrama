@@ -1,4 +1,4 @@
-const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path'),os=require('node:os'),split=require('./catalog-split.cjs');
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path'),os=require('node:os'),split=require('../tools/catalog-split.cjs');
 const context={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../data/catalog.js'),'utf8'),context);
 const original=JSON.parse(JSON.stringify(context.window.KDRAMA_CATALOG));
 // Exercise interleaved ordering and unknown future metadata, not just today's contiguous catalogue.

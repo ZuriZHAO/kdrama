@@ -2,7 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const { createHash } = require('node:crypto');
-const { parseIssue, validateSubmission } = require('../submission-core.js');
+const { parseIssue, validateSubmission } = require('../js/submission-core.js');
 
 const [issueFile, issueNumber, catalogFile = path.join(__dirname, '..', 'data', 'catalog.js')] = process.argv.slice(2);
 if (!issueFile || !/^\d+$/.test(issueNumber || '')) {

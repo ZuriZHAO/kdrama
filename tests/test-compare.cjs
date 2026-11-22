@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const core=require('../compare-core.js');
+const core=require('../js/compare-core.js');
 assert.equal(core.normalize().mode,'vertical');
 assert.equal(core.normalize({gap:-1,mode:'invalid',background:'url(bad)'}).gap,0);
 assert.equal(core.normalize({gap:999}).gap,60);

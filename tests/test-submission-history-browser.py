@@ -1,6 +1,6 @@
 """Local mocked Issues only; never creates or changes a live GitHub Issue."""
 from pathlib import Path
-exec(Path('tools/test-map-browser.py').read_text(encoding='utf8').split("cmd('Emulation.setDeviceMetricsOverride'")[0])
+exec(Path('tests/test-map-browser.py').read_text(encoding='utf8').split("cmd('Emulation.setDeviceMetricsOverride'")[0])
 mock = r"""
 Object.defineProperty(window,'KDRAMA_REPO',{get:()=> 'qa/submission-history',set:()=>{}});
 window.qaErrors=[];window.addEventListener('error',e=>qaErrors.push(e.message));

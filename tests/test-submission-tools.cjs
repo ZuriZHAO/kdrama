@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const time=require('../submission-time.js');
+const time=require('../js/submission-time.js');
 assert.equal(time.parse('12:34'),754);
 assert.equal(time.parse('01:12:34'),4354);
 assert.equal(time.parse('754'),754);

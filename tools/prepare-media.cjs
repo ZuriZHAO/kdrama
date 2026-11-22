@@ -1,6 +1,6 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),vm=require('node:vm');
 const sharp=require('sharp');
-const {isGitHubImage}=require('../submission-core');
+const {isGitHubImage}=require('../js/submission-core.js');
 const LIMIT=5_000_000;
 function allowed(url){const u=new URL(url);return u.protocol==='https:'&&!u.username&&!u.password&&!u.port&&(u.hostname==='github.com'||u.hostname.endsWith('.githubusercontent.com')||/^github-production-user-asset-[a-z0-9-]+\.s3\.amazonaws\.com$/.test(u.hostname));}
 async function download(url,fetcher=fetch){

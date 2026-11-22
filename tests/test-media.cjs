@@ -1,4 +1,4 @@
-const assert=require('node:assert/strict'),sharp=require('sharp');const media=require('./prepare-media.cjs');
+const assert=require('node:assert/strict'),sharp=require('sharp');const media=require('../tools/prepare-media.cjs');
 (async()=>{
  const raw=Buffer.alloc(100*100*3);for(let y=0;y<100;y++)for(let x=0;x<100;x++){const i=(y*100+x)*3;raw[i]=y<50?255:0;raw[i+2]=y>=50?255:0;}
  const source=await sharp(raw,{raw:{width:100,height:100,channels:3}}).png().toBuffer();

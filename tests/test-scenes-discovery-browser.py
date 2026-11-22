@@ -2,7 +2,7 @@
 Run with Python websocket-client; arguments are base URL and Chrome CDP port.
 """
 from pathlib import Path
-exec(Path('tools/test-map-browser.py').read_text(encoding='utf8').split("cmd('Emulation.setDeviceMetricsOverride'")[0])
+exec(Path('tests/test-map-browser.py').read_text(encoding='utf8').split("cmd('Emulation.setDeviceMetricsOverride'")[0])
 fixture = r"""
 Object.defineProperty(window,'KDRAMA_CATALOG',{configurable:true,set(c){
   const original=c.scenes.find(s=>s.image), p=c.landmarks.find(p=>p.id===original.landmarkId);

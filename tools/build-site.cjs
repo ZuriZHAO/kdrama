@@ -7,9 +7,10 @@ const dist = path.resolve(root, 'dist');
 if (!dist.startsWith(root + path.sep)) throw new Error('构建目录超出项目范围');
 fs.rmSync(dist, { recursive: true, force: true });
 fs.mkdirSync(dist, { recursive: true });
-for (const name of ['index.html', 'styles.css', 'script.js', 'discovery.js', 'map-core.js', 'maintenance-core.js', 'manage.html', 'manage.js', 'review-queue.js', 'submission-images.js', 'submission-map.js', 'submission-time.js', 'submission-history.js', 'review-scenes.js', 'review-drafts.js', 'image-fallback.js', 'personal-core.js', 'personal-tools.js', 'compare.html', 'compare.js', 'compare-core.js', 'submit.html', 'submit.css', 'submit.js', 'review.html', 'review.js', 'review.css', 'submission-core.js', 'site-config.js']) {
+for (const name of ['index.html', 'submit.html', 'review.html', 'manage.html', 'compare.html']) {
   fs.copyFileSync(path.join(root, name), path.join(dist, name));
 }
+for (const folder of ['js', 'css']) fs.cpSync(path.join(root, folder), path.join(dist, folder), { recursive: true });
 fs.mkdirSync(path.join(dist, 'data'));
 for (const name of ['catalog.js', 'korea-map.js']) fs.copyFileSync(path.join(root, 'data', name), path.join(dist, 'data', name));
 // This manifest is deployed with the site, so it proves visibility rather than just a successful import.

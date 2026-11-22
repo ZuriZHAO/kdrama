@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),vm=require('node:vm'),{execFileSync}=require('node:child_process');
-const core=require('../maintenance-core'),sub=require('../submission-core');
+const core=require('../js/maintenance-core.js'),sub=require('../js/submission-core.js');
 const ctx={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../data/catalog.js'),'utf8'),ctx);const cat=JSON.parse(JSON.stringify(ctx.window.KDRAMA_CATALOG));
 const work=cat.works[0],place=cat.landmarks.find(p=>p.workId===work.id),target=cat.landmarks.find(p=>p.workId===work.id&&p.id!==place.id),scene=cat.scenes.find(s=>s.landmarkId===place.id);
 const payload={version:2,kind:'maintenance',operations:[{entity:'works',id:work.id,action:'update',before:work,changes:{color:'#123456'}},{entity:'landmarks',id:place.id,action:'update',before:place,changes:{group:'测试分组',lat:0,lng:0,order:2}}]};
@@ -15,7 +15,7 @@ try{
  const body='<!-- KDRAMA_SUBMISSION_V2_START -->\n```json\n'+JSON.stringify(payload)+'\n```\n<!-- KDRAMA_SUBMISSION_V2_END -->';
  sub.validateSubmission(sub.parseIssue(body).payload,body,cat);
  const file=path.join(dir,'issue.md'),catalogFile=path.join(dir,'catalog.js');fs.writeFileSync(file,body);fs.writeFileSync(catalogFile,'window.KDRAMA_CATALOG='+JSON.stringify(cat));
- execFileSync(process.execPath,[path.join(__dirname,'import-issue.cjs'),file,'99951',catalogFile]);
- const once=fs.readFileSync(catalogFile,'utf8');execFileSync(process.execPath,[path.join(__dirname,'import-issue.cjs'),file,'99951',catalogFile]);assert.equal(fs.readFileSync(catalogFile,'utf8'),once);
+ execFileSync(process.execPath,[path.join(__dirname,'../tools/import-issue.cjs'),file,'99951',catalogFile]);
+ const once=fs.readFileSync(catalogFile,'utf8');execFileSync(process.execPath,[path.join(__dirname,'../tools/import-issue.cjs'),file,'99951',catalogFile]);assert.equal(fs.readFileSync(catalogFile,'utf8'),once);
 }finally{fs.rmSync(dir,{recursive:true,force:true});}
 console.log('Maintenance validation, atomic updates, stale snapshots, scene deletion, merges and idempotent publishing passed.');

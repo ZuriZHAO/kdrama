@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
-const { authorize, verifySnapshot, publishedLink, receipt, RECEIPT_MARKER, RETRY_MARKER } = require('./submission-status.cjs');
+const { authorize, verifySnapshot, publishedLink, receipt, RECEIPT_MARKER, RETRY_MARKER } = require('../tools/submission-status.cjs');
 
 const ctx = {
   repository: 'owner/map', number: 42, runUrl: 'https://github.com/owner/map/actions/runs/100',
